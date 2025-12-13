@@ -1,0 +1,72 @@
+@import "tailwindcss";
+/* @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap"); */
+
+:root {
+    /* 背景 */
+    --color-bg-default: #ffffff;
+    --color-bg-muted-value: #f5f5f5;
+
+    /* 文字 */
+    --color-text-default: #1f1f1f;
+    --color-text-muted-value: #7b7b7b;
+
+    /* 枠線 */
+    --color-border-default: #d4d4d4;
+    --color-border-muted-value: #ececec;
+
+    /* グラフ状態色（モノトーン） */
+    --color-graph-head-value: #000000;
+    --color-graph-visible-value: #000000;
+    --color-graph-active-value: #909090;
+    --color-graph-inactive-value: #dadada;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-bg-default: #0f0f0f;
+        --color-bg-muted-value: #202020;
+
+        --color-text-default: #e8e8e8;
+        --color-text-muted-value: #bababa;
+
+        --color-border-default: #575757;
+        --color-border-muted-value: #454545;
+
+        --color-graph-head-value: #ffffff;
+        --color-graph-visible-value: #ffffff;
+        --color-graph-active-value: #6c6c6c;
+        --color-graph-inactive-value: #313131;
+    }
+}
+
+@theme inline {
+    --color-bg: var(--color-bg-default);
+    --color-bg-muted: var(--color-bg-muted-value);
+
+    --color-text: var(--color-text-default);
+    --color-text-muted: var(--color-text-muted-value);
+
+    --color-border: var(--color-border-default);
+    --color-border-muted: var(--color-border-muted-value);
+
+    --color-graph-head: var(--color-graph-head-value);
+    --color-graph-visible: var(--color-graph-visible-value);
+    --color-graph-active: var(--color-graph-active-value);
+    --color-graph-inactive: var(--color-graph-inactive-value);
+}
+
+body {
+    color: var(--color-text-default);
+    background: var(--color-bg-default);
+    /* font-family: "Noto Sans JP", sans-serif; */
+    font-family: Arial, sans-serif;
+}
+
+.scrollbar-none {
+    -ms-overflow-style: none; /* IE, Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-none::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
