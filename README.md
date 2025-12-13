@@ -2,7 +2,7 @@
 文脈分岐可能なLLMチャットアプリ
 
 ## Setup
-- setup DB
+- setup db
 ```bash
 npm run db:generate
 npm run db:migrate
