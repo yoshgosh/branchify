@@ -1,6 +1,6 @@
 import { Node } from '@/shared/entities/node';
 import { Edge } from '@/shared/entities/edge';
-import { TurnNode, TurnEdge } from './models';
+import { TurnNode } from './models';
 import { buildTurnGraph } from './libs/build-turn-graph';
 import { positionTurnGraph } from './libs/position-turn-graph';
 import TurnGraph from './turn-graph/TurnGraph';
@@ -27,7 +27,7 @@ export default function TreeView({
     onActivateNode,
     onOpenPaneWithNode,
 }: TreeViewProps) {
-    let { turnNodes, turnEdges } = buildTurnGraph(
+    const { turnNodes, turnEdges } = buildTurnGraph(
         nodes,
         edges,
         headNodeId,

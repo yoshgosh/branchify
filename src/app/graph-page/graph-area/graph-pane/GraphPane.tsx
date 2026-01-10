@@ -34,10 +34,6 @@ export default function GraphPane({ paneId, isFocused }: GraphPaneProps) {
         contentRef,
     } = useScroll();
 
-    if (!pane) {
-        return null;
-    }
-
     const graphId = pane.graphId;
     const graph = useAppSelector((state) =>
         graphId ? graphSelectors.selectById(state, graphId) : null
@@ -60,6 +56,7 @@ export default function GraphPane({ paneId, isFocused }: GraphPaneProps) {
             behavior: 'auto',
             align: false,
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handlePaneClick = () => {
@@ -148,7 +145,7 @@ export default function GraphPane({ paneId, isFocused }: GraphPaneProps) {
                             containerRef={containerRef}
                             contentRef={contentRef}
                         />
-                        <div className="pointer-events-none absolute bottom-0 left-0 w-full h-8 bg-gradient-to-b from-transparent to-bg" />
+                        <div className="pointer-events-none absolute bottom-0 left-0 w-full h-8 bg-linear-to-b from-transparent to-bg" />
                     </div>
 
                     <div className="w-full max-w-3xl">

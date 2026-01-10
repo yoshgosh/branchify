@@ -20,7 +20,7 @@ function Question({ node }: { node: Node }) {
 
     return (
         <div className="flex justify-end">
-            <div className="bg-bg-muted px-4 py-2 rounded-[20px] max-w-[70%] text-left break-words">
+            <div className="bg-bg-muted px-4 py-2 rounded-[20px] max-w-[70%] text-left wrap-break-word">
                 {content}
             </div>
         </div>
@@ -45,7 +45,7 @@ function Answer({
               ${isHead ? 'border-2 border-graph-head' : 'border-2 border-transparent'}`}
             onClick={setAsHead}
         >
-            <div className="prose markdown-content break-words">
+            <div className="prose markdown-content wrap-break-word">
                 <ReactMarkdown>{content}</ReactMarkdown>
             </div>
         </div>
