@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { edgeAdapter } from './adapter';
 import { listEdgesThunk } from './thunks';
 import { createNodeThunk } from '@/client/store/features/nodes/thunks';
