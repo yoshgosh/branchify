@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { GraphSchema } from "@/shared/entities/graph";
+import { z } from 'zod';
+import { GraphSchema } from '@/shared/entities/graph';
 
 export const GraphInsertSchema = GraphSchema.omit({
     graphId: true,

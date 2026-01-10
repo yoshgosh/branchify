@@ -1,13 +1,10 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "@/client/store/store";
-import {
-    selectOpenPaneIds,
-    selectFocusedPaneId,
-} from "@/client/store/features/panes/selectors";
-import { openPane } from "@/client/store/use-cases/panes/open-pane";
-import GraphPane from "./graph-pane/GraphPane";
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '@/client/store/store';
+import { selectOpenPaneIds, selectFocusedPaneId } from '@/client/store/features/panes/selectors';
+import { openPane } from '@/client/store/use-cases/panes/open-pane';
+import GraphPane from './graph-pane/GraphPane';
 
 export default function GraphArea() {
     const dispatch = useAppDispatch();
@@ -23,11 +20,7 @@ export default function GraphArea() {
     return (
         <div className="flex-1 flex divide-x divide-border overflow-hidden">
             {openPaneIds.map((paneId) => (
-                <GraphPane
-                    key={paneId}
-                    paneId={paneId}
-                    isFocused={paneId === focusedPaneId}
-                />
+                <GraphPane key={paneId} paneId={paneId} isFocused={paneId === focusedPaneId} />
             ))}
         </div>
     );

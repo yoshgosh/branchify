@@ -1,13 +1,13 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
 import {
     NodeIdPathSchema,
     RemoveNodeRes,
     UpdateNodeBodySchema,
     UpdateNodeRes,
-} from "@/shared/api/contracts/v1";
-import { toNodeDto } from "@/shared/api/models/node";
-import { updateNode, removeNode } from "@/server/use-cases/nodes";
-import { getCtx } from "@/server/libs/auth";
+} from '@/shared/api/contracts/v1';
+import { toNodeDto } from '@/shared/api/models/node';
+import { updateNode, removeNode } from '@/server/use-cases/nodes';
+import { getCtx } from '@/server/libs/auth';
 
 export async function PATCH(
     req: NextRequest,

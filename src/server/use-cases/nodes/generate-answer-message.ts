@@ -1,18 +1,18 @@
-import type { Ctx } from "@/server/use-cases/common/context";
-import type { BaseMessage } from "@langchain/core/messages";
-import { AIMessage, AIMessageChunk } from "@langchain/core/messages";
-import * as NodeRepo from "@/server/repositories/nodes/repository";
-import * as EdgeRepo from "@/server/repositories/edges/repository";
-import { withTransaction } from "@/server/db/transaction";
-import { collectContextNodes } from "./utils/collect-context-nodes";
-import { ChatOpenAI } from "@langchain/openai";
-import dotenv from "dotenv";
+import type { Ctx } from '@/server/use-cases/common/context';
+import type { BaseMessage } from '@langchain/core/messages';
+import { AIMessage, AIMessageChunk } from '@langchain/core/messages';
+import * as NodeRepo from '@/server/repositories/nodes/repository';
+import * as EdgeRepo from '@/server/repositories/edges/repository';
+import { withTransaction } from '@/server/db/transaction';
+import { collectContextNodes } from './utils/collect-context-nodes';
+import { ChatOpenAI } from '@langchain/openai';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-if (!OPENAI_API_KEY) throw new Error("MISSING_ENV: OPENAI_API_KEY");
-const OPENAI_CHAT_MODEL = "gpt-4.1";
+if (!OPENAI_API_KEY) throw new Error('MISSING_ENV: OPENAI_API_KEY');
+const OPENAI_CHAT_MODEL = 'gpt-4.1';
 
 export type GenerateAnswerMessageInput = {
     nodeId: string;
@@ -29,20 +29,20 @@ export async function generateAnswerMessage(
     // --- Node状態確認 ---
     await withTransaction(async (tx) => {
         const node = await NodeRepo.findById(tx, input.nodeId);
-        if (!node) throw new Error("NOT_FOUND: node");
-        if (node.type !== "answer" || node.status !== "pending") {
-            throw new Error("INVALID_STATE: node is not pending answer");
+        if (!node) throw new Error('NOT_FOUND: node');
+        if (node.type !== 'answer' || node.status !== 'pending') {
+            throw new Error('INVALID_STATE: node is not pending answer');
         }
         const parents = await EdgeRepo.findParents(tx, input.nodeId);
         if (parents.length > 1) {
-            throw new Error("INVALID_STATE: node has multiple parents");
+            throw new Error('INVALID_STATE: node has multiple parents');
         }
     });
 
     // --- Nodeを更新 ---
     await withTransaction(async (tx) => {
         await NodeRepo.update(tx, input.nodeId, {
-            status: "in_progress",
+            status: 'in_progress',
         });
     });
 
@@ -56,9 +56,7 @@ export async function generateAnswerMessage(
         .filter((m): m is BaseMessage => !!m);
 
     if (contextMessages.length === 0) {
-        throw new Error(
-            "INVALID_STATE: no context messages available for generating answer"
-        );
+        throw new Error('INVALID_STATE: no context messages available for generating answer');
     }
 
     // --- LLMストリーム生成 ---
@@ -83,16 +81,16 @@ export async function generateAnswerMessage(
 
                 // ストリーム完了後の永続化
                 const aiMessage = new AIMessage({
-                    content: merged?.content ?? "",
+                    content: merged?.content ?? '',
                     tool_calls: merged?.tool_calls ?? [],
                     additional_kwargs: merged?.additional_kwargs ?? {},
                 });
 
                 await withTransaction(async (tx) => {
                     const prev = await NodeRepo.findById(tx, input.nodeId);
-                    if (!prev) throw new Error("NOT_FOUND: node");
+                    if (!prev) throw new Error('NOT_FOUND: node');
                     await NodeRepo.update(tx, input.nodeId, {
-                        status: "completed",
+                        status: 'completed',
                         message: aiMessage,
                     });
                 });
@@ -103,7 +101,7 @@ export async function generateAnswerMessage(
                 try {
                     await withTransaction(async (tx) => {
                         await NodeRepo.update(tx, input.nodeId, {
-                            status: "failed",
+                            status: 'failed',
                         });
                     });
                 } finally {

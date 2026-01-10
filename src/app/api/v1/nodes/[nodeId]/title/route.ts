@@ -1,11 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
-import {
-    GenerateNodeTitleRes,
-    NodeIdPathSchema,
-} from "@/shared/api/contracts/v1";
-import { toNodeDto } from "@/shared/api/models/node";
-import { generateNodeTitle } from "@/server/use-cases/nodes";
-import { getCtx } from "@/server/libs/auth";
+import { NextRequest, NextResponse } from 'next/server';
+import { GenerateNodeTitleRes, NodeIdPathSchema } from '@/shared/api/contracts/v1';
+import { toNodeDto } from '@/shared/api/models/node';
+import { generateNodeTitle } from '@/server/use-cases/nodes';
+import { getCtx } from '@/server/libs/auth';
 
 export async function POST(
     _req: NextRequest,

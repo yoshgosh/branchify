@@ -1,14 +1,14 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { edgeAdapter } from "./adapter";
-import { listEdgesThunk } from "./thunks";
-import { createNodeThunk } from "@/client/store/features/nodes/thunks";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { edgeAdapter } from './adapter';
+import { listEdgesThunk } from './thunks';
+import { createNodeThunk } from '@/client/store/features/nodes/thunks';
 
 interface EdgeState extends ReturnType<typeof edgeAdapter.getInitialState> {}
 
 const initialEdgeState: EdgeState = edgeAdapter.getInitialState();
 
 const edge = createSlice({
-    name: "edge",
+    name: 'edge',
     initialState: initialEdgeState,
     reducers: {},
     extraReducers: (builder) => {

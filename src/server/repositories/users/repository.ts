@@ -1,24 +1,17 @@
-import "server-only";
-import type { DBLike } from "@/server/db/types";
-import { users } from "@/server/db/schema";
-import { eq } from "drizzle-orm";
-import { UserSchema, type User } from "@/shared/entities/user";
+import 'server-only';
+import type { DBLike } from '@/server/db/types';
+import { users } from '@/server/db/schema';
+import { eq } from 'drizzle-orm';
+import { UserSchema, type User } from '@/shared/entities/user';
 import {
     UserInsertSchema,
     UserUpdateSchema,
     type UserInsertInput,
     type UserUpdateInput,
-} from "./models";
+} from './models';
 
-export async function findById(
-    d: DBLike,
-    userId: string
-): Promise<User | null> {
-    const rows = await d
-        .select()
-        .from(users)
-        .where(eq(users.userId, userId))
-        .limit(1);
+export async function findById(d: DBLike, userId: string): Promise<User | null> {
+    const rows = await d.select().from(users).where(eq(users.userId, userId)).limit(1);
 
     const row = rows[0];
     return row ? UserSchema.parse(row) : null;
@@ -40,20 +33,13 @@ export async function update(
         return findById(d, userId);
     }
 
-    const [row] = await d
-        .update(users)
-        .set(patch)
-        .where(eq(users.userId, userId))
-        .returning();
+    const [row] = await d.update(users).set(patch).where(eq(users.userId, userId)).returning();
 
     return row ? UserSchema.parse(row) : null;
 }
 
 export async function remove(d: DBLike, userId: string): Promise<User | null> {
-    const [row] = await d
-        .delete(users)
-        .where(eq(users.userId, userId))
-        .returning();
+    const [row] = await d.delete(users).where(eq(users.userId, userId)).returning();
 
     return row ? UserSchema.parse(row) : null;
 }

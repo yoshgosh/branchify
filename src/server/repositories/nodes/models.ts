@@ -1,10 +1,6 @@
-import { z } from "zod";
-import {
-    NodeSchema,
-    MessageSchema,
-    type Message,
-} from "@/shared/entities/node";
-import { StoredMessageSchema, toStoredMessage } from "@/server/db/models/node";
+import { z } from 'zod';
+import { NodeSchema, MessageSchema, type Message } from '@/shared/entities/node';
+import { StoredMessageSchema, toStoredMessage } from '@/server/db/models/node';
 
 export const NodeInsertSchema = NodeSchema.omit({
     nodeId: true,
@@ -58,12 +54,9 @@ export function toStoredNodeUpdate(data: NodeUpdateInput): StoredNodeUpdate {
 
     for (const [key, value] of Object.entries(data)) {
         if (value !== undefined) {
-            if (key === "message") {
+            if (key === 'message') {
                 const messageValue = value as Message | null;
-                result[key] =
-                    messageValue !== null
-                        ? toStoredMessage(messageValue)
-                        : null;
+                result[key] = messageValue !== null ? toStoredMessage(messageValue) : null;
             } else {
                 result[key] = value;
             }

@@ -1,20 +1,20 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { nodeAdapter } from "./adapter";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { nodeAdapter } from './adapter';
 import {
     listNodesThunk,
     createNodeThunk,
     updateNodeThunk,
     removeNodeThunk,
     generateNodeTitleThunk,
-} from "./thunks";
-import { NodeStatus, Message } from "@/shared/entities/node";
+} from './thunks';
+import { NodeStatus, Message } from '@/shared/entities/node';
 
 interface NodeState extends ReturnType<typeof nodeAdapter.getInitialState> {}
 
 export const initialNodeState: NodeState = nodeAdapter.getInitialState();
 
 const node = createSlice({
-    name: "node",
+    name: 'node',
     initialState: initialNodeState,
     reducers: {
         // ストリームAPIが開始と受信で分かれておらず、statusのBEとの同期ができないため、FEで管理している

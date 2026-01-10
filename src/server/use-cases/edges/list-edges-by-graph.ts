@@ -1,7 +1,7 @@
-import type { Ctx } from "@/server/use-cases/common/context";
-import type { Edge } from "@/shared/entities/edge";
-import * as EdgeRepo from "@/server/repositories/edges/repository";
-import { withTransaction } from "@/server/db/transaction";
+import type { Ctx } from '@/server/use-cases/common/context';
+import type { Edge } from '@/shared/entities/edge';
+import * as EdgeRepo from '@/server/repositories/edges/repository';
+import { withTransaction } from '@/server/db/transaction';
 
 export type ListEdgesByGraphInput = { graphId: string };
 export type ListEdgesByGraphOutput = { edges: Edge[] };

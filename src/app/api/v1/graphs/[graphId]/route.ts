@@ -1,13 +1,13 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
 import {
     GraphIdPathSchema,
     RemoveGraphRes,
     UpdateGraphBodySchema,
     UpdateGraphRes,
-} from "@/shared/api/contracts/v1";
-import { toGraphDto } from "@/shared/api/models";
-import { updateGraph, removeGraph } from "@/server/use-cases/graphs";
-import { getCtx } from "@/server/libs/auth";
+} from '@/shared/api/contracts/v1';
+import { toGraphDto } from '@/shared/api/models';
+import { updateGraph, removeGraph } from '@/server/use-cases/graphs';
+import { getCtx } from '@/server/libs/auth';
 
 export async function PATCH(
     req: NextRequest,
@@ -30,8 +30,5 @@ export async function DELETE(
     const ctx = await getCtx();
     const path = GraphIdPathSchema.parse(await params);
     const out = await removeGraph(ctx, { graphId: path.graphId });
-    return NextResponse.json(
-        { graph: out.graph ? toGraphDto(out.graph) : null },
-        { status: 200 }
-    );
+    return NextResponse.json({ graph: out.graph ? toGraphDto(out.graph) : null }, { status: 200 });
 }

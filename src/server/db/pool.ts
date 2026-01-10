@@ -1,5 +1,5 @@
-import "server-only";
-import { Pool } from "pg";
+import 'server-only';
+import { Pool } from 'pg';
 
 let _pool: Pool | undefined;
 

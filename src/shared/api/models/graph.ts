@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { GraphSchema, type Graph } from "@/shared/entities/graph";
+import { z } from 'zod';
+import { GraphSchema, type Graph } from '@/shared/entities/graph';
 
 export const GraphDtoSchema = GraphSchema.extend({
     createdAt: z.iso.datetime(),

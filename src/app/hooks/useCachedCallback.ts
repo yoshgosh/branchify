@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef } from 'react';
 
 export function useCachedCallback<T>(create: (key: string) => T): (key: string) => T {
     const cache = useRef<Map<string, T>>(new Map());

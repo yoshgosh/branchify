@@ -1,12 +1,6 @@
-import { AppThunk } from "@/client/store/store";
-import {
-    selectOpenPaneIds,
-    selectFocusedPaneId,
-} from "@/client/store/features/panes/selectors";
-import {
-    removeOpenPaneId,
-    setFocusedPaneId,
-} from "@/client/store/features/panes/slice";
+import { AppThunk } from '@/client/store/store';
+import { selectOpenPaneIds, selectFocusedPaneId } from '@/client/store/features/panes/selectors';
+import { removeOpenPaneId, setFocusedPaneId } from '@/client/store/features/panes/slice';
 
 export const closePane =
     (paneId: string): AppThunk =>

@@ -1,5 +1,5 @@
-import { TurnNode, TurnEdge } from "../../models";
-import { Node as ReactFlowNode, Edge as ReactFlowEdge } from "reactflow";
+import { TurnNode, TurnEdge } from '../../models';
+import { Node as ReactFlowNode, Edge as ReactFlowEdge } from 'reactflow';
 
 export const createReactFlowElements = (
     turnNodes: TurnNode[],
@@ -18,7 +18,7 @@ export const createReactFlowElements = (
     const { unitX, unitY } = options;
     const nodes: ReactFlowNode<TurnNode>[] = turnNodes.map((turnNode) => ({
         id: turnNode.turnNodeId,
-        type: "turnNode",
+        type: 'turnNode',
         data: turnNode,
         position: {
             x: (turnNode.x ?? 0) * unitX,
@@ -29,7 +29,7 @@ export const createReactFlowElements = (
 
     const edges: ReactFlowEdge<TurnEdge>[] = turnEdges.map((turnEdge) => ({
         id: turnEdge.turnEdgeId,
-        type: "turnEdge",
+        type: 'turnEdge',
         source: turnEdge.childId,
         target: turnEdge.parentId,
         sourceHandle: turnEdge.childHandle,

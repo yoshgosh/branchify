@@ -1,5 +1,5 @@
-import { RefCallback, useEffect, useRef, useState } from "react";
-import { useCachedCallback } from "./useCachedCallback";
+import { RefCallback, useEffect, useRef, useState } from 'react';
+import { useCachedCallback } from './useCachedCallback';
 
 export function useScrollObserver() {
     const [visibleElementIds, setVisibleIds] = useState<string[]>([]);
@@ -73,17 +73,15 @@ export function useScrollObserver() {
         };
     });
 
-    const registerElementRef = useCachedCallback<RefCallback<HTMLElement>>(
-        (id) => {
-            return (el) => {
-                if (el) {
-                    observe(id)(el);
-                } else {
-                    unobserve(id);
-                }
-            };
-        }
-    );
+    const registerElementRef = useCachedCallback<RefCallback<HTMLElement>>((id) => {
+        return (el) => {
+            if (el) {
+                observe(id)(el);
+            } else {
+                unobserve(id);
+            }
+        };
+    });
     return {
         visibleElementIds,
         registerElementRef,

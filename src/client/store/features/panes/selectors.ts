@@ -1,9 +1,7 @@
-import { RootState } from "@/client/store/store";
-import { paneAdapter } from "./adapter";
+import { RootState } from '@/client/store/store';
+import { paneAdapter } from './adapter';
 
-export const paneSelectors = paneAdapter.getSelectors(
-    (state: RootState) => state.pane
-);
+export const paneSelectors = paneAdapter.getSelectors((state: RootState) => state.pane);
 
 export const selectFocusedPaneId = (state: RootState) => {
     return state.pane.focusedPaneId;
@@ -35,10 +33,7 @@ export const selectClosedPaneIdsByGraphId =
         const openIds = state.pane.openPaneIds;
         return paneSelectors
             .selectAll(state)
-            .filter(
-                (pane) =>
-                    pane.graphId === graphId && !openIds.includes(pane.paneId)
-            )
+            .filter((pane) => pane.graphId === graphId && !openIds.includes(pane.paneId))
             .map((pane) => pane.paneId);
     };
 

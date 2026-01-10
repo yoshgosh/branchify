@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { EdgeDtoSchema } from "@/shared/api/models";
+import { z } from 'zod';
+import { EdgeDtoSchema } from '@/shared/api/models';
 
 // ----- query -----
 export const ListEdgesQuerySchema = z

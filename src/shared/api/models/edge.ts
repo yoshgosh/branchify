@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { EdgeSchema, type Edge } from "@/shared/entities/edge";
+import { z } from 'zod';
+import { EdgeSchema, type Edge } from '@/shared/entities/edge';
 
 export const EdgeDtoSchema = EdgeSchema.extend({
     createdAt: z.iso.datetime(),

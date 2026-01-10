@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { UserSchema } from "@/shared/entities/user";
+import { z } from 'zod';
+import { UserSchema } from '@/shared/entities/user';
 
 export const UserInsertSchema = UserSchema.omit({
     userId: true,

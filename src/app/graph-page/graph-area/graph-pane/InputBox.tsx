@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from 'react';
 
 interface InputBoxProps {
     value: string;
@@ -15,7 +15,7 @@ export default function InputBox({
     onChange,
     onSubmit,
     canSubmit,
-    placeholder = "Ask a question...",
+    placeholder = 'Ask a question...',
 }: InputBoxProps) {
     const [isComposing, setIsComposing] = useState(false);
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -28,7 +28,7 @@ export default function InputBox({
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-        if (e.key === "Enter" && !e.shiftKey && !isComposing) {
+        if (e.key === 'Enter' && !e.shiftKey && !isComposing) {
             e.preventDefault();
             handleSend();
         }
@@ -37,7 +37,7 @@ export default function InputBox({
     const resizeTextarea = () => {
         const el = textareaRef.current;
         if (el) {
-            el.style.height = "auto";
+            el.style.height = 'auto';
             el.style.height = `${el.scrollHeight}px`;
         }
     };

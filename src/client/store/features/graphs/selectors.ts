@@ -1,9 +1,7 @@
-import { RootState } from "@/client/store/store";
-import { graphAdapter } from "./adapter";
+import { RootState } from '@/client/store/store';
+import { graphAdapter } from './adapter';
 
-export const graphSelectors = graphAdapter.getSelectors(
-    (state: RootState) => state.graph
-);
+export const graphSelectors = graphAdapter.getSelectors((state: RootState) => state.graph);
 
 export const selectSyncedGraphIds = (state: RootState): string[] => {
     return state.graph.syncedGraphIds;

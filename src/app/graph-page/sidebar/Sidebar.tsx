@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { useAppDispatch } from "@/client/store/store";
-import { listGraphsThunk } from "@/client/store/features/graphs/thunks";
-import SidebarHeader from "./SidebarHeader";
-import GraphMenu from "./GraphMenu";
-import UserMenu from "./UserMenu";
+import { useEffect } from 'react';
+import { useAppDispatch } from '@/client/store/store';
+import { listGraphsThunk } from '@/client/store/features/graphs/thunks';
+import SidebarHeader from './SidebarHeader';
+import GraphMenu from './GraphMenu';
+import UserMenu from './UserMenu';
 
 export default function Sidebar() {
     const dispatch = useAppDispatch();

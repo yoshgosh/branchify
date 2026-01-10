@@ -1,57 +1,93 @@
-import { sql } from "drizzle-orm";
-import { pgTable, text, timestamp, index, unique, check, pgEnum, uuid, jsonb } from "drizzle-orm/pg-core";
-import { StoredMessage } from "./models/node";
+import { sql } from 'drizzle-orm';
+import {
+    pgTable,
+    text,
+    timestamp,
+    index,
+    unique,
+    check,
+    pgEnum,
+    uuid,
+    jsonb,
+} from 'drizzle-orm/pg-core';
+import { StoredMessage } from './models/node';
 
-const primaryUuid = (name: string) => uuid(name).primaryKey().default(sql`gen_random_uuid()`);
+const primaryUuid = (name: string) =>
+    uuid(name)
+        .primaryKey()
+        .default(sql`gen_random_uuid()`);
 
-export const nodeTypeEnum = pgEnum("node_type_enum", ["question", "answer"]);
-export const nodeStatusEnum = pgEnum("node_status_enum", ["pending", "in_progress", "completed", "failed"]);
-
-const timestamps = {
-    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
-    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
-};
-
-export const users = pgTable("users", {
-    userId: primaryUuid("user_id"),
-    name: text("name").notNull(),
-    ...timestamps,
-}, (table) => [
-    unique("users_name_idx").on(table.name),
+export const nodeTypeEnum = pgEnum('node_type_enum', ['question', 'answer']);
+export const nodeStatusEnum = pgEnum('node_status_enum', [
+    'pending',
+    'in_progress',
+    'completed',
+    'failed',
 ]);
 
-export const graphs = pgTable("graphs", {
-    graphId: primaryUuid("graph_id"),
-    userId: uuid("user_id").notNull().references(() => users.userId, { onDelete: "cascade" }),
-    title: text("title"),
+const timestamps = {
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+};
+
+export const users = pgTable(
+    'users',
+    {
+        userId: primaryUuid('user_id'),
+        name: text('name').notNull(),
+        ...timestamps,
+    },
+    (table) => [unique('users_name_idx').on(table.name)]
+);
+
+export const graphs = pgTable('graphs', {
+    graphId: primaryUuid('graph_id'),
+    userId: uuid('user_id')
+        .notNull()
+        .references(() => users.userId, { onDelete: 'cascade' }),
+    title: text('title'),
     ...timestamps,
 });
 
-export const nodes = pgTable("nodes", {
-    nodeId: primaryUuid("node_id"),
-    graphId: uuid("graph_id").notNull().references(() => graphs.graphId, { onDelete: "cascade" }),
-    title: text("title"),
-    message: jsonb("message").$type<StoredMessage>(),
-    type: nodeTypeEnum("type").notNull(),
-    status: nodeStatusEnum("status").notNull(),
-    ...timestamps,
-}, (table) => [
-    index("nodes_graph_id_idx").on(table.graphId),
-]);
+export const nodes = pgTable(
+    'nodes',
+    {
+        nodeId: primaryUuid('node_id'),
+        graphId: uuid('graph_id')
+            .notNull()
+            .references(() => graphs.graphId, { onDelete: 'cascade' }),
+        title: text('title'),
+        message: jsonb('message').$type<StoredMessage>(),
+        type: nodeTypeEnum('type').notNull(),
+        status: nodeStatusEnum('status').notNull(),
+        ...timestamps,
+    },
+    (table) => [index('nodes_graph_id_idx').on(table.graphId)]
+);
 
-export const edges = pgTable("edges", {
-    edgeId: primaryUuid("edge_id"),
-    graphId: uuid("graph_id").notNull().references(() => graphs.graphId, { onDelete: "cascade" }),
-    parentId: uuid("parent_id").notNull().references(() => nodes.nodeId, { onDelete: "cascade" }),
-    childId: uuid("child_id").notNull().references(() => nodes.nodeId, { onDelete: "cascade" }),
-    ...timestamps,
-}, (table) => [
-    index("edges_graph_id_idx").on(table.graphId),
-    index("edges_parent_id_idx").on(table.parentId),
-    index("edges_child_id_idx").on(table.childId),
-    unique("edges_no_duplicate_edges").on(table.parentId, table.childId),
-    check("edges_no_self_loop", sql`${table.parentId} <> ${table.childId}`),
-]);
+export const edges = pgTable(
+    'edges',
+    {
+        edgeId: primaryUuid('edge_id'),
+        graphId: uuid('graph_id')
+            .notNull()
+            .references(() => graphs.graphId, { onDelete: 'cascade' }),
+        parentId: uuid('parent_id')
+            .notNull()
+            .references(() => nodes.nodeId, { onDelete: 'cascade' }),
+        childId: uuid('child_id')
+            .notNull()
+            .references(() => nodes.nodeId, { onDelete: 'cascade' }),
+        ...timestamps,
+    },
+    (table) => [
+        index('edges_graph_id_idx').on(table.graphId),
+        index('edges_parent_id_idx').on(table.parentId),
+        index('edges_child_id_idx').on(table.childId),
+        unique('edges_no_duplicate_edges').on(table.parentId, table.childId),
+        check('edges_no_self_loop', sql`${table.parentId} <> ${table.childId}`),
+    ]
+);
 
 // ========== drizzle-orm 外定義スキーマ ==========
 // - drizzle-orm で定義できないスキーマは、 .sql に直接記述する

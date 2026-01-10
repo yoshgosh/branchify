@@ -1,12 +1,12 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { graphAdapter } from "./adapter";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { graphAdapter } from './adapter';
 import {
     listGraphsThunk,
     createGraphThunk,
     updateGraphThunk,
     removeGraphThunk,
     generateGraphTitleThunk,
-} from "./thunks";
+} from './thunks';
 
 // syncedGraphIds の各要素が一意であり、かつ entities に含まれていることを slice で保証する
 interface GraphState extends ReturnType<typeof graphAdapter.getInitialState> {
@@ -18,30 +18,18 @@ const initialGraphState: GraphState = graphAdapter.getInitialState({
 });
 
 const graph = createSlice({
-    name: "graph",
+    name: 'graph',
     initialState: initialGraphState,
     reducers: {
-        addSyncedGraphId: (
-            state,
-            action: PayloadAction<{ graphId: string }>
-        ) => {
+        addSyncedGraphId: (state, action: PayloadAction<{ graphId: string }>) => {
             const { graphId } = action.payload;
-            if (
-                !state.entities[graphId] ||
-                state.syncedGraphIds.includes(graphId)
-            )
-                return;
+            if (!state.entities[graphId] || state.syncedGraphIds.includes(graphId)) return;
             state.syncedGraphIds.push(graphId);
         },
 
-        removeSyncedGraphId: (
-            state,
-            action: PayloadAction<{ graphId: string }>
-        ) => {
+        removeSyncedGraphId: (state, action: PayloadAction<{ graphId: string }>) => {
             const { graphId } = action.payload;
-            state.syncedGraphIds = state.syncedGraphIds.filter(
-                (id) => id !== graphId
-            );
+            state.syncedGraphIds = state.syncedGraphIds.filter((id) => id !== graphId);
         },
     },
     extraReducers: (builder) => {

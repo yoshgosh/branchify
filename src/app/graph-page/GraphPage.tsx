@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import GraphArea from "./graph-area/GraphArea";
-import Sidebar from "./sidebar/Sidebar";
+import GraphArea from './graph-area/GraphArea';
+import Sidebar from './sidebar/Sidebar';
 
 export default function GraphChatPage() {
     return (

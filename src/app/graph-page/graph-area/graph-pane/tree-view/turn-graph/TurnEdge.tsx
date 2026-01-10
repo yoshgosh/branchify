@@ -1,6 +1,6 @@
-import React from "react";
-import { EdgeProps } from "reactflow";
-import { TurnEdge as TurnEdgeType } from "../models";
+import React from 'react';
+import { EdgeProps } from 'reactflow';
+import { TurnEdge as TurnEdgeType } from '../models';
 
 const RADIUS = 10; // 折れ線の角丸半径
 
@@ -16,10 +16,10 @@ export function TurnEdge({
 
     // 見た目の色（状態によって変える）
     const stroke = isVisible
-        ? "var(--color-graph-visible)"
-        : isActive 
-        ? "var(--color-graph-active)"
-        : "var(--color-graph-inactive)";
+        ? 'var(--color-graph-visible)'
+        : isActive
+          ? 'var(--color-graph-active)'
+          : 'var(--color-graph-inactive)';
 
     // 正しい方向か確認（子が下、親が上であるべき）
     const isChildToParent = sourceY > targetY;
@@ -35,7 +35,7 @@ export function TurnEdge({
         );
     }
 
-    let path = "";
+    let path = '';
 
     if (childX === parentX) {
         // 縦線　→ 下から上へ
@@ -65,9 +65,11 @@ export function TurnEdge({
                 stroke={stroke}
                 strokeWidth={2}
                 fill="none"
-                style={{
-                    // transition: "border 0.3s ease-in",
-                }}
+                style={
+                    {
+                        // transition: "border 0.3s ease-in",
+                    }
+                }
             />
         </g>
     );

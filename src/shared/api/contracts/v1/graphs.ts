@@ -1,6 +1,6 @@
-import { z } from "zod";
-import { GraphSchema } from "@/shared/entities";
-import { GraphDtoSchema } from "@/shared/api/models";
+import { z } from 'zod';
+import { GraphSchema } from '@/shared/entities';
+import { GraphDtoSchema } from '@/shared/api/models';
 
 // ----- path params -----
 export const GraphIdPathSchema = z

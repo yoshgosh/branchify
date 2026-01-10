@@ -1,34 +1,30 @@
-import { AppThunk } from "@/client/store/store";
+import { AppThunk } from '@/client/store/store';
 import {
     paneSelectors,
     selectOpenPaneIds,
     selectFocusedPaneId,
     selectLatestClosedPaneIdByGraphId,
-} from "@/client/store/features/panes/selectors";
+} from '@/client/store/features/panes/selectors';
 import {
     createPane,
     insertOpenPaneId,
     removeOpenPaneId,
     setFocusedPaneId,
     updatePane,
-} from "@/client/store/features/panes/slice";
-import { addSyncedGraphId } from "@/client/store/features/graphs/slice";
-import type { Pane } from "@/client/store/features/panes/types";
-import { selectIsGraphSynced } from "@/client/store/features/graphs/selectors";
-import { listNodesThunk } from "@/client/store/features/nodes/thunks";
-import { listEdgesThunk } from "@/client/store/features/edges/thunks";
-import { selectNodeIdsByGraphId } from "@/client/store/features/nodes/selectors";
-import { activateNode } from "./activate-node";
+} from '@/client/store/features/panes/slice';
+import { addSyncedGraphId } from '@/client/store/features/graphs/slice';
+import type { Pane } from '@/client/store/features/panes/types';
+import { selectIsGraphSynced } from '@/client/store/features/graphs/selectors';
+import { listNodesThunk } from '@/client/store/features/nodes/thunks';
+import { listEdgesThunk } from '@/client/store/features/edges/thunks';
+import { selectNodeIdsByGraphId } from '@/client/store/features/nodes/selectors';
+import { activateNode } from './activate-node';
 
 // paneData および paneData のプロパティについて、 undefined は未指定、null は空値の指定を意味し、厳格に区別する
 // pane.graphId, pane.headNodeId の関係については use-cases 内で保証する上、防御的ガードも行う
 // 各 id が空文字列でないことは保証されている
 export const openPane =
-    (
-        paneData?: Partial<Omit<Pane, "paneId">>,
-        forceAdd = false,
-        forceCreate = false
-    ): AppThunk =>
+    (paneData?: Partial<Omit<Pane, 'paneId'>>, forceAdd = false, forceCreate = false): AppThunk =>
     async (dispatch, getState) => {
         const graphId = paneData?.graphId;
 
@@ -37,19 +33,14 @@ export const openPane =
         const focusedPaneId = selectFocusedPaneId(state);
 
         const mustAdd = !focusedPaneId;
-        const focusedIdx = focusedPaneId
-            ? openPaneIds.indexOf(focusedPaneId)
-            : -1;
+        const focusedIdx = focusedPaneId ? openPaneIds.indexOf(focusedPaneId) : -1;
 
         // focusedPaneId が null 、または forceAdd が true の場合、追加
         if (mustAdd || forceAdd) {
-            const { paneId } = await dispatch(
-                getPaneIdToOpen(paneData, forceCreate)
-            );
+            const { paneId } = await dispatch(getPaneIdToOpen(paneData, forceCreate));
 
             // focusedPane の次、または最後尾に追加
-            const insertIdx =
-                focusedIdx >= 0 ? focusedIdx + 1 : openPaneIds.length;
+            const insertIdx = focusedIdx >= 0 ? focusedIdx + 1 : openPaneIds.length;
 
             dispatch(
                 insertOpenPaneId({
@@ -69,9 +60,7 @@ export const openPane =
         if (!focusedPane) return; // 防御的ガード
         if (focusedPane.graphId === graphId && !forceCreate) return;
 
-        const { paneId } = await dispatch(
-            getPaneIdToOpen(paneData, forceCreate)
-        );
+        const { paneId } = await dispatch(getPaneIdToOpen(paneData, forceCreate));
 
         dispatch(
             insertOpenPaneId({
@@ -86,7 +75,7 @@ export const openPane =
 
 export const getPaneIdToOpen =
     (
-        paneData?: Partial<Omit<Pane, "paneId">>,
+        paneData?: Partial<Omit<Pane, 'paneId'>>,
         forceCreate: boolean = false
     ): AppThunk<Promise<{ paneId: string }>> =>
     async (dispatch, getState) => {
@@ -96,8 +85,7 @@ export const getPaneIdToOpen =
 
         // graphId が指定されており（ null を含む）、かつ forceCreate が false の場合、キャッシュを優先
         if (graphId !== undefined && !forceCreate) {
-            const cachedPaneId =
-                selectLatestClosedPaneIdByGraphId(graphId)(state);
+            const cachedPaneId = selectLatestClosedPaneIdByGraphId(graphId)(state);
             if (cachedPaneId) return { paneId: cachedPaneId };
         }
 

@@ -1,26 +1,13 @@
-import { AppThunk } from "@/client/store/store";
-import { paneSelectors } from "@/client/store/features/panes/selectors";
-import { updatePane } from "@/client/store/features/panes/slice";
-import { activateNode } from "../panes/activate-node";
-import {
-    HumanMessage,
-    AIMessageChunk,
-    AIMessage,
-} from "@langchain/core/messages";
-import { mapStoredMessagesToChatMessages } from "@langchain/core/messages";
-import {
-    createGraphThunk,
-    generateGraphTitleThunk,
-} from "@/client/store/features/graphs/thunks";
-import {
-    createNodeThunk,
-    generateNodeTitleThunk,
-} from "@/client/store/features/nodes/thunks";
-import {
-    setNodeMessage,
-    setNodeStatus,
-} from "@/client/store/features/nodes/slice";
-import { generateAnswerMessage } from "@/client/services/nodes/service";
+import { AppThunk } from '@/client/store/store';
+import { paneSelectors } from '@/client/store/features/panes/selectors';
+import { updatePane } from '@/client/store/features/panes/slice';
+import { activateNode } from '../panes/activate-node';
+import { HumanMessage, AIMessageChunk, AIMessage } from '@langchain/core/messages';
+import { mapStoredMessagesToChatMessages } from '@langchain/core/messages';
+import { createGraphThunk, generateGraphTitleThunk } from '@/client/store/features/graphs/thunks';
+import { createNodeThunk, generateNodeTitleThunk } from '@/client/store/features/nodes/thunks';
+import { setNodeMessage, setNodeStatus } from '@/client/store/features/nodes/slice';
+import { generateAnswerMessage } from '@/client/services/nodes/service';
 
 export const submitQuestion =
     (
@@ -61,8 +48,8 @@ export const submitQuestion =
             createNodeThunk({
                 data: {
                     graphId,
-                    type: "question",
-                    status: "completed",
+                    type: 'question',
+                    status: 'completed',
                     message: new HumanMessage({ content: question }),
                 },
                 parentIds: headNodeId ? [headNodeId] : [],
@@ -92,8 +79,8 @@ export const submitQuestion =
             createNodeThunk({
                 data: {
                     graphId,
-                    type: "answer",
-                    status: "pending",
+                    type: 'answer',
+                    status: 'pending',
                 },
                 parentIds: [questionNode.nodeId],
             })
@@ -133,7 +120,7 @@ export const streamAnswer =
         dispatch(
             setNodeStatus({
                 nodeId,
-                status: "in_progress",
+                status: 'in_progress',
             })
         );
 
@@ -144,13 +131,11 @@ export const streamAnswer =
                 onMessage: (data) => {
                     let chunk: AIMessageChunk;
                     chunk = new AIMessageChunk((data as any).kwargs);
-                    mergedChunk = mergedChunk
-                        ? mergedChunk.concat(chunk)
-                        : chunk;
+                    mergedChunk = mergedChunk ? mergedChunk.concat(chunk) : chunk;
 
                     console.log(
-                        "[streamAnswer] merged content:",
-                        typeof mergedChunk.content === "string"
+                        '[streamAnswer] merged content:',
+                        typeof mergedChunk.content === 'string'
                             ? mergedChunk.content
                             : JSON.stringify(mergedChunk.content)
                     );
@@ -163,20 +148,20 @@ export const streamAnswer =
                     );
                 },
                 onError: (err) => {
-                    console.error("streamAnswer error:", err);
+                    console.error('streamAnswer error:', err);
                     dispatch(
                         setNodeStatus({
                             nodeId,
-                            status: "failed",
+                            status: 'failed',
                         })
                     );
                 },
                 onEnd: () => {
-                    console.log("[streamAnswer] stream ended");
+                    console.log('[streamAnswer] stream ended');
                     dispatch(
                         setNodeStatus({
                             nodeId,
-                            status: "completed",
+                            status: 'completed',
                         })
                     );
                     // TODO: 将来的に getNodeThunk を dispatch して最新化する

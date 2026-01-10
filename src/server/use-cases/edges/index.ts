@@ -1,1 +1,1 @@
-export * from "./list-edges-by-graph";
+export * from './list-edges-by-graph';

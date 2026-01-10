@@ -1,7 +1,7 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import * as edgeService from "@/client/services/edges/service";
-import { fromEdgeDto } from "@/shared/api/models";
-import { Edge } from "@/shared/entities/edge";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import * as edgeService from '@/client/services/edges/service';
+import { fromEdgeDto } from '@/shared/api/models';
+import { Edge } from '@/shared/entities/edge';
 
 export const listEdgesThunk = createAsyncThunk<
     {
@@ -10,7 +10,7 @@ export const listEdgesThunk = createAsyncThunk<
     {
         graphId: string;
     }
->("edges/list", async ({ graphId }) => {
+>('edges/list', async ({ graphId }) => {
     const dto = await edgeService.listEdges({ graphId });
     return { edges: dto.edges.map(fromEdgeDto) };
 });

@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { EdgeSchema } from "@/shared/entities/edge";
+import { z } from 'zod';
+import { EdgeSchema } from '@/shared/entities/edge';
 
 export const EdgeInsertSchema = EdgeSchema.omit({
     edgeId: true,

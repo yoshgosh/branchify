@@ -1,14 +1,13 @@
-import { TurnNode, TurnEdge } from "../models";
-import React from "react";
-import { createReactFlowElements } from "./libs/create-react-flow-elements";
-import ReactFlow, { ReactFlowProvider, Node as ReactFlowNode } from "reactflow";
-import { TurnNode as TurnNodeComponent } from "./TurnNode";
-import { TurnEdge as TurnEdgeComponent } from "./TurnEdge";
-import "reactflow/dist/style.css";
+import { TurnNode, TurnEdge } from '../models';
+import React from 'react';
+import { createReactFlowElements } from './libs/create-react-flow-elements';
+import ReactFlow, { ReactFlowProvider, Node as ReactFlowNode } from 'reactflow';
+import { TurnNode as TurnNodeComponent } from './TurnNode';
+import { TurnEdge as TurnEdgeComponent } from './TurnEdge';
+import 'reactflow/dist/style.css';
 
-
-const nodeTypes = { "turnNode": TurnNodeComponent, };
-const edgeTypes = { "turnEdge": TurnEdgeComponent, };
+const nodeTypes = { turnNode: TurnNodeComponent };
+const edgeTypes = { turnEdge: TurnEdgeComponent };
 
 interface TurnGraph {
     turnNodes: TurnNode[];
@@ -16,11 +15,12 @@ interface TurnGraph {
     onTurnNodeClick: (event: React.MouseEvent, turnNode: TurnNode) => void;
 }
 
-export default function TurnGraph(
-    props: TurnGraph
-) {
+export default function TurnGraph(props: TurnGraph) {
     const { turnNodes, turnEdges, onTurnNodeClick } = props;
-    const { nodes: reactFlowNodes, edges: reactFlowEdges } = createReactFlowElements(turnNodes, turnEdges);
+    const { nodes: reactFlowNodes, edges: reactFlowEdges } = createReactFlowElements(
+        turnNodes,
+        turnEdges
+    );
 
     const onNodeClick = (event: React.MouseEvent, node: ReactFlowNode<TurnNode>) => {
         const turnNode: TurnNode = node.data;
@@ -48,4 +48,3 @@ export default function TurnGraph(
         </ReactFlowProvider>
     );
 }
-

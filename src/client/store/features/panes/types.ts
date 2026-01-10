@@ -9,9 +9,9 @@ export type Pane = {
     inputText: string;
 };
 
-export const getDefaultPaneData = (): Omit<Pane, "paneId"> => ({
+export const getDefaultPaneData = (): Omit<Pane, 'paneId'> => ({
     graphId: null,
     headNodeId: null,
     activeNodeIds: [],
-    inputText: "",
+    inputText: '',
 });

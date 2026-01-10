@@ -1,17 +1,17 @@
-import { AppThunk } from "@/client/store/store";
-import { paneSelectors } from "@/client/store/features/panes/selectors";
-import { updatePane } from "@/client/store/features/panes/slice";
+import { AppThunk } from '@/client/store/store';
+import { paneSelectors } from '@/client/store/features/panes/selectors';
+import { updatePane } from '@/client/store/features/panes/slice';
 import {
     selectParentNodeIdMapByGraphId,
     selectChildNodeIdMapByGraphId,
-} from "@/client/store/features/edges/selectors";
+} from '@/client/store/features/edges/selectors';
 
 export const activateNode =
     (paneId: string, nodeIdToActivate: string): AppThunk =>
     async (dispatch, getState) => {
         const state = getState();
         const pane = paneSelectors.selectById(state, paneId);
-        if (!pane) throw new Error("Pane not found");
+        if (!pane) throw new Error('Pane not found');
 
         const graphId = pane.graphId;
         if (!graphId) return;
@@ -27,9 +27,7 @@ export const activateNode =
             prevActiveNodeIds
         );
 
-        dispatch(
-            updatePane({ paneId, data: { activeNodeIds: newActiveNodeIds } })
-        );
+        dispatch(updatePane({ paneId, data: { activeNodeIds: newActiveNodeIds } }));
     };
 
 function calculateActiveNodeIds(
@@ -54,9 +52,7 @@ function calculateActiveNodeIds(
                 const parentNodeId = parentNodeIds[i];
                 const idx = prevActiveNodeIds.indexOf(parentNodeId);
                 if (idx !== -1) {
-                    ancestorActiveNodeIds.unshift(
-                        ...prevActiveNodeIds.slice(0, idx + 1)
-                    );
+                    ancestorActiveNodeIds.unshift(...prevActiveNodeIds.slice(0, idx + 1));
                     return ancestorActiveNodeIds;
                 }
             }
@@ -83,9 +79,7 @@ function calculateActiveNodeIds(
                 const childNodeId = childNodeIds[i];
                 const idx = prevActiveNodeIds.indexOf(childNodeId);
                 if (idx !== -1) {
-                    descendantActiveNodeIds.push(
-                        ...prevActiveNodeIds.slice(idx)
-                    );
+                    descendantActiveNodeIds.push(...prevActiveNodeIds.slice(idx));
                     return descendantActiveNodeIds;
                 }
             }

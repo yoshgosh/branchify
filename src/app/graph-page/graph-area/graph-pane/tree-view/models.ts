@@ -1,4 +1,4 @@
-import { Node } from "@/shared/entities/node";
+import { Node } from '@/shared/entities/node';
 
 export type TurnNode = {
     turnNodeId: string;
@@ -10,7 +10,7 @@ export type TurnNode = {
     isVisible?: boolean;
 };
 
-export type HandleType = "top" | "bottom" | "left" | "right";
+export type HandleType = 'top' | 'bottom' | 'left' | 'right';
 
 export type TurnEdge = {
     turnEdgeId: string;

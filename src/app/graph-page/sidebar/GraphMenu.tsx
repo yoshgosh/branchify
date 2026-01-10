@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useAppDispatch, useAppSelector } from "@/client/store/store";
-import { graphSelectors } from "@/client/store/features/graphs/selectors";
-import { openPane } from "@/client/store/use-cases/panes/open-pane";
+import { useAppDispatch, useAppSelector } from '@/client/store/store';
+import { graphSelectors } from '@/client/store/features/graphs/selectors';
+import { openPane } from '@/client/store/use-cases/panes/open-pane';
 
 interface GraphItemProps {
     graphId: string;
@@ -10,9 +10,7 @@ interface GraphItemProps {
 
 function GraphItem({ graphId }: GraphItemProps) {
     const dispatch = useAppDispatch();
-    const graph = useAppSelector((state) =>
-        graphSelectors.selectById(state, graphId)
-    );
+    const graph = useAppSelector((state) => graphSelectors.selectById(state, graphId));
 
     const handleClick = (e: React.MouseEvent) => {
         const forceAdd = e.ctrlKey || e.metaKey;
@@ -23,9 +21,9 @@ function GraphItem({ graphId }: GraphItemProps) {
         <li
             className="px-3 py-2 rounded hover:bg-bg cursor-pointer text-sm truncate"
             onClick={handleClick}
-            title={graph?.title ?? "New Graph"}
+            title={graph?.title ?? 'New Graph'}
         >
-            {graph?.title ?? "New Graph"}
+            {graph?.title ?? 'New Graph'}
         </li>
     );
 }

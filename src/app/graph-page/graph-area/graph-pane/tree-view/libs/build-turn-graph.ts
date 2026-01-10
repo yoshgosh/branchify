@@ -1,6 +1,6 @@
-import { Node } from "@/shared/entities/node";
-import { Edge } from "@/shared/entities/edge";
-import { TurnNode, TurnEdge } from "../models";
+import { Node } from '@/shared/entities/node';
+import { Edge } from '@/shared/entities/edge';
+import { TurnNode, TurnEdge } from '../models';
 
 type NodeMap = Record<string, Node>;
 type NodeIdMap = Record<string, string[]>;
@@ -22,10 +22,13 @@ const createChildMap = (edges: Edge[]): NodeIdMap => {
 };
 
 const toTurnNodeMap = (turnNodes: TurnNode[]): Record<string, TurnNode> =>
-    turnNodes.reduce<Record<string, TurnNode>>((acc, turnNode) => {
-        acc[turnNode.turnNodeId] = turnNode;
-        return acc;
-    }, {} as Record<string, TurnNode>);
+    turnNodes.reduce<Record<string, TurnNode>>(
+        (acc, turnNode) => {
+            acc[turnNode.turnNodeId] = turnNode;
+            return acc;
+        },
+        {} as Record<string, TurnNode>
+    );
 
 // 質問ノードを起点に、answer が続く線形パスを 1 つの turn として束ねる
 const buildTurnNode = (
@@ -46,7 +49,7 @@ const buildTurnNode = (
 
         // 単純グラフ前提なので childIds[0] は必ず nodes に存在する
         const nextNode = nodeMap[childIds[0]]!;
-        if (nextNode.type === "question") break;
+        if (nextNode.type === 'question') break;
 
         collected.push(nextNode);
         current = nextNode;
@@ -54,8 +57,7 @@ const buildTurnNode = (
 
     const nodeIds = collected.map((node) => node.nodeId);
 
-    const overlaps = (set: Set<string>) =>
-        nodeIds.some((nodeId) => set.has(nodeId));
+    const overlaps = (set: Set<string>) => nodeIds.some((nodeId) => set.has(nodeId));
 
     return {
         turnNodeId: questionNode.nodeId,
@@ -66,10 +68,7 @@ const buildTurnNode = (
     };
 };
 
-const buildTurnEdge = (
-    parentTurnNode: TurnNode,
-    childTurnNode: TurnNode
-): TurnEdge => {
+const buildTurnEdge = (parentTurnNode: TurnNode, childTurnNode: TurnNode): TurnEdge => {
     return {
         turnEdgeId: `${parentTurnNode.turnNodeId}-${childTurnNode.turnNodeId}`,
         parentId: parentTurnNode.turnNodeId,
@@ -77,7 +76,7 @@ const buildTurnEdge = (
         isActive: parentTurnNode.isActive && childTurnNode.isActive,
         isVisible: parentTurnNode.isVisible && childTurnNode.isVisible,
     };
-}
+};
 
 export const buildTurnGraph = (
     nodes: Node[],
@@ -100,13 +99,11 @@ export const buildTurnGraph = (
     const childMap = createChildMap(edges);
     const activeNodeIdSet = new Set(activeNodeIds);
     const visibleNodeIdSet = new Set(visibleNodeIds);
-    
+
     // question ノード単位でターンを切り出す
     const questionNodes = nodes
-        .filter((node) => node.type === "question")
-        .sort(
-            (a, b) => a.createdAt.getTime() - b.createdAt.getTime()
-        );
+        .filter((node) => node.type === 'question')
+        .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
 
     const turnNodes: TurnNode[] = [];
     const nodeIdToTurnId = new Map<string, string>();

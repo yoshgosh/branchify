@@ -1,10 +1,10 @@
-import { z } from "zod";
-import type { StoredMessage as StoredMessageLC } from "@langchain/core/messages";
+import { z } from 'zod';
+import type { StoredMessage as StoredMessageLC } from '@langchain/core/messages';
 import {
     mapChatMessagesToStoredMessages,
     mapStoredMessagesToChatMessages,
-} from "@langchain/core/messages";
-import { NodeSchema, type Node, type Message } from "@/shared/entities/node";
+} from '@langchain/core/messages';
+import { NodeSchema, type Node, type Message } from '@/shared/entities/node';
 
 export const StoredMessageSchema = z.custom<StoredMessageLC>();
 export type StoredMessage = z.infer<typeof StoredMessageSchema>;
@@ -30,8 +30,6 @@ export function toStoredNode(node: Node): StoredNode {
 export function fromStoredNode(stored: StoredNode): Node {
     return NodeSchema.parse({
         ...stored,
-        message: stored.message
-            ? fromStoredMessage(stored.message)
-            : stored.message,
+        message: stored.message ? fromStoredMessage(stored.message) : stored.message,
     });
 }

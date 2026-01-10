@@ -72,7 +72,7 @@
     border: 1px solid #ddd;
     border-radius: 4px;
     padding: 2px 4px;
-    font-family: "Courier New", Courier, monospace;
+    font-family: 'Courier New', Courier, monospace;
     font-size: 0.95em;
 }
 
@@ -82,6 +82,6 @@
     border-radius: 4px;
     padding: 10px;
     overflow-x: auto;
-    font-family: "Courier New", Courier, monospace;
+    font-family: 'Courier New', Courier, monospace;
     font-size: 0.95em;
 }

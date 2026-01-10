@@ -1,4 +1,4 @@
-import { TurnNode, TurnEdge } from "../models";
+import { TurnNode, TurnEdge } from '../models';
 
 type TurnNodeMap = Record<string, TurnNode>;
 type TurnNodeIdMap = Record<string, string[]>;
@@ -30,9 +30,7 @@ const setPosition = (turnNodes: TurnNode[], parentMap: TurnNodeIdMap): void => {
         return newLaneIdx;
     };
     const getFreeLaneIdx = () => {
-        const freeLaneIdx = lanes.findIndex(
-            (waitingTNodeId) => waitingTNodeId === null
-        );
+        const freeLaneIdx = lanes.findIndex((waitingTNodeId) => waitingTNodeId === null);
         return freeLaneIdx === -1 ? getNewLaneIdx() : freeLaneIdx;
     };
     const clearLanes = (tNodeId: string) => {
@@ -80,22 +78,19 @@ const setHandle = (turnEdges: TurnEdge[], turnNodeMap: TurnNodeMap): void => {
         if (parentTNode.x === undefined || childTNode.x === undefined) continue;
 
         if (parentTNode.x === childTNode.x) {
-            tEdge.parentHandle = "bottom";
-            tEdge.childHandle = "top";
+            tEdge.parentHandle = 'bottom';
+            tEdge.childHandle = 'top';
         } else if (parentTNode.x < childTNode.x) {
-            tEdge.parentHandle = "right";
-            tEdge.childHandle = "top";
+            tEdge.parentHandle = 'right';
+            tEdge.childHandle = 'top';
         } else {
-            tEdge.parentHandle = "bottom";
-            tEdge.childHandle = "right";
+            tEdge.parentHandle = 'bottom';
+            tEdge.childHandle = 'right';
         }
     }
 };
 
-export const positionTurnGraph = (
-    turnNodes: TurnNode[],
-    turnEdges: TurnEdge[]
-): void => {
+export const positionTurnGraph = (turnNodes: TurnNode[], turnEdges: TurnEdge[]): void => {
     // turnNodesの位置と、turnEdgesのハンドル位置を計算して設定する
 
     const parentMap = createParentMap(turnEdges);

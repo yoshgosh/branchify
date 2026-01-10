@@ -1,9 +1,5 @@
-import {
-    NodeDtoSchema,
-    MessageDtoSchema,
-    EdgeDtoSchema,
-} from "@/shared/api/models";
-import { z } from "zod";
+import { NodeDtoSchema, MessageDtoSchema, EdgeDtoSchema } from '@/shared/api/models';
+import { z } from 'zod';
 
 // ----- path params -----
 export const NodeIdPathSchema = z
@@ -79,9 +75,7 @@ export const GenerateMergeMessageResSchema = z
         node: NodeDtoSchema,
     })
     .strict();
-export type GenerateMergeMessageRes = z.infer<
-    typeof GenerateMergeMessageResSchema
->;
+export type GenerateMergeMessageRes = z.infer<typeof GenerateMergeMessageResSchema>;
 
 export const GenerateNodeTitleResSchema = z
     .object({

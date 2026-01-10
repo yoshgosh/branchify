@@ -1,27 +1,21 @@
-"use client";
+'use client';
 
-import { useAppDispatch, useAppSelector } from "@/client/store/store";
-import { paneSelectors } from "@/client/store/features/panes/selectors";
-import {
-    setFocusedPaneId,
-    updatePane,
-} from "@/client/store/features/panes/slice";
-import {
-    selectNodesByGraphId,
-    nodeSelectors,
-} from "@/client/store/features/nodes/selectors";
-import { selectEdgesByGraphId } from "@/client/store/features/edges/selectors";
-import { graphSelectors } from "@/client/store/features/graphs/selectors";
-import { useScroll } from "@/app/hooks/useScroll";
-import { openPane } from "@/client/store/use-cases/panes/open-pane";
-import { closePane } from "@/client/store/use-cases/panes/close-pane";
-import { activateNode } from "@/client/store/use-cases/panes/activate-node";
-import { submitQuestion } from "@/client/store/use-cases/questions/submit-question";
-import GraphPaneHeader from "./GraphPaneHeader";
-import TreeView from "./tree-view/TreeView";
-import ChatView from "./ChatView";
-import InputBox from "./InputBox";
-import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from '@/client/store/store';
+import { paneSelectors } from '@/client/store/features/panes/selectors';
+import { setFocusedPaneId, updatePane } from '@/client/store/features/panes/slice';
+import { selectNodesByGraphId, nodeSelectors } from '@/client/store/features/nodes/selectors';
+import { selectEdgesByGraphId } from '@/client/store/features/edges/selectors';
+import { graphSelectors } from '@/client/store/features/graphs/selectors';
+import { useScroll } from '@/app/hooks/useScroll';
+import { openPane } from '@/client/store/use-cases/panes/open-pane';
+import { closePane } from '@/client/store/use-cases/panes/close-pane';
+import { activateNode } from '@/client/store/use-cases/panes/activate-node';
+import { submitQuestion } from '@/client/store/use-cases/questions/submit-question';
+import GraphPaneHeader from './GraphPaneHeader';
+import TreeView from './tree-view/TreeView';
+import ChatView from './ChatView';
+import InputBox from './InputBox';
+import { useEffect } from 'react';
 
 interface GraphPaneProps {
     paneId: string;
@@ -30,9 +24,7 @@ interface GraphPaneProps {
 
 export default function GraphPane({ paneId, isFocused }: GraphPaneProps) {
     const dispatch = useAppDispatch();
-    const pane = useAppSelector((state) =>
-        paneSelectors.selectById(state, paneId)
-    );
+    const pane = useAppSelector((state) => paneSelectors.selectById(state, paneId));
 
     const {
         scrollToElement: scrollToNode,
@@ -50,30 +42,22 @@ export default function GraphPane({ paneId, isFocused }: GraphPaneProps) {
     const graph = useAppSelector((state) =>
         graphId ? graphSelectors.selectById(state, graphId) : null
     );
-    const nodes = useAppSelector((state) =>
-        graphId ? selectNodesByGraphId(graphId)(state) : []
-    );
-    const edges = useAppSelector((state) =>
-        graphId ? selectEdgesByGraphId(graphId)(state) : []
-    );
+    const nodes = useAppSelector((state) => (graphId ? selectNodesByGraphId(graphId)(state) : []));
+    const edges = useAppSelector((state) => (graphId ? selectEdgesByGraphId(graphId)(state) : []));
     const activeNodes = useAppSelector((state) =>
-        pane.activeNodeIds
-            .map((id) => nodeSelectors.selectById(state, id))
-            .filter(Boolean)
+        pane.activeNodeIds.map((id) => nodeSelectors.selectById(state, id)).filter(Boolean)
     );
     const headNode = useAppSelector((state) =>
-        pane.headNodeId
-            ? nodeSelectors.selectById(state, pane.headNodeId)
-            : null
+        pane.headNodeId ? nodeSelectors.selectById(state, pane.headNodeId) : null
     );
     const inputText = useAppSelector(
-        (state) => paneSelectors.selectById(state, paneId)?.inputText ?? ""
+        (state) => paneSelectors.selectById(state, paneId)?.inputText ?? ''
     );
 
     useEffect(() => {
-        if (!pane.headNodeId ) return;
+        if (!pane.headNodeId) return;
         scrollToNode(pane.headNodeId, {
-            behavior: "auto",
+            behavior: 'auto',
             align: false,
         });
     }, []);
@@ -89,7 +73,7 @@ export default function GraphPane({ paneId, isFocused }: GraphPaneProps) {
     const handleActivateNode = async (nodeId: string) => {
         dispatch(activateNode(paneId, nodeId));
         scrollToNode(nodeId, {
-            behavior: "smooth",
+            behavior: 'smooth',
             align: false,
         });
     };
@@ -109,13 +93,11 @@ export default function GraphPane({ paneId, isFocused }: GraphPaneProps) {
     };
 
     const handleSubmit = async (question: string) => {
-        const { questionNodeId } = await dispatch(
-            submitQuestion(paneId, question)
-        );
-        dispatch(updatePane({ paneId, data: { inputText: "" } }));
+        const { questionNodeId } = await dispatch(submitQuestion(paneId, question));
+        dispatch(updatePane({ paneId, data: { inputText: '' } }));
 
         scrollToNode(questionNodeId, {
-            behavior: "smooth",
+            behavior: 'smooth',
             align: true,
         });
     };
@@ -125,7 +107,7 @@ export default function GraphPane({ paneId, isFocused }: GraphPaneProps) {
     };
 
     // graphがないか、headNodeがないか、headNodeのstatusがcompletedの場合に送信可能
-    const canSubmit = !graphId || !headNode || headNode.status === "completed";
+    const canSubmit = !graphId || !headNode || headNode.status === 'completed';
 
     return (
         <div

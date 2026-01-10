@@ -1,7 +1,7 @@
-import type { TX } from "@/server/db/types";
-import * as EdgeRepo from "@/server/repositories/edges/repository";
-import * as NodeRepo from "@/server/repositories/nodes/repository";
-import type { Node } from "@/shared/entities/node";
+import type { TX } from '@/server/db/types';
+import * as EdgeRepo from '@/server/repositories/edges/repository';
+import * as NodeRepo from '@/server/repositories/nodes/repository';
+import type { Node } from '@/shared/entities/node';
 
 const DEFAULT_MAX_DEPTH = 10;
 

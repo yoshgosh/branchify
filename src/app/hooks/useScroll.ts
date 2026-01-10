@@ -1,6 +1,6 @@
-import { useCallback } from "react";
-import { useScrollRegistry } from "./useScrollRegistry";
-import { useScrollObserver } from "./useScrollObserver";
+import { useCallback } from 'react';
+import { useScrollRegistry } from './useScrollRegistry';
+import { useScrollObserver } from './useScrollObserver';
 
 export function useScroll() {
     const registry = useScrollRegistry();
