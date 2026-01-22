@@ -14,7 +14,9 @@
         "db:migrate": "drizzle-kit migrate",
         "db:seed": "tsx scripts/seed.ts",
         "db:truncate": "tsx scripts/truncate.ts",
-        "db:view": "tsx scripts/view_data.ts"
+        "db:view": "tsx scripts/view_data.ts",
+        "db:backup": "tsx scripts/backup.ts",
+        "db:restore": "tsx scripts/restore.ts"
     },
     "dependencies": {
         "@langchain/core": "^1.0.4",
