@@ -77,6 +77,13 @@ async function restore() {
         console.log(`Restoring database from ${backupFileName}...`);
 
         const env = { ...process.env, PGPASSWORD: password };
+
+        // リストア前にデータを削除（外部キー制約の順序に注意）
+        console.log('Clearing existing data...');
+        const truncateCommand = `psql -h ${host} -p ${port} -U ${user} -d ${database} -c "TRUNCATE TABLE edges, nodes, graphs, users CASCADE;"`;
+        await execAsync(truncateCommand, { env });
+
+        // リストア実行
         const command = `psql -h ${host} -p ${port} -U ${user} -d ${database} -f "${backupFilePath}"`;
 
         await execAsync(command, { env });

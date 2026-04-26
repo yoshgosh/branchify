@@ -52,7 +52,8 @@ async function backup() {
         console.log('Creating database backup...');
 
         const env = { ...process.env, PGPASSWORD: password };
-        const command = `pg_dump -h ${host} -p ${port} -U ${user} -d ${database} --no-owner --no-acl -F p`;
+        // --data-only でデータのみをバックアップ、--inserts でINSERT文形式
+        const command = `pg_dump -h ${host} -p ${port} -U ${user} -d ${database} --no-owner --no-acl --data-only --inserts -F p`;
 
         const { stdout } = await execAsync(command, { env });
         fs.writeFileSync(backupFilePath, stdout);
