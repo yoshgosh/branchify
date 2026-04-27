@@ -12,7 +12,7 @@ dotenv.config();
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 if (!OPENAI_API_KEY) throw new Error('MISSING_ENV: OPENAI_API_KEY');
-const OPENAI_CHAT_MODEL = 'gpt-4.1';
+const OPENAI_CHAT_MODEL = 'gpt-4.1-mini';
 
 export type GenerateAnswerMessageInput = {
     nodeId: string;
