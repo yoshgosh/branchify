@@ -115,6 +115,8 @@ export const streamAnswer =
     (params: { nodeId: string }): AppThunk<{ close: () => void }> =>
     (dispatch, _getState) => {
         const { nodeId } = params;
+        const hasKwargs = (value: unknown): value is { kwargs: Record<string, unknown> } =>
+            typeof value === 'object' && value !== null && 'kwargs' in value;
 
         dispatch(
             setNodeStatus({
@@ -129,7 +131,7 @@ export const streamAnswer =
             {
                 onMessage: (data) => {
                     let chunk: AIMessageChunk;
-                    chunk = new AIMessageChunk((data as any).kwargs);
+                    chunk = new AIMessageChunk(hasKwargs(data) ? data.kwargs : {});
                     mergedChunk = mergedChunk ? mergedChunk.concat(chunk) : chunk;
 
                     console.log(

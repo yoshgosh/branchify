@@ -2,21 +2,28 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? '/api/v1';
 
 export async function fetchJson<T = unknown>(
     endpoint: string,
-    options: Omit<RequestInit, 'body'> & { body?: any } = {}
+    options: Omit<RequestInit, 'body'> & { body?: unknown } = {}
 ): Promise<T> {
     const url = `${API_BASE}${endpoint}`;
+    const { body, ...restOptions } = options;
 
     const headers: Record<string, string> = {
         Accept: 'application/json',
         ...(options.headers ? (options.headers as Record<string, string>) : {}),
     };
 
-    if (options.body && typeof options.body !== 'string') {
-        headers['Content-Type'] = 'application/json';
-        options.body = JSON.stringify(options.body);
+    let requestBody: BodyInit | undefined;
+
+    if (body !== undefined) {
+        if (typeof body === 'string') {
+            requestBody = body;
+        } else {
+            requestBody = JSON.stringify(body);
+            headers['Content-Type'] = 'application/json';
+        }
     }
 
-    const res = await fetch(url, { ...options, headers });
+    const res = await fetch(url, { ...restOptions, body: requestBody, headers });
 
     if (!res.ok) {
         const message = await extractErrorMessage(res);
@@ -35,8 +42,8 @@ export function postSse(
         onError,
         onEnd,
     }: {
-        body?: any;
-        onMessage: (data: any) => void;
+        body?: unknown;
+        onMessage: (data: unknown) => void;
         onError?: (error: Error) => void;
         onEnd?: () => void;
     }
@@ -46,13 +53,14 @@ export function postSse(
 
     (async () => {
         try {
+            const requestBody = body === undefined ? undefined : JSON.stringify(body);
             const res = await fetch(url, {
                 method: 'POST',
                 headers: {
                     Accept: 'text/event-stream',
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(body),
+                body: requestBody,
                 signal: controller.signal,
             });
 

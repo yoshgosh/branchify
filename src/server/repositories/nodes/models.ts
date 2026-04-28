@@ -50,7 +50,7 @@ export function toStoredNodeInsert(data: NodeInsertInput): StoredNodeInsert {
 }
 
 export function toStoredNodeUpdate(data: NodeUpdateInput): StoredNodeUpdate {
-    const result: Record<string, any> = {};
+    const result: Record<string, unknown> = {};
 
     for (const [key, value] of Object.entries(data)) {
         if (value !== undefined) {

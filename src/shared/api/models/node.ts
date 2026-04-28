@@ -42,13 +42,13 @@ export function fromNodeDto(dto: NodeDto): Node {
 export function mapMessageToDto<T extends { message?: Message | null }>(
     obj: T
 ): Omit<T, 'message'> & { message?: MessageDto | null } {
-    if (!obj.message) return obj as any;
+    if (!obj.message) return obj as Omit<T, 'message'> & { message?: MessageDto | null };
     return { ...obj, message: toMessageDto(obj.message) };
 }
 
 export function mapMessageFromDto<T extends { message?: MessageDto | null }>(
     obj: T
 ): Omit<T, 'message'> & { message?: Message | null } {
-    if (!obj.message) return obj as any;
+    if (!obj.message) return obj as Omit<T, 'message'> & { message?: Message | null };
     return { ...obj, message: fromMessageDto(obj.message) };
 }
