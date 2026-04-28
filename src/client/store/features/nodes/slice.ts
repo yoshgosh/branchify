@@ -43,7 +43,7 @@ const node = createSlice({
             const { nodeId, message } = action.payload;
             const node = state.entities[nodeId];
             if (node) {
-                node.message = message;
+                node.message = message ?? null;
             }
         },
     },
