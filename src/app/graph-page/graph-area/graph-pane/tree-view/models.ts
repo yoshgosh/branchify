@@ -21,3 +21,5 @@ export type TurnEdge = {
     isActive?: boolean;
     isVisible?: boolean;
 };
+
+export type LayoutMode = 'optimized' | 'rt';

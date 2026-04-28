@@ -13,12 +13,9 @@ import { activateNode } from '@/client/store/use-cases/panes/activate-node';
 import { submitQuestion } from '@/client/store/use-cases/questions/submit-question';
 import GraphPaneHeader from './GraphPaneHeader';
 import TreeView from './tree-view/TreeView';
-import TreeViewV2 from './tree-view-v2/TreeView';
 import ChatView from './ChatView';
 import InputBox from './InputBox';
 import { useEffect } from 'react';
-
-const ENABLE_TREE_VIEW_V2 = true;
 
 interface GraphPaneProps {
     paneId: string;
@@ -125,18 +122,6 @@ export default function GraphPane({ paneId, isFocused }: GraphPaneProps) {
             <div className="flex-1 flex overflow-hidden">
                 <div className="w-64 h-full">
                     {graphId && (
-                            ENABLE_TREE_VIEW_V2 ? (
-                        <TreeViewV2
-                            nodes={nodes}
-                            edges={edges}
-                            headNodeId={pane.headNodeId}
-                            activeNodeIds={pane.activeNodeIds}
-                            visibleNodeIds={visibleNodeIds}
-                            onSetHeadNode={handleSetHeadNode}
-                            onActivateNode={handleActivateNode}
-                            onOpenPaneWithNode={handleOpenPaneWithNode}
-                        />
-                            ) : (
                         <TreeView
                             nodes={nodes}
                             edges={edges}
@@ -147,7 +132,6 @@ export default function GraphPane({ paneId, isFocused }: GraphPaneProps) {
                             onActivateNode={handleActivateNode}
                             onOpenPaneWithNode={handleOpenPaneWithNode}
                         />
-                            )
                     )}
                 </div>
 
