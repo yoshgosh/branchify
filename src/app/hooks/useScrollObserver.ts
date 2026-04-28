@@ -10,7 +10,7 @@ export function useScrollObserver() {
         observer.current = new IntersectionObserver(
             (entries) => {
                 setVisibleIds((prev) => {
-                    const set = new Set(prev);
+                    const nextSet = new Set(prev);
                     let changed = false;
 
                     for (const entry of entries) {
@@ -19,29 +19,32 @@ export function useScrollObserver() {
                         if (!id) continue;
 
                         if (entry.isIntersecting) {
-                            if (!set.has(id)) {
-                                set.add(id);
+                            if (!nextSet.has(id)) {
+                                nextSet.add(id);
                                 changed = true;
                             }
                         } else {
-                            if (set.has(id)) {
-                                set.delete(id);
+                            if (nextSet.has(id)) {
+                                nextSet.delete(id);
                                 changed = true;
                             }
                         }
                     }
 
-                    return changed ? Array.from(set) : prev;
+                    return changed ? Array.from(nextSet) : prev;
                 });
             },
             { threshold: 0.1 }
         );
 
         elements.current.forEach((el) => {
-            observer.current!.observe(el);
+            observer.current?.observe(el);
         });
 
-        return () => observer.current?.disconnect();
+        return () => {
+            observer.current?.disconnect();
+            observer.current = null;
+        };
     }, []);
 
     const observe = useCachedCallback((id: string) => {
@@ -51,25 +54,19 @@ export function useScrollObserver() {
 
             el.dataset.scrollId = id;
             elements.current.set(id, el);
-            if (observer.current) {
-                observer.current.observe(el);
-            }
+
+            observer.current?.observe(el);
         };
     });
 
     const unobserve = useCachedCallback((id: string) => {
         return () => {
-            const prevEl = elements.current.get(id);
-            if (!prevEl) return;
+            const el = elements.current.get(id);
+            if (!el) return;
 
-            if (observer.current) {
-                observer.current.unobserve(prevEl);
-            }
+            observer.current?.unobserve(el);
             elements.current.delete(id);
-            setVisibleIds((prevSet) => {
-                if (!prevSet.includes(id)) return prevSet;
-                return prevSet.filter((v) => v !== id);
-            });
+            setVisibleIds((prev) => (prev.includes(id) ? prev.filter((v) => v !== id) : prev));
         };
     });
 
@@ -78,10 +75,11 @@ export function useScrollObserver() {
             if (el) {
                 observe(id)(el);
             } else {
-                unobserve(id);
+                unobserve(id)();
             }
         };
     });
+
     return {
         visibleElementIds,
         registerElementRef,

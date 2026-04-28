@@ -4,40 +4,52 @@ import { useCachedCallback } from './useCachedCallback';
 type ScrollToOptions = {
     behavior?: 'auto' | 'smooth';
     align?: boolean;
+    margin?: number;
 };
 
 export function useScrollRegistry() {
-    const elements = useRef<Map<string, HTMLElement | null>>(new Map());
+    const elements = useRef<Map<string, HTMLElement>>(new Map());
     const waiters = useRef<Map<string, Set<() => void>>>(new Map());
-    const containerRef = useRef<HTMLDivElement | null>(null);
-    const contentRef = useRef<HTMLDivElement | null>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
 
     const registerElementRef = useCachedCallback<RefCallback<HTMLElement>>((id) => {
         return (el) => {
-            elements.current.set(id, el);
-
-            if (el && waiters.current.has(id)) {
-                for (const resolve of waiters.current.get(id)!) {
-                    resolve();
+            if (el) {
+                elements.current.set(id, el);
+                if (waiters.current.has(id)) {
+                    for (const resolve of waiters.current.get(id)!) {
+                        resolve();
+                    }
+                    waiters.current.delete(id);
                 }
-                waiters.current.delete(id);
+            } else {
+                elements.current.delete(id);
             }
         };
     });
 
-    const adjustContainer = async (id: string) => {
+    const calculateTargetScrollTop = (id: string, margin: number) => {
         const el = elements.current.get(id);
         const container = containerRef.current;
         const content = contentRef.current;
 
-        if (!el || !container || !content) return;
+        if (!el || !container || !content) return 0;
 
         const elRect = el.getBoundingClientRect();
         const contentRect = content.getBoundingClientRect();
+        const elTopInContent = elRect.top - contentRect.top;
 
-        const topOffset = elRect.top - contentRect.top;
+        return Math.max(0, elTopInContent - margin);
+    };
 
-        const minHeight = topOffset + container.clientHeight;
+    const adjustContainer = async (targetScrollTop: number) => {
+        const container = containerRef.current;
+        const content = contentRef.current;
+
+        if (!container || !content) return 0;
+
+        const minHeight = targetScrollTop + container.clientHeight;
         content.style.minHeight = `${minHeight}px`;
 
         await new Promise((r) => requestAnimationFrame(r));
@@ -71,19 +83,25 @@ export function useScrollRegistry() {
     };
 
     const scrollToElement = async (id: string, options: ScrollToOptions = {}) => {
-        const { behavior = 'smooth', align = true } = options;
-        await waitForElement(id);
-        if (align) {
-            await adjustContainer(id);
-        } else {
-            resetContainer();
-        }
+        const { behavior = 'smooth', align = true, margin = 0 } = options;
 
-        const el = elements.current.get(id);
-        el?.scrollIntoView({
-            behavior,
-            block: 'start',
-        });
+        try {
+            await waitForElement(id);
+
+            const targetTop = calculateTargetScrollTop(id, margin);
+            if (align) {
+                await adjustContainer(targetTop);
+            } else {
+                resetContainer();
+            }
+
+            containerRef.current?.scrollTo({
+                top: targetTop,
+                behavior,
+            });
+        } catch (error) {
+            console.warn(error);
+        }
     };
 
     return {

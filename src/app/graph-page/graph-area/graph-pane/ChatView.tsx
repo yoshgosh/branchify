@@ -9,7 +9,7 @@ interface ChatViewProps {
     activeNodes: Node[];
     headNodeId: string | null;
     onSetHeadNode: (nodeId: string) => void;
-    registerElementRef: (id: string) => (el: HTMLDivElement | null) => void;
+    registerElementRef: (id: string) => (el: HTMLElement | null) => void;
     containerRef: RefObject<HTMLDivElement | null>;
     contentRef: RefObject<HTMLDivElement | null>;
 }
@@ -61,10 +61,10 @@ function Message({
     node: Node;
     isHead: boolean;
     setAsHead: () => void;
-    registerElementRef: (id: string) => (el: HTMLDivElement | null) => void;
+    registerElementRef: (el: HTMLElement | null) => void;
 }) {
     return (
-        <div className="flex flex-col px-4 gap-2 py-2" ref={registerElementRef(node.nodeId)}>
+        <div className="flex flex-col px-4 gap-2 py-2" ref={registerElementRef}>
             {node.type === 'question' && <Question node={node} />}
             {node.type === 'answer' && <Answer node={node} isHead={isHead} setAsHead={setAsHead} />}
         </div>
@@ -91,7 +91,7 @@ export default function ChatView({
                             node={node}
                             isHead={node.nodeId === headNodeId}
                             setAsHead={shouldSetHead ? () => onSetHeadNode(node.nodeId) : () => {}}
-                            registerElementRef={registerElementRef}
+                            registerElementRef={registerElementRef(node.nodeId)}
                         />
                     );
                 })}

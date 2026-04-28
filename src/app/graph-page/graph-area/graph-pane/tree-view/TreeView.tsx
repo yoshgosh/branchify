@@ -39,13 +39,15 @@ export default function TreeView({
     const TurnGraph = turnGraphRegistry[layoutMode];
 
     const handleTurnNodeClick = async (event: React.MouseEvent, turnNode: TurnNode) => {
+        // TurnNode内の最も古い（最初の）ノードIDを取得
+        const mostOldNodeId = turnNode.nodes.at(0)?.nodeId ?? turnNode.turnNodeId;
         // TurnNode内の最も新しい（最後の）ノードIDを取得
         const latestNodeId = turnNode.nodes.at(-1)?.nodeId ?? turnNode.turnNodeId;
 
         if (event.metaKey || event.ctrlKey) {
-            onOpenPaneWithNode(latestNodeId);
+            onOpenPaneWithNode(mostOldNodeId);
         } else {
-            await onActivateNode(latestNodeId);
+            await onActivateNode(mostOldNodeId);
             onSetHeadNode(latestNodeId);
         }
     };
