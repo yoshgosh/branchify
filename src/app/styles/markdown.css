@@ -1,10 +1,8 @@
-/* markdown.css */
-/* AIの回答のMD書式を定める　*/
-
 .markdown-content {
     /* font-family: "Noto Sans JP", sans-serif; */
     font-family: Arial, sans-serif;
     line-height: 1.75;
+    overflow-wrap: break-word;
 }
 
 .markdown-content h1,
@@ -20,13 +18,11 @@
 
 .markdown-content h1 {
     font-size: 1.5em;
-    border-bottom: 2px solid #ddd;
     padding-bottom: 0.3em;
 }
 
 .markdown-content h2 {
     font-size: 1.3em;
-    border-bottom: 1px solid #ddd;
     padding-bottom: 0.2em;
 }
 
@@ -84,4 +80,10 @@
     overflow-x: auto;
     font-family: 'Courier New', Courier, monospace;
     font-size: 0.95em;
+}
+
+.markdown-content hr {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 2rem 0;
 }
