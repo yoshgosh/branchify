@@ -6,9 +6,11 @@ node_modules
 out
 dist
 build
+tsconfig.tsbuildinfo
 
 # database
 drizzle
+backups
 
 # lock files
 package-lock.json
