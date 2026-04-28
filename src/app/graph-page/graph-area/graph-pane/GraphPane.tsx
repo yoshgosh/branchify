@@ -18,7 +18,7 @@ import ChatView from './ChatView';
 import InputBox from './InputBox';
 import { useEffect } from 'react';
 
-const ENABLE_TREE_VIEW_V2 = false;
+const ENABLE_TREE_VIEW_V2 = true;
 
 interface GraphPaneProps {
     paneId: string;
