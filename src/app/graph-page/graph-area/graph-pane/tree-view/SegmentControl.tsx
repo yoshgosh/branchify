@@ -6,12 +6,11 @@ interface SegmentControlProps {
 }
 
 const LAYOUT_MODE_OPTIONS: { value: LayoutMode; label: string }[] = [
-  { value: 'optimized', label: 'Optimized' },
-  { value: 'rt', label: 'RT' },
+    { value: 'optimized', label: 'Optimized' },
+    { value: 'rt', label: 'RT' },
 ];
 
 export default function SegmentControl({ value, onChange }: SegmentControlProps) {
-
     return (
         <div
             style={{

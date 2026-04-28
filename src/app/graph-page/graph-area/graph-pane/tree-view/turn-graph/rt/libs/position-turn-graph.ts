@@ -22,11 +22,7 @@ const findRootNode = (turnNodes: TurnNode[], turnEdges: TurnEdge[]): TurnNode | 
     return turnNodes.find((node) => !childIds.has(node.turnNodeId));
 };
 
-const setPosition = (
-    turnNodes: TurnNode[],
-    childrenMap: ChildrenMap,
-    rootNode: TurnNode
-): void => {
+const setPosition = (turnNodes: TurnNode[], childrenMap: ChildrenMap, rootNode: TurnNode): void => {
     const depths: Record<string, number> = {};
 
     const calcDepth = (nodeId: string, depth: number): void => {

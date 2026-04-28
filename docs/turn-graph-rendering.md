@@ -19,7 +19,7 @@
 3. buildTurnGraph
    - Node / Edge を TurnNode / TurnEdge に変換する
 
-4. positionTurnGraph* 
+4. positionTurnGraph*
    - TurnNode / TurnEdge に座標と接続情報を付ける
 
 5. TurnGraph*
@@ -198,11 +198,11 @@ GraphPane
 現在は 2 つのアルゴリズムがあります。
 
 - `positionTurnGraph`
-  - 既存の lane ベース配置
-  - 親子の相対位置に応じてハンドル位置も変える
+    - 既存の lane ベース配置
+    - 親子の相対位置に応じてハンドル位置も変える
 - `positionTurnGraphRT`
-  - Reingold-Tilford 風の木配置
-  - 親を上、子を下に置き、ハンドルは上下固定
+    - Reingold-Tilford 風の木配置
+    - 親を上、子を下に置き、ハンドルは上下固定
 
 ### 2.5 描画アダプタ (`TurnGraph`, `TurnGraphRT`)
 
@@ -224,11 +224,11 @@ GraphPane
 現在の差分は主に次の通りです。
 
 - `unitX`
-  - `turn-graph`: `20`
-  - `turn-graph-rt`: `30`
+    - `turn-graph`: `20`
+    - `turn-graph-rt`: `30`
 - edge 変換
-  - `turn-graph`: `sourceHandle`, `targetHandle` を使う
-  - `turn-graph-rt`: ハンドル指定を使わず中心接続に寄せている
+    - `turn-graph`: `sourceHandle`, `targetHandle` を使う
+    - `turn-graph-rt`: ハンドル指定を使わず中心接続に寄せている
 
 つまり、現在の分岐はレイアウト関数だけではなく、ReactFlow 変換ルールにもまたがっています。
 
@@ -250,12 +250,12 @@ GraphPane
 現在の差分は次の通りです。
 
 - `TurnNode`
-  - `turn-graph` は複数ハンドルを右・上・下に持つ
-  - `turn-graph-rt` は中心付近の非表示ハンドルで接続する
-  - `turn-graph-rt` にはノード背面の背景円があり、エッジが裏を通っても見た目が崩れにくい
+    - `turn-graph` は複数ハンドルを右・上・下に持つ
+    - `turn-graph-rt` は中心付近の非表示ハンドルで接続する
+    - `turn-graph-rt` にはノード背面の背景円があり、エッジが裏を通っても見た目が崩れにくい
 - `TurnEdge`
-  - `turn-graph` は折れ線と角丸を使う
-  - `turn-graph-rt` はシンプルな直線を使う
+    - `turn-graph` は折れ線と角丸を使う
+    - `turn-graph-rt` はシンプルな直線を使う
 
 ここは「レイアウト差分が視覚表現に漏れている」層です。
 
@@ -268,11 +268,11 @@ GraphPane
 `layoutMode` によって次を切り替えています。
 
 - 実行するレイアウト関数
-  - `positionTurnGraph`
-  - `positionTurnGraphRT`
+    - `positionTurnGraph`
+    - `positionTurnGraphRT`
 - 描画コンポーネント
-  - `TurnGraph`
-  - `TurnGraphRT`
+    - `TurnGraph`
+    - `TurnGraphRT`
 
 ここが現在もっとも目立つ分岐です。
 
@@ -460,13 +460,13 @@ GraphPane
 現状の構造は、概念的には次のように理解すると整理しやすいです。
 
 - `buildTurnGraph`
-  - 何を描くかを決める
+    - 何を描くかを決める
 - `positionTurnGraph*`
-  - どこに描くかを決める
+    - どこに描くかを決める
 - `createReactFlowElements`
-  - ReactFlow にどう渡すかを決める
+    - ReactFlow にどう渡すかを決める
 - `TurnNode` / `TurnEdge`
-  - どう見せるかを決める
+    - どう見せるかを決める
 
 この 4 層に分けて考えると、現在の問題は「`TreeView` が後ろ 3 層の分岐を直接持っていること」と言えます。
 
@@ -496,25 +496,25 @@ GraphPane
 
 ```ts
 export type TurnNode = {
-  turnNodeId: string;
-  nodes: Node[];
-  x?: number;
-  y?: number;
-  isHead?: boolean;
-  isActive?: boolean;
-  isVisible?: boolean;
+    turnNodeId: string;
+    nodes: Node[];
+    x?: number;
+    y?: number;
+    isHead?: boolean;
+    isActive?: boolean;
+    isVisible?: boolean;
 };
 
 export type HandleType = 'top' | 'bottom' | 'left' | 'right';
 
 export type TurnEdge = {
-  turnEdgeId: string;
-  parentId: string;
-  childId: string;
-  parentHandle?: HandleType;
-  childHandle?: HandleType;
-  isActive?: boolean;
-  isVisible?: boolean;
+    turnEdgeId: string;
+    parentId: string;
+    childId: string;
+    parentHandle?: HandleType;
+    childHandle?: HandleType;
+    isActive?: boolean;
+    isVisible?: boolean;
 };
 ```
 
@@ -527,11 +527,11 @@ export type TurnEdge = {
 
 ```ts
 interface GraphPaneProps {
-  paneId: string;
-  isFocused: boolean;
+    paneId: string;
+    isFocused: boolean;
 }
 
-export default function GraphPane({ paneId, isFocused }: GraphPaneProps)
+export default function GraphPane({ paneId, isFocused }: GraphPaneProps);
 ```
 
 役割:
@@ -544,26 +544,23 @@ export default function GraphPane({ paneId, isFocused }: GraphPaneProps)
 type LayoutMode = 'optimized' | 'rt';
 
 interface TreeViewProps {
-  nodes: Node[];
-  edges: Edge[];
-  headNodeId: string | null;
-  activeNodeIds: string[];
-  visibleNodeIds: string[];
-  onSetHeadNode: (nodeId: string) => void;
-  onActivateNode: (nodeId: string) => Promise<void>;
-  onOpenPaneWithNode: (nodeId: string) => void;
+    nodes: Node[];
+    edges: Edge[];
+    headNodeId: string | null;
+    activeNodeIds: string[];
+    visibleNodeIds: string[];
+    onSetHeadNode: (nodeId: string) => void;
+    onActivateNode: (nodeId: string) => Promise<void>;
+    onOpenPaneWithNode: (nodeId: string) => void;
 }
 
-export default function TreeView(props: TreeViewProps)
+export default function TreeView(props: TreeViewProps);
 ```
 
 内部メソッド:
 
 ```ts
-const handleTurnNodeClick = async (
-  event: React.MouseEvent,
-  turnNode: TurnNode
-) => Promise<void>
+const handleTurnNodeClick = async (event: React.MouseEvent, turnNode: TurnNode) => Promise<void>;
 ```
 
 特徴:
@@ -612,20 +609,20 @@ export const positionTurnGraphRT = (
 
 ```ts
 interface TurnGraphProps {
-  turnNodes: TurnNode[];
-  turnEdges: TurnEdge[];
-  onTurnNodeClick: (event: React.MouseEvent, turnNode: TurnNode) => void;
+    turnNodes: TurnNode[];
+    turnEdges: TurnEdge[];
+    onTurnNodeClick: (event: React.MouseEvent, turnNode: TurnNode) => void;
 }
 
-export default function TurnGraph(props: TurnGraphProps)
+export default function TurnGraph(props: TurnGraphProps);
 
 interface TurnGraphRTProps {
-  turnNodes: TurnNode[];
-  turnEdges: TurnEdge[];
-  onTurnNodeClick: (event: React.MouseEvent, turnNode: TurnNode) => void;
+    turnNodes: TurnNode[];
+    turnEdges: TurnEdge[];
+    onTurnNodeClick: (event: React.MouseEvent, turnNode: TurnNode) => void;
 }
 
-export default function TurnGraphRT(props: TurnGraphRTProps)
+export default function TurnGraphRT(props: TurnGraphRTProps);
 ```
 
 特徴:
@@ -688,23 +685,23 @@ export const createReactFlowElements = (
 
 ```ts
 type TurnGraphData = {
-  turnNodes: TurnNode[];
-  turnEdges: TurnEdge[];
+    turnNodes: TurnNode[];
+    turnEdges: TurnEdge[];
 };
 
 type PositionedTurnNode = TurnNode & {
-  x: number;
-  y: number;
+    x: number;
+    y: number;
 };
 
 type PositionedTurnEdge = TurnEdge & {
-  parentHandle?: HandleType;
-  childHandle?: HandleType;
+    parentHandle?: HandleType;
+    childHandle?: HandleType;
 };
 
 type PositionedTurnGraph = {
-  turnNodes: PositionedTurnNode[];
-  turnEdges: PositionedTurnEdge[];
+    turnNodes: PositionedTurnNode[];
+    turnEdges: PositionedTurnEdge[];
 };
 ```
 
@@ -719,22 +716,22 @@ type PositionedTurnGraph = {
 type LayoutMode = 'optimized' | 'rt';
 
 interface TreeViewProps {
-  graph: {
-    nodes: Node[];
-    edges: Edge[];
-  };
-  selection: {
-    headNodeId: string | null;
-    activeNodeIds: string[];
-    visibleNodeIds: string[];
-  };
-  layoutMode: LayoutMode;
-  onLayoutModeChange: (mode: LayoutMode) => void;
-  onTurnNodeSelect: (nodeId: string) => Promise<void>;
-  onTurnNodeOpenInPane: (nodeId: string) => void;
+    graph: {
+        nodes: Node[];
+        edges: Edge[];
+    };
+    selection: {
+        headNodeId: string | null;
+        activeNodeIds: string[];
+        visibleNodeIds: string[];
+    };
+    layoutMode: LayoutMode;
+    onLayoutModeChange: (mode: LayoutMode) => void;
+    onTurnNodeSelect: (nodeId: string) => Promise<void>;
+    onTurnNodeOpenInPane: (nodeId: string) => void;
 }
 
-export default function TreeView(props: TreeViewProps)
+export default function TreeView(props: TreeViewProps);
 ```
 
 意図:
@@ -768,27 +765,27 @@ export const buildTurnGraph = (
 
 ```ts
 type TurnGraphLayoutStrategy = {
-  id: LayoutMode;
-  layout: (graph: TurnGraphData) => PositionedTurnGraph;
-  view: {
-    unitX: number;
-    unitY: number;
-    useHandles: boolean;
-  };
+    id: LayoutMode;
+    layout: (graph: TurnGraphData) => PositionedTurnGraph;
+    view: {
+        unitX: number;
+        unitY: number;
+        useHandles: boolean;
+    };
 };
 ```
 
 各レイアウト実装:
 
 ```ts
-export const optimizedLayoutStrategy: TurnGraphLayoutStrategy
-export const rtLayoutStrategy: TurnGraphLayoutStrategy
+export const optimizedLayoutStrategy: TurnGraphLayoutStrategy;
+export const rtLayoutStrategy: TurnGraphLayoutStrategy;
 ```
 
 または、関数だけに絞るなら:
 
 ```ts
-type LayoutTurnGraph = (graph: TurnGraphData) => PositionedTurnGraph
+type LayoutTurnGraph = (graph: TurnGraphData) => PositionedTurnGraph;
 ```
 
 意図:
@@ -800,12 +797,12 @@ type LayoutTurnGraph = (graph: TurnGraphData) => PositionedTurnGraph
 
 ```ts
 interface TurnGraphRendererProps {
-  graph: PositionedTurnGraph;
-  strategy: TurnGraphLayoutStrategy;
-  onTurnNodeClick: (turnNode: PositionedTurnNode) => void;
+    graph: PositionedTurnGraph;
+    strategy: TurnGraphLayoutStrategy;
+    onTurnNodeClick: (turnNode: PositionedTurnNode) => void;
 }
 
-export function TurnGraphRenderer(props: TurnGraphRendererProps)
+export function TurnGraphRenderer(props: TurnGraphRendererProps);
 ```
 
 意図:
@@ -846,17 +843,17 @@ export const createReactFlowElements = (
 分けたままにするなら、最低限 props の意味を揃えるのがよいです。
 
 ```ts
-export function TurnNode(props: NodeProps<PositionedTurnNode>)
+export function TurnNode(props: NodeProps<PositionedTurnNode>);
 
-export function TurnEdge(props: EdgeProps<PositionedTurnEdge>)
+export function TurnEdge(props: EdgeProps<PositionedTurnEdge>);
 ```
 
 さらに統一したい場合は、見た目ポリシーを外出しできます。
 
 ```ts
 type TurnGraphVisualStyle = {
-  edgeStyle: 'orthogonal' | 'straight';
-  nodeHandleMode: 'multi' | 'center';
+    edgeStyle: 'orthogonal' | 'straight';
+    nodeHandleMode: 'multi' | 'center';
 };
 ```
 
