@@ -22,6 +22,7 @@ export const submitQuestion =
         let graphId = pane.graphId;
         let headNodeId = pane.headNodeId;
         let activeNodeIds = pane.activeNodeIds;
+        let isFirstQuestion = false;
 
         if (!graphId) {
             const createGraphRes = await dispatch(createGraphThunk()).unwrap();
@@ -30,6 +31,7 @@ export const submitQuestion =
             // 防御的ガード
             headNodeId = null;
             activeNodeIds = [];
+            isFirstQuestion = true;
 
             dispatch(
                 updatePane({
@@ -37,8 +39,6 @@ export const submitQuestion =
                     data: { graphId, headNodeId, activeNodeIds },
                 })
             );
-
-            dispatch(generateGraphTitleThunk({ graphId }));
         }
 
         // 質問 node を作成し、pane.headNodeId を更新
@@ -63,14 +63,16 @@ export const submitQuestion =
             })
         );
 
-        // タイトルを非同期で生成
+        // nodeTitle は毎回生成。初回質問のみ、nodeTitle 生成後にグラフタイトルも更新
         (async () => {
             await dispatch(
                 generateNodeTitleThunk({
                     nodeId: questionNode.nodeId,
                 })
             );
-            dispatch(generateGraphTitleThunk({ graphId }));
+            if (isFirstQuestion) {
+                dispatch(generateGraphTitleThunk({ graphId }));
+            }
         })();
 
         // 回答 node を作成し、pane.headNodeId を更新
