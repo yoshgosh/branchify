@@ -18,7 +18,7 @@ export default function GraphArea() {
     }, [dispatch, openPaneIds.length]);
 
     return (
-        <div className="flex-1 flex divide-x divide-border overflow-hidden">
+        <div className="flex-1 flex divide-x divide-base-3 overflow-hidden">
             {openPaneIds.map((paneId) => (
                 <GraphPane key={paneId} paneId={paneId} isFocused={paneId === focusedPaneId} />
             ))}

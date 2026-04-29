@@ -19,7 +19,7 @@ function Question({ node }: { node: Node }) {
 
     return (
         <div className="flex justify-end">
-            <div className="bg-bg-muted px-4 py-2 rounded-[20px] max-w-[70%] text-left wrap-break-word whitespace-pre-wrap">
+            <div className="bg-base-2 px-4 py-2 rounded-[20px] max-w-[70%] text-left wrap-break-word whitespace-pre-wrap">
                 {content}
             </div>
         </div>
@@ -41,7 +41,7 @@ function Answer({
     return (
         <div
             className={`p-4 mb-4 rounded-[20px] w-full text-left cursor-pointer
-              ${isHead ? 'border-2 border-graph-head' : 'border-2 border-transparent'}`}
+              ${isHead ? 'border-2 border-base-9' : 'border-2 border-transparent'}`}
             onClick={setAsHead}
         >
             <Markdown content={content} />

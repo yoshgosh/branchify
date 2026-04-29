@@ -6,10 +6,10 @@ export function TurnEdge({ sourceX, sourceY, targetX, targetY, data }: EdgeProps
     const { isVisible, isActive } = data || {};
 
     const stroke = isVisible
-        ? 'var(--color-graph-visible)'
+        ? 'var(--color-base-9)'
         : isActive
-          ? 'var(--color-graph-active)'
-          : 'var(--color-graph-inactive)';
+          ? 'var(--color-base-5)'
+          : 'var(--color-base-3)';
 
     const childX = sourceX;
     const childY = sourceY;

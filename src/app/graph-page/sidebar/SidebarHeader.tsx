@@ -14,7 +14,7 @@ export default function SidebarHeader() {
 
     return (
         <div className="p-4 px-6 cursor-pointer" onClick={handleClick}>
-            <BranchifyLogo width={18} height={30} color="var(--color-graph-head)" />
+            <BranchifyLogo width={18} height={30} color="var(--color-base-9)" />
         </div>
     );
 }

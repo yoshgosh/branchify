@@ -108,7 +108,7 @@ export default function GraphPane({ paneId, isFocused }: GraphPaneProps) {
 
     return (
         <div
-            className="flex flex-col w-full h-full divide-y divide-border-muted overflow-hidden"
+            className="flex flex-col w-full h-full divide-y divide-base-3 overflow-hidden"
             onClick={handlePaneClick}
         >
             <GraphPaneHeader
@@ -145,7 +145,7 @@ export default function GraphPane({ paneId, isFocused }: GraphPaneProps) {
                             containerRef={containerRef}
                             contentRef={contentRef}
                         />
-                        <div className="pointer-events-none absolute bottom-0 left-0 w-full h-8 bg-linear-to-b from-transparent to-bg" />
+                        <div className="pointer-events-none absolute bottom-0 left-0 w-full h-8 bg-linear-to-b from-transparent to-base-0" />
                     </div>
 
                     <div className="w-full max-w-3xl">

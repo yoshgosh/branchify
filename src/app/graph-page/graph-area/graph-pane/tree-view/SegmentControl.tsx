@@ -15,7 +15,7 @@ export default function SegmentControl({ value, onChange }: SegmentControlProps)
         <div
             style={{
                 display: 'flex',
-                backgroundColor: 'var(--color-bg-muted)',
+                backgroundColor: 'var(--color-base-1)',
                 borderRadius: '6px',
                 padding: '2px',
                 gap: '2px',
@@ -33,11 +33,10 @@ export default function SegmentControl({ value, onChange }: SegmentControlProps)
                         border: 'none',
                         cursor: 'pointer',
                         transition: 'all 0.15s ease',
-                        backgroundColor: value === option.value ? 'var(--color-bg)' : 'transparent',
+                        backgroundColor:
+                            value === option.value ? 'var(--color-base-0)' : 'transparent',
                         color:
-                            value === option.value
-                                ? 'var(--color-text)'
-                                : 'var(--color-text-muted)',
+                            value === option.value ? 'var(--color-base-9)' : 'var(--color-base-6)',
                         boxShadow: value === option.value ? '0 1px 2px rgba(0, 0, 0, 0.1)' : 'none',
                     }}
                 >

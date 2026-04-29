@@ -5,7 +5,7 @@ import Sidebar from './sidebar/Sidebar';
 
 export default function GraphChatPage() {
     return (
-        <div className="h-screen flex divide-x divide-border overflow-hidden">
+        <div className="h-screen flex divide-x divide-base-3 overflow-hidden">
             <Sidebar />
             <GraphArea />
         </div>

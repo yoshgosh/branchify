@@ -48,10 +48,10 @@ export default function InputBox({
 
     return (
         <div className="w-full px-4 pb-4">
-            <div className="border border-border-muted rounded-[20px] w-full bg-bg-muted gap-1">
+            <div className="border border-base-3 rounded-[20px] w-full bg-base-1 gap-1">
                 <textarea
                     ref={textareaRef}
-                    className="w-full px-4 pt-3 text-sm bg-transparent resize-none outline-none overflow-hidden"
+                    className="w-full px-4 pt-3 bg-transparent resize-none outline-none overflow-hidden"
                     rows={1}
                     value={value}
                     onChange={(e) => onChange(e.target.value)}
@@ -64,7 +64,7 @@ export default function InputBox({
                     <button
                         onClick={handleSend}
                         disabled={!canSubmit}
-                        className="w-[30px] h-[30px] rounded-full bg-graph-head text-bg flex items-center justify-center disabled:opacity-50"
+                        className="w-[30px] h-[30px] rounded-full bg-base-9 text-base-0 flex items-center justify-center disabled:opacity-50"
                     >
                         {/* Send icon placeholder */}
                     </button>

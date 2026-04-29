@@ -2,62 +2,49 @@
 /* @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap"); */
 
 :root {
-    /* 背景 */
-    --color-bg-default: #ffffff;
-    --color-bg-muted-value: #f5f5f5;
-
-    /* 文字 */
-    --color-text-default: #1f1f1f;
-    --color-text-muted-value: #7b7b7b;
-
-    /* 枠線 */
-    --color-border-default: #d4d4d4;
-    --color-border-muted-value: #ececec;
-
-    /* グラフ状態色（モノトーン） */
-    --color-graph-head-value: #000000;
-    --color-graph-visible-value: #000000;
-    --color-graph-active-value: #909090;
-    --color-graph-inactive-value: #dadada;
+    --color-base-0-value: var(--color-white);
+    --color-base-1-value: var(--color-gray-50);
+    --color-base-2-value: var(--color-gray-100);
+    --color-base-3-value: var(--color-gray-200);
+    --color-base-4-value: var(--color-gray-300);
+    --color-base-5-value: var(--color-gray-400);
+    --color-base-6-value: var(--color-gray-500);
+    --color-base-7-value: var(--color-gray-600);
+    --color-base-8-value: var(--color-gray-800);
+    --color-base-9-value: var(--color-black);
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --color-bg-default: #0f0f0f;
-        --color-bg-muted-value: #202020;
-
-        --color-text-default: #e8e8e8;
-        --color-text-muted-value: #bababa;
-
-        --color-border-default: #575757;
-        --color-border-muted-value: #454545;
-
-        --color-graph-head-value: #ffffff;
-        --color-graph-visible-value: #ffffff;
-        --color-graph-active-value: #6c6c6c;
-        --color-graph-inactive-value: #313131;
+        --color-base-0-value: var(--color-black);
+        --color-base-1-value: var(--color-gray-950);
+        --color-base-2-value: var(--color-gray-900);
+        --color-base-3-value: var(--color-gray-800);
+        --color-base-4-value: var(--color-gray-700);
+        --color-base-5-value: var(--color-gray-500);
+        --color-base-6-value: var(--color-gray-400);
+        --color-base-7-value: var(--color-gray-300);
+        --color-base-8-value: var(--color-gray-100);
+        --color-base-9-value: var(--color-white);
     }
 }
 
 @theme inline {
-    --color-bg: var(--color-bg-default);
-    --color-bg-muted: var(--color-bg-muted-value);
-
-    --color-text: var(--color-text-default);
-    --color-text-muted: var(--color-text-muted-value);
-
-    --color-border: var(--color-border-default);
-    --color-border-muted: var(--color-border-muted-value);
-
-    --color-graph-head: var(--color-graph-head-value);
-    --color-graph-visible: var(--color-graph-visible-value);
-    --color-graph-active: var(--color-graph-active-value);
-    --color-graph-inactive: var(--color-graph-inactive-value);
+    --color-base-0: var(--color-base-0-value);
+    --color-base-1: var(--color-base-1-value);
+    --color-base-2: var(--color-base-2-value);
+    --color-base-3: var(--color-base-3-value);
+    --color-base-4: var(--color-base-4-value);
+    --color-base-5: var(--color-base-5-value);
+    --color-base-6: var(--color-base-6-value);
+    --color-base-7: var(--color-base-7-value);
+    --color-base-8: var(--color-base-8-value);
+    --color-base-9: var(--color-base-9-value);
 }
 
 body {
-    color: var(--color-text-default);
-    background: var(--color-bg-default);
+    color: var(--color-base-9);
+    background: var(--color-base-0);
     /* font-family: "Noto Sans JP", sans-serif; */
     font-family: Arial, sans-serif;
 }

@@ -7,10 +7,10 @@ export function TurnNode({ data }: NodeProps<TurnNodeType>) {
     const { isHead, isActive, isVisible } = data;
 
     const borderColor = isVisible
-        ? 'var(--color-graph-visible)'
+        ? 'var(--color-base-9)'
         : isActive
-          ? 'var(--color-graph-active)'
-          : 'var(--color-graph-inactive)';
+          ? 'var(--color-base-5)'
+          : 'var(--color-base-3)';
 
     const size = 20;
     const logoWidth = size;

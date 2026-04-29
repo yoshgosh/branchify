@@ -15,7 +15,7 @@ export default function Sidebar() {
     }, [dispatch]);
 
     return (
-        <div className="w-64 flex-shrink-0 h-full bg-bg-muted">
+        <div className="w-64 shrink-0 h-full bg-base-2">
             <SidebarHeader />
             <GraphMenu />
             <UserMenu />

@@ -16,7 +16,7 @@ export default function GraphPaneHeader({
     onClose,
 }: GraphPaneHeaderProps) {
     return (
-        <div className="px-4 py-2 bg-bg text-sm font-medium text-text-muted flex items-center justify-between">
+        <div className="px-4 py-2 bg-base-0 text-sm font-medium text-base-6 flex items-center justify-between">
             <div className="flex items-center gap-x-4">
                 <div className={`${isFocused ? 'font-bold' : 'font-medium'}`}>
                     {graphTitle || 'New Graph'}
@@ -31,7 +31,7 @@ export default function GraphPaneHeader({
                     e.stopPropagation();
                     onClose();
                 }}
-                className="text-lg text-muted hover:text-destructive transition"
+                className="text-lg text-base-6 hover:text-destructive transition"
             >
                 ×
             </button>
