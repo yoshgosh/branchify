@@ -3,28 +3,28 @@
 
 :root {
     --color-base-0-value: var(--color-white);
-    --color-base-1-value: var(--color-gray-50);
-    --color-base-2-value: var(--color-gray-100);
-    --color-base-3-value: var(--color-gray-200);
-    --color-base-4-value: var(--color-gray-300);
-    --color-base-5-value: var(--color-gray-400);
-    --color-base-6-value: var(--color-gray-500);
-    --color-base-7-value: var(--color-gray-600);
-    --color-base-8-value: var(--color-gray-800);
+    --color-base-1-value: var(--color-zinc-50);
+    --color-base-2-value: var(--color-zinc-100);
+    --color-base-3-value: var(--color-zinc-200);
+    --color-base-4-value: var(--color-zinc-300);
+    --color-base-5-value: var(--color-zinc-400);
+    --color-base-6-value: var(--color-zinc-500);
+    --color-base-7-value: var(--color-zinc-600);
+    --color-base-8-value: var(--color-zinc-800);
     --color-base-9-value: var(--color-black);
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
         --color-base-0-value: var(--color-black);
-        --color-base-1-value: var(--color-gray-950);
-        --color-base-2-value: var(--color-gray-900);
-        --color-base-3-value: var(--color-gray-800);
-        --color-base-4-value: var(--color-gray-700);
-        --color-base-5-value: var(--color-gray-500);
-        --color-base-6-value: var(--color-gray-400);
-        --color-base-7-value: var(--color-gray-300);
-        --color-base-8-value: var(--color-gray-100);
+        --color-base-1-value: var(--color-zinc-950);
+        --color-base-2-value: var(--color-zinc-900);
+        --color-base-3-value: var(--color-zinc-800);
+        --color-base-4-value: var(--color-zinc-700);
+        --color-base-5-value: var(--color-zinc-500);
+        --color-base-6-value: var(--color-zinc-400);
+        --color-base-7-value: var(--color-zinc-300);
+        --color-base-8-value: var(--color-zinc-100);
         --color-base-9-value: var(--color-white);
     }
 }
@@ -43,7 +43,7 @@
 }
 
 body {
-    color: var(--color-base-9);
+    color: var(--color-base-8);
     background: var(--color-base-0);
     /* font-family: "Noto Sans JP", sans-serif; */
     font-family: Arial, sans-serif;

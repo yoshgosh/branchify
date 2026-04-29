@@ -4,7 +4,8 @@ import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { oneLight, oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { useDarkMode } from '@/app/hooks/useDarkMode';
 import '@/app/styles/markdown.css';
 
 const oneLightNoBackground = Object.fromEntries(
@@ -14,8 +15,16 @@ const oneLightNoBackground = Object.fromEntries(
     })
 );
 
+const oneDarkNoBackground = Object.fromEntries(
+    Object.entries(oneDark).map(([key, value]) => {
+        const { background: _bg, backgroundColor: _bgc, ...rest } = value as React.CSSProperties;
+        return [key, rest];
+    })
+);
+
 function CodeBlock({ language, children }: { language: string; children: string }) {
     const [copied, setCopied] = useState(false);
+    const isDark = useDarkMode();
 
     const handleCopy = async () => {
         await navigator.clipboard.writeText(children);
@@ -57,7 +66,7 @@ function CodeBlock({ language, children }: { language: string; children: string 
                 </button>
             </div>
             <SyntaxHighlighter
-                style={oneLightNoBackground}
+                style={isDark ? oneDarkNoBackground : oneLightNoBackground}
                 language={language || 'text'}
                 PreTag="div"
                 customStyle={{
