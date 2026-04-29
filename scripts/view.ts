@@ -14,6 +14,10 @@ async function viewData() {
             console.log('🔴 Users:', JSON.stringify(users, null, 2));
             console.log();
 
+            const accounts = await db().select().from(schema.accounts);
+            console.log('🟣 Accounts:', JSON.stringify(accounts, null, 2));
+            console.log();
+
             const graphs = await db().select().from(schema.graphs);
             console.log('🟠 Graphs:', JSON.stringify(graphs, null, 2));
             console.log();
@@ -30,6 +34,10 @@ async function viewData() {
                     const users = await db().select().from(schema.users);
                     console.log(JSON.stringify(users, null, 2));
                     break;
+                case 'accounts':
+                    const accounts = await db().select().from(schema.accounts);
+                    console.log(JSON.stringify(accounts, null, 2));
+                    break;
                 case 'graphs':
                     const graphs = await db().select().from(schema.graphs);
                     console.log(JSON.stringify(graphs, null, 2));
@@ -44,7 +52,7 @@ async function viewData() {
                     break;
                 default:
                     console.error(`❌ Unknown table: ${tableName}`);
-                    console.log('Available tables: users, graphs, nodes, edges');
+                    console.log('Available tables: users, accounts, graphs, nodes, edges');
                     process.exit(1);
             }
         }

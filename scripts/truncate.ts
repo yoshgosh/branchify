@@ -9,7 +9,7 @@ async function truncate() {
         console.log('Truncating all tables...');
 
         await db().execute(sql`
-            TRUNCATE TABLE users, graphs, nodes, edges CASCADE
+            TRUNCATE TABLE users, accounts, graphs, nodes, edges CASCADE
         `);
 
         console.log('✅ All tables truncated successfully');

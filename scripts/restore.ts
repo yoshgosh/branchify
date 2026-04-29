@@ -80,7 +80,7 @@ async function restore() {
 
         // リストア前にデータを削除（外部キー制約の順序に注意）
         console.log('Clearing existing data...');
-        const truncateCommand = `psql -h ${host} -p ${port} -U ${user} -d ${database} -c "TRUNCATE TABLE edges, nodes, graphs, users CASCADE;"`;
+        const truncateCommand = `psql -h ${host} -p ${port} -U ${user} -d ${database} -c "TRUNCATE TABLE edges, nodes, graphs, accounts, users CASCADE;"`;
         await execAsync(truncateCommand, { env });
 
         // リストア実行

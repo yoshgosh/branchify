@@ -3,6 +3,7 @@ import {
     pgTable,
     text,
     timestamp,
+    integer,
     index,
     unique,
     check,
@@ -30,14 +31,35 @@ const timestamps = {
     updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 };
 
-export const users = pgTable(
-    'users',
+export const users = pgTable('users', {
+    userId: primaryUuid('user_id'),
+    name: text('name').notNull(),
+    email: text('email').notNull().unique(),
+    emailVerified: timestamp('email_verified', { withTimezone: true }),
+    image: text('image'),
+    openaiApiKey: text('openai_api_key'),
+    ...timestamps,
+});
+
+export const accounts = pgTable(
+    'accounts',
     {
-        userId: primaryUuid('user_id'),
-        name: text('name').notNull(),
+        id: primaryUuid('id'),
+        userId: uuid('user_id')
+            .notNull()
+            .references(() => users.userId, { onDelete: 'cascade' }),
+        type: text('type').notNull(),
+        provider: text('provider').notNull(),
+        providerAccountId: text('provider_account_id').notNull(),
+        refresh_token: text('refresh_token'),
+        access_token: text('access_token'),
+        expires_at: integer('expires_at'),
+        token_type: text('token_type'),
+        scope: text('scope'),
+        id_token: text('id_token'),
         ...timestamps,
     },
-    (table) => [unique('users_name_idx').on(table.name)]
+    (table) => [unique('accounts_provider_unique').on(table.provider, table.providerAccountId)]
 );
 
 export const graphs = pgTable('graphs', {

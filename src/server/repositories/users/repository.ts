@@ -10,6 +10,12 @@ import {
     type UserUpdateInput,
 } from './models';
 
+export async function findByEmail(d: DBLike, email: string): Promise<User | null> {
+    const rows = await d.select().from(users).where(eq(users.email, email)).limit(1);
+    const row = rows[0];
+    return row ? UserSchema.parse(row) : null;
+}
+
 export async function findById(d: DBLike, userId: string): Promise<User | null> {
     const rows = await d.select().from(users).where(eq(users.userId, userId)).limit(1);
 

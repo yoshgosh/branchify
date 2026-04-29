@@ -17,6 +17,7 @@ async function seedUser() {
             .values({
                 userId,
                 name: 'Test User',
+                email: 'test@example.com',
             })
             .returning();
 
