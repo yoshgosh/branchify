@@ -90,8 +90,8 @@ export default function GraphPane({ paneId, isFocused }: GraphPaneProps) {
     };
 
     const handleSubmit = async (question: string) => {
-        const { questionNodeId } = await dispatch(submitQuestion(paneId, question));
         dispatch(updatePane({ paneId, data: { inputText: '' } }));
+        const { questionNodeId } = await dispatch(submitQuestion(paneId, question));
 
         scrollToNode(questionNodeId, {
             behavior: 'smooth',
