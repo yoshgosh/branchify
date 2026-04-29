@@ -7,10 +7,10 @@ import { selectNodesByGraphId, nodeSelectors } from '@/client/store/features/nod
 import { selectEdgesByGraphId } from '@/client/store/features/edges/selectors';
 import { graphSelectors } from '@/client/store/features/graphs/selectors';
 import { useScroll } from '@/app/hooks/useScroll';
-import { openPane } from '@/client/store/use-cases/panes/open-pane';
-import { closePane } from '@/client/store/use-cases/panes/close-pane';
-import { activateNode } from '@/client/store/use-cases/panes/activate-node';
-import { submitQuestion } from '@/client/store/use-cases/questions/submit-question';
+import { openPane } from '@/client/store/usecases/panes/open-pane';
+import { closePane } from '@/client/store/usecases/panes/close-pane';
+import { activateNode } from '@/client/store/usecases/panes/activate-node';
+import { submitQuestion } from '@/client/store/usecases/questions/submit-question';
 import GraphPaneHeader from './GraphPaneHeader';
 import TreeView from './tree-view/TreeView';
 import ChatView from './chat-view/ChatView';

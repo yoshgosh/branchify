@@ -1,4 +1,4 @@
-// headNodeId / activeNodeIds は、 null または graphId の graph に属する node の id　であることを use-cases で保証する
+// headNodeId / activeNodeIds は、 null または graphId の graph に属する node の id　であることを usecases で保証する
 // graphId が null でなくとも、 headNodeId / activeNodeIds が null または空配列であることは正常な状態である
 // activeNodesIds はUIからのみ変更、参照される（将来的に移動される可能性がある）
 export type Pane = {

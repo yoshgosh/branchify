@@ -1,4 +1,4 @@
-import type { Ctx } from '@/server/use-cases/common/context';
+import type { Ctx } from '@/server/usecases/common/context';
 import type { Graph } from '@/shared/entities/graph';
 import * as GraphRepo from '@/server/repositories/graphs/repository';
 import { withTransaction } from '@/server/db/transaction';

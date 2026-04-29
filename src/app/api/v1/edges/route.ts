@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ListEdgesQuerySchema, ListEdgesRes } from '@/shared/api/contracts/v1';
 import { toEdgeDto } from '@/shared/api/models';
-import { listEdgesByGraph } from '@/server/use-cases/edges';
+import { listEdgesByGraph } from '@/server/usecases/edges';
 import { getCtx } from '@/server/libs/auth';
 
 export async function GET(req: NextRequest): Promise<NextResponse<ListEdgesRes>> {

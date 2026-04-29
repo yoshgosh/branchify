@@ -1,4 +1,4 @@
-import type { Ctx } from '@/server/use-cases/common/context';
+import type { Ctx } from '@/server/usecases/common/context';
 import type { Node } from '@/shared/entities/node';
 import { withTransaction } from '@/server/db/transaction';
 import * as NodeRepo from '@/server/repositories/nodes/repository';

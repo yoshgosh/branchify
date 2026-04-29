@@ -21,7 +21,7 @@ import { selectNodeIdsByGraphId } from '@/client/store/features/nodes/selectors'
 import { activateNode } from './activate-node';
 
 // paneData および paneData のプロパティについて、 undefined は未指定、null は空値の指定を意味し、厳格に区別する
-// pane.graphId, pane.headNodeId の関係については use-cases 内で保証する上、防御的ガードも行う
+// pane.graphId, pane.headNodeId の関係については usecases 内で保証する上、防御的ガードも行う
 // 各 id が空文字列でないことは保証されている
 export const openPane =
     (paneData?: Partial<Omit<Pane, 'paneId'>>, forceAdd = false, forceCreate = false): AppThunk =>

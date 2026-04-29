@@ -1,4 +1,4 @@
-import type { Ctx } from '@/server/use-cases/common/context';
+import type { Ctx } from '@/server/usecases/common/context';
 import type { Edge } from '@/shared/entities/edge';
 import * as EdgeRepo from '@/server/repositories/edges/repository';
 import { withTransaction } from '@/server/db/transaction';

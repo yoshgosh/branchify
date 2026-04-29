@@ -1,4 +1,4 @@
-import { Ctx } from '@/server/use-cases/common';
+import { Ctx } from '@/server/usecases/common';
 
 export async function getCtx(): Promise<Ctx> {
     // TODO: 実装

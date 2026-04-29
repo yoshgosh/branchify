@@ -6,7 +6,7 @@ import {
     CreateNodeRes,
 } from '@/shared/api/contracts/v1';
 import { toNodeDto, mapMessageFromDto, toEdgeDto } from '@/shared/api/models';
-import { listNodesByGraph, createNode } from '@/server/use-cases/nodes';
+import { listNodesByGraph, createNode } from '@/server/usecases/nodes';
 import { getCtx } from '@/server/libs/auth';
 
 export async function GET(req: NextRequest): Promise<NextResponse<ListNodesRes>> {

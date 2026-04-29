@@ -6,7 +6,7 @@ import {
     UpdateGraphRes,
 } from '@/shared/api/contracts/v1';
 import { toGraphDto } from '@/shared/api/models';
-import { updateGraph, removeGraph } from '@/server/use-cases/graphs';
+import { updateGraph, removeGraph } from '@/server/usecases/graphs';
 import { getCtx } from '@/server/libs/auth';
 
 export async function PATCH(

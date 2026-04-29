@@ -1,4 +1,4 @@
-import type { Ctx } from '@/server/use-cases/common/context';
+import type { Ctx } from '@/server/usecases/common/context';
 import type { BaseMessage } from '@langchain/core/messages';
 import { AIMessage, AIMessageChunk } from '@langchain/core/messages';
 import * as NodeRepo from '@/server/repositories/nodes/repository';

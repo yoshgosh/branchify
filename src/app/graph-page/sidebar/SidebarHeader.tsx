@@ -1,7 +1,7 @@
 'use client';
 
 import { useAppDispatch } from '@/client/store/store';
-import { openPane } from '@/client/store/use-cases/panes/open-pane';
+import { openPane } from '@/client/store/usecases/panes/open-pane';
 import { BranchifyLogo } from '@/app/components/BranchifyLogo';
 
 export default function SidebarHeader() {

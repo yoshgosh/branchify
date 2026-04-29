@@ -6,7 +6,7 @@ import {
     UpdateNodeRes,
 } from '@/shared/api/contracts/v1';
 import { toNodeDto } from '@/shared/api/models/node';
-import { updateNode, removeNode } from '@/server/use-cases/nodes';
+import { updateNode, removeNode } from '@/server/usecases/nodes';
 import { getCtx } from '@/server/libs/auth';
 
 export async function PATCH(

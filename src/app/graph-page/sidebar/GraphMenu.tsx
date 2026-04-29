@@ -2,7 +2,7 @@
 
 import { useAppDispatch, useAppSelector } from '@/client/store/store';
 import { graphSelectors } from '@/client/store/features/graphs/selectors';
-import { openPane } from '@/client/store/use-cases/panes/open-pane';
+import { openPane } from '@/client/store/usecases/panes/open-pane';
 
 interface GraphItemProps {
     graphId: string;

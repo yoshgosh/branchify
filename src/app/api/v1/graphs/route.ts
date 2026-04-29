@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { CreateGraphRes, ListGraphsRes } from '@/shared/api/contracts/v1';
 import { toGraphDto } from '@/shared/api/models';
-import { listGraphsByUser, createGraph } from '@/server/use-cases/graphs';
+import { listGraphsByUser, createGraph } from '@/server/usecases/graphs';
 import { getCtx } from '@/server/libs/auth';
 
 export async function GET(_req: NextRequest): Promise<NextResponse<ListGraphsRes>> {

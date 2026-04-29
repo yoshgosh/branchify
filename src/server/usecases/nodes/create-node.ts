@@ -1,4 +1,4 @@
-import type { Ctx } from '@/server/use-cases/common/context';
+import type { Ctx } from '@/server/usecases/common/context';
 import type { Node, Message } from '@/shared/entities/node';
 import type { Edge } from '@/shared/entities';
 import * as NodeRepo from '@/server/repositories/nodes/repository';

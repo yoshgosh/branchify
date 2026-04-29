@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { NodeIdPathSchema } from '@/shared/api/contracts/v1';
-import { generateAnswerMessage } from '@/server/use-cases/nodes/generate-answer-message';
+import { generateAnswerMessage } from '@/server/usecases/nodes/generate-answer-message';
 import { getCtx } from '@/server/libs/auth';
 
 export async function POST(_req: NextRequest, { params }: { params: Promise<unknown> }) {
