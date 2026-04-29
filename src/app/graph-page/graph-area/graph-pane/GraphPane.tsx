@@ -13,7 +13,7 @@ import { activateNode } from '@/client/store/use-cases/panes/activate-node';
 import { submitQuestion } from '@/client/store/use-cases/questions/submit-question';
 import GraphPaneHeader from './GraphPaneHeader';
 import TreeView from './tree-view/TreeView';
-import ChatView from './ChatView';
+import ChatView from './chat-view/ChatView';
 import InputBox from './InputBox';
 import { useEffect } from 'react';
 

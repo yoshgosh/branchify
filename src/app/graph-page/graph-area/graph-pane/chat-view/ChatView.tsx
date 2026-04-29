@@ -2,8 +2,7 @@
 
 import { RefObject } from 'react';
 import { Node } from '@/shared/entities/node';
-import ReactMarkdown from 'react-markdown';
-import '@/app/styles/markdown.css';
+import Markdown from './Markdown';
 
 interface ChatViewProps {
     activeNodes: Node[];
@@ -41,13 +40,11 @@ function Answer({
 
     return (
         <div
-            className={`px-4 py-2 mb-4 rounded-[20px] w-full text-left cursor-pointer
+            className={`p-4 mb-4 rounded-[20px] w-full text-left cursor-pointer
               ${isHead ? 'border-2 border-graph-head' : 'border-2 border-transparent'}`}
             onClick={setAsHead}
         >
-            <div className="markdown-content prose">
-                <ReactMarkdown>{content}</ReactMarkdown>
-            </div>
+            <Markdown content={content} />
         </div>
     );
 }
@@ -83,7 +80,6 @@ export default function ChatView({
         <div className="h-full overflow-auto scrollbar-none" ref={containerRef}>
             <div className="w-full" ref={contentRef}>
                 {activeNodes.map((node) => {
-                    // answerノードの場合のみsetAsHeadを有効にする
                     const shouldSetHead = node.type === 'answer';
                     return (
                         <Message
