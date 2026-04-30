@@ -3,15 +3,11 @@ import type { BaseMessage } from '@langchain/core/messages';
 import { AIMessage, AIMessageChunk } from '@langchain/core/messages';
 import * as NodeRepo from '@/server/repositories/nodes/repository';
 import * as EdgeRepo from '@/server/repositories/edges/repository';
+import * as UserRepo from '@/server/repositories/users/repository';
 import { withTransaction } from '@/server/db/transaction';
 import { collectContextNodes } from './utils/collect-context-nodes';
 import { ChatOpenAI } from '@langchain/openai';
-import dotenv from 'dotenv';
 
-dotenv.config();
-
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-if (!OPENAI_API_KEY) throw new Error('MISSING_ENV: OPENAI_API_KEY');
 const OPENAI_CHAT_MODEL = 'gpt-4.1-mini';
 
 export type GenerateAnswerMessageInput = {
@@ -23,7 +19,7 @@ export type GenerateAnswerMessageOutput = {
 };
 
 export async function generateAnswerMessage(
-    _ctx: Ctx,
+    ctx: Ctx,
     input: GenerateAnswerMessageInput
 ): Promise<GenerateAnswerMessageOutput> {
     // --- Node状態確認 ---
@@ -60,10 +56,13 @@ export async function generateAnswerMessage(
     }
 
     // --- LLMストリーム生成 ---
+    const user = await withTransaction(async (tx) => UserRepo.findById(tx, ctx.userId));
+    if (!user?.openaiApiKey) throw new Error('APIキーが未登録です');
+
     const llm = new ChatOpenAI({
         model: OPENAI_CHAT_MODEL,
         streaming: true,
-        apiKey: OPENAI_API_KEY,
+        apiKey: user.openaiApiKey,
     });
     const llmStream = await llm.stream(contextMessages);
 

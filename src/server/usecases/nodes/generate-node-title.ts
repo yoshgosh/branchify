@@ -2,15 +2,11 @@ import type { Ctx } from '@/server/usecases/common/context';
 import type { Node } from '@/shared/entities/node';
 import { withTransaction } from '@/server/db/transaction';
 import * as NodeRepo from '@/server/repositories/nodes/repository';
+import * as UserRepo from '@/server/repositories/users/repository';
 import { ChatOpenAI } from '@langchain/openai';
 import { ChatPromptTemplate } from '@langchain/core/prompts';
 import { z } from 'zod';
-import dotenv from 'dotenv';
 
-dotenv.config();
-
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-if (!OPENAI_API_KEY) throw new Error('MISSING_ENV: OPENAI_API_KEY');
 const OPENAI_CHAT_MODEL = 'gpt-4.1-nano';
 
 // 構造化アウトプット用のスキーマ
@@ -22,7 +18,7 @@ export type GenerateNodeTitleInput = { nodeId: string };
 export type GenerateNodeTitleOutput = { node: Node };
 
 export async function generateNodeTitle(
-    _ctx: Ctx,
+    ctx: Ctx,
     input: GenerateNodeTitleInput
 ): Promise<GenerateNodeTitleOutput> {
     // node を取得
@@ -49,9 +45,12 @@ export async function generateNodeTitle(
     const contentText = typeof content === 'string' ? content : JSON.stringify(content);
 
     // LLMで title を生成
+    const user = await withTransaction(async (tx) => UserRepo.findById(tx, ctx.userId));
+    if (!user?.openaiApiKey) throw new Error('APIキーが未登録です');
+
     const llm = new ChatOpenAI({
         model: OPENAI_CHAT_MODEL,
-        apiKey: OPENAI_API_KEY,
+        apiKey: user.openaiApiKey,
     });
 
     const structuredLlm = llm.withStructuredOutput(TitleSchema);
