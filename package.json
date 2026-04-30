@@ -12,7 +12,6 @@
         "format:check": "prettier --check .",
         "db:generate": "drizzle-kit generate",
         "db:migrate": "drizzle-kit migrate",
-        "db:seed": "tsx scripts/seed.ts",
         "db:truncate": "tsx scripts/truncate.ts",
         "db:view": "tsx scripts/view.ts",
         "db:backup": "tsx scripts/backup.ts",
