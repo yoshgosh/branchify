@@ -77,16 +77,19 @@ accounts:
 ### 2-1. パッケージインストール
 
 ```bash
-npm install next-auth@5 @auth/drizzle-adapter
+npm install next-auth@5
 ```
 
 ### 2-2. 設定ファイル作成
 
 **`src/auth.ts`** — Auth.js メイン設定
 - Google プロバイダー
-- Drizzle アダプター（カスタムスキーマを渡す）
+- Drizzle アダプターは使用しない（後述の変更履歴を参照）
 - JWT セッション戦略
-- コールバック: JWT に userId を含める
+- コールバック:
+  - `signIn`: `UserRepo.findByEmail()` でユーザーを検索し、未登録なら `UserRepo.create()` で作成
+  - `jwt`: token に `userId` を追加
+  - `session`: `session.user.id = token.userId` にマッピング
 
 **`src/app/api/auth/[...nextauth]/route.ts`** — API ルートハンドラー
 - `handlers` を export
@@ -271,3 +274,27 @@ AUTH_SECRET=<同上>
 |---|---|
 | `OPENAI_API_KEY` | DBから取得する方式に変更 |
 | `DEV_USER_ID` | Auth.jsでセッションから取得 |
+
+---
+
+## 変更履歴
+
+### 2026-04-30
+
+#### フェーズ2: `@auth/drizzle-adapter` を不使用に変更
+
+**変更前:**
+```bash
+npm install next-auth@5 @auth/drizzle-adapter
+```
+`src/auth.ts` で `DrizzleAdapter` を使用し、Drizzle スキーマをアダプターに渡す。
+
+**変更後:**
+```bash
+npm install next-auth@5
+```
+アダプターを使用せず、Auth.js コールバックで直接 `UserRepo` を呼ぶ。
+
+**理由:**  
+`@auth/drizzle-adapter` は users テーブルの PK カラム名として `id` を期待しているが、本プロジェクトのスキーマは `userId`（DB: `user_id`）を使用している。アダプター内部が `{ id: "..." }` で insert/select するため、そのままでは動作しない。  
+スキーマ側を `id` に合わせる変更も考えられるが、既存コード全体への影響が大きい。JWT 戦略ではアダプターの担う役割（セッションの永続化）がそもそも不要なため、`signIn` / `jwt` / `session` コールバックで UserRepo を直接操作する方式が簡潔かつ安全。

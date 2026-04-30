@@ -15,9 +15,11 @@ export default function Sidebar() {
     }, [dispatch]);
 
     return (
-        <div className="w-64 shrink-0 h-full bg-base-2">
+        <div className="w-64 shrink-0 h-full bg-base-2 flex flex-col">
             <SidebarHeader />
-            <GraphMenu />
+            <div className="flex-1 overflow-y-auto">
+                <GraphMenu />
+            </div>
             <UserMenu />
         </div>
     );

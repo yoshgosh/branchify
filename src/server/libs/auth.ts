@@ -1,6 +1,11 @@
-import { Ctx } from '@/server/usecases/common';
+import 'server-only';
+import { auth } from '@/auth';
+import type { Ctx } from '@/server/usecases/common';
 
 export async function getCtx(): Promise<Ctx> {
-    // TODO: 実装
-    return { userId: process.env.DEV_USER_ID! };
+    const session = await auth();
+    if (!session?.user?.id) {
+        throw new Error('Unauthorized');
+    }
+    return { userId: session.user.id };
 }

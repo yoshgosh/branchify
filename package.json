@@ -16,7 +16,8 @@
         "db:truncate": "tsx scripts/truncate.ts",
         "db:view": "tsx scripts/view.ts",
         "db:backup": "tsx scripts/backup.ts",
-        "db:restore": "tsx scripts/restore.ts"
+        "db:restore": "tsx scripts/restore.ts",
+        "db:set-openai-key": "tsx scripts/set-openai-api-key.ts"
     },
     "dependencies": {
         "@langchain/core": "^1.0.4",
@@ -25,6 +26,7 @@
         "dotenv": "^17.2.3",
         "drizzle-orm": "^0.44.7",
         "next": "^16.1.1",
+        "next-auth": "^5.0.0-beta.31",
         "pg": "^8.16.3",
         "react": "19.2.0",
         "react-dom": "19.2.0",
