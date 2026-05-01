@@ -13,8 +13,10 @@ export default function SidebarHeader() {
     };
 
     return (
-        <div className="p-4 px-6 cursor-pointer" onClick={handleClick}>
-            <BranchifyIcon size={30} color="var(--color-base-9)" />
+        <div className="p-2">
+            <button className="p-2 rounded-lg cursor-pointer hover:bg-base-3" onClick={handleClick}>
+                <BranchifyIcon size={25} color="var(--color-base-9)" />
+            </button>
         </div>
     );
 }
