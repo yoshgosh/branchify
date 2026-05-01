@@ -19,7 +19,7 @@ function GraphItem({ graphId }: GraphItemProps) {
 
     return (
         <li
-            className="px-3 py-2 rounded hover:bg-base-0 cursor-pointer text-sm truncate"
+            className="px-3 py-2 rounded hover:bg-base-3 cursor-pointer text-sm truncate"
             onClick={handleClick}
             title={graph?.title ?? 'New Graph'}
         >
