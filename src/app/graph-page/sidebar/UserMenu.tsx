@@ -10,7 +10,7 @@ export default function UserMenu() {
     const { name, image } = session.user;
 
     return (
-        <div className="mt-auto border-t border-base-3 p-4">
+        <div className="mt-auto p-4">
             <div className="mb-3 flex items-center gap-2 overflow-hidden">
                 {image ? (
                     <Image
