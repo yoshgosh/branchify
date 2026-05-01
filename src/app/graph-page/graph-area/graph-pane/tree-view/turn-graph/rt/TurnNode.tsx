@@ -1,6 +1,6 @@
 import React from 'react';
 import { Handle, NodeProps, Position } from 'reactflow';
-import { BranchifyLogo } from '@/app/components/BranchifyLogo';
+import { BranchifyIcon } from '@/app/components/BranchifyIcon';
 import { TurnNode as TurnNodeType } from '../../models';
 
 export function TurnNode({ data }: NodeProps<TurnNodeType>) {
@@ -13,8 +13,7 @@ export function TurnNode({ data }: NodeProps<TurnNodeType>) {
           : 'var(--color-base-3)';
 
     const size = 20;
-    const logoWidth = size;
-    const logoHeight = (logoWidth * 5) / 3;
+    const iconSize = Math.round((size * 5) / 3);
 
     return (
         <div
@@ -56,14 +55,14 @@ export function TurnNode({ data }: NodeProps<TurnNodeType>) {
                             top: '50%',
                             left: '50%',
                             transform: 'translate(-50%, -50%)',
-                            width: logoWidth,
-                            height: logoWidth,
+                            width: size,
+                            height: size,
                             borderRadius: '50%',
                             backgroundColor: 'var(--color-base-0)',
                             zIndex: -1,
                         }}
                     />
-                    <BranchifyLogo width={logoWidth} height={logoHeight} color={borderColor} />
+                    <BranchifyIcon size={iconSize} color={borderColor} />
                 </div>
             )}
 

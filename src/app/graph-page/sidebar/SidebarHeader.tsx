@@ -2,7 +2,7 @@
 
 import { useAppDispatch } from '@/client/store/store';
 import { openPane } from '@/client/store/usecases/panes/open-pane';
-import { BranchifyLogo } from '@/app/components/BranchifyLogo';
+import { BranchifyIcon } from '@/app/components/BranchifyIcon';
 
 export default function SidebarHeader() {
     const dispatch = useAppDispatch();
@@ -14,7 +14,7 @@ export default function SidebarHeader() {
 
     return (
         <div className="p-4 px-6 cursor-pointer" onClick={handleClick}>
-            <BranchifyLogo width={18} height={30} color="var(--color-base-9)" />
+            <BranchifyIcon size={30} color="var(--color-base-9)" />
         </div>
     );
 }

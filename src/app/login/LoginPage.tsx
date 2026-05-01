@@ -1,14 +1,14 @@
 'use client';
 
 import { signIn } from 'next-auth/react';
-import { BranchifyLogo } from '@/app/components/BranchifyLogo';
+import { BranchifyIcon } from '@/app/components/BranchifyIcon';
 import { FcGoogle } from "react-icons/fc";
 
 export default function LoginPage() {
     return (
         <div className="flex h-screen items-center justify-center bg-base-1">
             <div className="flex flex-col items-center gap-8">
-                <BranchifyLogo width={48} height={80} color="var(--color-base-9)" />
+                <BranchifyIcon size={80} color="var(--color-base-9)" />
                 <h1 className="text-2xl font-semibold tracking-tight text-base-9">Branchify</h1>
                 <button
                     onClick={() => signIn('google')}

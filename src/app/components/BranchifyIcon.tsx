@@ -1,12 +1,11 @@
-interface BranchifyLogoProps {
-    width?: number;
-    height?: number;
+interface BranchifyIconProps {
+    size?: number;
     color?: string;
 }
 
-export function BranchifyLogo({ color = '#000', width = 60, height = 100 }: BranchifyLogoProps) {
+export function BranchifyIcon({ color = '#000', size = 60 }: BranchifyIconProps) {
     return (
-        <svg width={width} height={height} viewBox="0 0 300 500" xmlns="http://www.w3.org/2000/svg">
+        <svg width={size} height={size} viewBox="-100 0 500 500" xmlns="http://www.w3.org/2000/svg">
             <defs>
                 <mask id="branchify-logo" x="0" y="0" width="300" height="500">
                     <rect width="300" height="500" fill="black" />
