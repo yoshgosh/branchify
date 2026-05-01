@@ -7,6 +7,8 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneLight, oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useDarkMode } from '@/app/hooks/useDarkMode';
 import '@/app/styles/markdown.css';
+import { MdCode, MdContentCopy, MdCheck } from "react-icons/md";
+
 
 const oneLightNoBackground = Object.fromEntries(
     Object.entries(oneLight).map(([key, value]) => {
@@ -36,16 +38,7 @@ function CodeBlock({ language, children }: { language: string; children: string 
         <div className="code-block-wrapper">
             <div className="code-block-header">
                 <div className="code-block-lang">
-                    <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        className="code-block-lang-icon"
-                    >
-                        <polyline points="16 18 22 12 16 6" />
-                        <polyline points="8 6 2 12 8 18" />
-                    </svg>
+                    <MdCode className="code-block-lang-icon" />
                     <span>{language || 'text'}</span>
                 </div>
                 <button
@@ -54,14 +47,9 @@ function CodeBlock({ language, children }: { language: string; children: string 
                     title={copied ? 'Copied!' : 'Copy code'}
                 >
                     {copied ? (
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <polyline points="20 6 9 17 4 12" />
-                        </svg>
+                        <MdCheck />
                     ) : (
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                        </svg>
+                        <MdContentCopy />
                     )}
                 </button>
             </div>
