@@ -2,7 +2,7 @@
 
 import { useAppDispatch, useAppSelector } from '@/client/store/store';
 import { graphSelectors } from '@/client/store/features/graphs/selectors';
-import { openPane } from '@/client/store/use-cases/panes/open-pane';
+import { switchGraph } from '@/client/store/use-cases/view/switch-graph';
 
 interface GraphItemProps {
     graphId: string;
@@ -12,9 +12,8 @@ function GraphItem({ graphId }: GraphItemProps) {
     const dispatch = useAppDispatch();
     const graph = useAppSelector((state) => graphSelectors.selectById(state, graphId));
 
-    const handleClick = (e: React.MouseEvent) => {
-        const forceAdd = e.ctrlKey || e.metaKey;
-        dispatch(openPane({ graphId }, forceAdd));
+    const handleClick = () => {
+        dispatch(switchGraph(graphId));
     };
 
     return (
