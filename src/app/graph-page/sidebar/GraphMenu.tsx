@@ -6,20 +6,16 @@ import { switchGraph } from '@/client/store/usecases/view/switch-graph';
 
 interface GraphItemProps {
     graphId: string;
+    onSelect: (graphId: string) => void;
 }
 
-function GraphItem({ graphId }: GraphItemProps) {
-    const dispatch = useAppDispatch();
+function GraphItem({ graphId, onSelect }: GraphItemProps) {
     const graph = useAppSelector((state) => graphSelectors.selectById(state, graphId));
-
-    const handleClick = () => {
-        dispatch(switchGraph(graphId));
-    };
 
     return (
         <li
             className="px-3 py-2 rounded hover:bg-base-3 cursor-pointer text-sm truncate"
-            onClick={handleClick}
+            onClick={() => onSelect(graphId)}
             title={graph?.title ?? 'New Graph'}
         >
             {graph?.title ?? 'New Graph'}
@@ -28,7 +24,12 @@ function GraphItem({ graphId }: GraphItemProps) {
 }
 
 export default function GraphMenu() {
+    const dispatch = useAppDispatch();
     const graphIds = useAppSelector(graphSelectors.selectIds);
+
+    const handleSelect = (graphId: string) => {
+        dispatch(switchGraph(graphId));
+    };
 
     return (
         <div className="flex-1 overflow-y-auto">
@@ -37,7 +38,7 @@ export default function GraphMenu() {
                     .slice()
                     .reverse()
                     .map((graphId) => (
-                        <GraphItem key={graphId} graphId={graphId} />
+                        <GraphItem key={graphId} graphId={graphId} onSelect={handleSelect} />
                     ))}
             </ul>
         </div>
