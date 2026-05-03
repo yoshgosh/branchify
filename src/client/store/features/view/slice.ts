@@ -16,16 +16,18 @@ const view = createSlice({
             state.activeGraphId = action.payload.graphId;
         },
 
-        updateActiveEntry: (state, action: PayloadAction<{ data: Partial<ViewEntry> }>) => {
-            const { data } = action.payload;
-            if (state.activeGraphId) {
-                const entry = state.entries[state.activeGraphId];
-                if (entry) {
-                    Object.assign(entry, data);
-                }
-            } else {
-                Object.assign(state.newEntry, data);
+        updateEntry: (
+            state,
+            action: PayloadAction<{ graphId: string; data: Partial<ViewEntry> }>
+        ) => {
+            const entry = state.entries[action.payload.graphId];
+            if (entry) {
+                Object.assign(entry, action.payload.data);
             }
+        },
+
+        updateNewEntry: (state, action: PayloadAction<{ data: Partial<ViewEntry> }>) => {
+            Object.assign(state.newEntry, action.payload.data);
         },
 
         initEntry: (state, action: PayloadAction<{ graphId: string }>) => {
@@ -63,7 +65,7 @@ const view = createSlice({
     },
 });
 
-export const { setActiveGraphId, updateActiveEntry, initEntry, promoteNewEntry, removeEntry } =
+export const { setActiveGraphId, updateEntry, updateNewEntry, initEntry, promoteNewEntry, removeEntry } =
     view.actions;
 
 export default view.reducer;

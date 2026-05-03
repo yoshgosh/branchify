@@ -2,7 +2,8 @@
 
 import { useAppDispatch, useAppSelector } from '@/client/store/store';
 import { selectActiveViewEntry } from '@/client/store/features/view/selectors';
-import { updateActiveEntry } from '@/client/store/features/view/slice';
+import { updateEntry } from '@/client/store/features/view/slice';
+import { updateActiveView } from '@/client/store/usecases/view/update-active-view';
 import { selectNodesByGraphId, nodeSelectors } from '@/client/store/features/nodes/selectors';
 import { selectEdgesByGraphId } from '@/client/store/features/edges/selectors';
 import { graphSelectors } from '@/client/store/features/graphs/selectors';
@@ -53,7 +54,8 @@ export default function GraphView({ graphId }: GraphViewProps) {
     }, []);
 
     const handleSetHeadNode = (nodeId: string) => {
-        dispatch(updateActiveEntry({ data: { headNodeId: nodeId } }));
+        if (!graphId) return;
+        dispatch(updateEntry({ graphId, data: { headNodeId: nodeId } }));
     };
 
     const handleActivateNode = async (nodeId: string) => {
@@ -65,11 +67,11 @@ export default function GraphView({ graphId }: GraphViewProps) {
     };
 
     const handleInputChange = (value: string) => {
-        dispatch(updateActiveEntry({ data: { inputText: value } }));
+        dispatch(updateActiveView({ inputText: value }));
     };
 
     const handleSubmit = async (question: string) => {
-        dispatch(updateActiveEntry({ data: { inputText: '' } }));
+        dispatch(updateActiveView({ inputText: '' }));
         const { questionNodeId } = await dispatch(submitQuestion(question));
 
         scrollToNode(questionNodeId, {

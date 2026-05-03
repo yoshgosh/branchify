@@ -1,6 +1,6 @@
 import { AppThunk } from '@/client/store/store';
 import { selectActiveViewEntry, selectActiveGraphId } from '@/client/store/features/view/selectors';
-import { updateActiveEntry } from '@/client/store/features/view/slice';
+import { updateEntry } from '@/client/store/features/view/slice';
 import {
     selectParentNodeIdMapByGraphId,
     selectChildNodeIdMapByGraphId,
@@ -25,7 +25,7 @@ export const activateNode =
             prevActiveNodeIds
         );
 
-        dispatch(updateActiveEntry({ data: { activeNodeIds: newActiveNodeIds } }));
+        dispatch(updateEntry({ graphId: activeGraphId, data: { activeNodeIds: newActiveNodeIds } }));
     };
 
 function calculateActiveNodeIds(

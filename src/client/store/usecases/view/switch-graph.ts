@@ -1,5 +1,5 @@
 import { AppThunk } from '@/client/store/store';
-import { setActiveGraphId, initEntry, updateActiveEntry } from '@/client/store/features/view/slice';
+import { setActiveGraphId, initEntry, updateEntry } from '@/client/store/features/view/slice';
 import { selectIsGraphSynced } from '@/client/store/features/graphs/selectors';
 import { addSyncedGraphId } from '@/client/store/features/graphs/slice';
 import { listNodesThunk } from '@/client/store/features/nodes/thunks';
@@ -31,7 +31,7 @@ export const switchGraph =
             const nodeIds = selectNodeIdsByGraphId(graphId)(getState());
             const lastNodeId = nodeIds.at(-1) ?? null;
             if (lastNodeId) {
-                dispatch(updateActiveEntry({ data: { headNodeId: lastNodeId } }));
+                dispatch(updateEntry({ graphId, data: { headNodeId: lastNodeId } }));
                 dispatch(activateNode(lastNodeId));
             }
         }

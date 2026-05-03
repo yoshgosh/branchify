@@ -1,6 +1,6 @@
 import { AppThunk } from '@/client/store/store';
 import { selectActiveViewEntry, selectActiveGraphId } from '@/client/store/features/view/selectors';
-import { updateActiveEntry, promoteNewEntry } from '@/client/store/features/view/slice';
+import { updateEntry, promoteNewEntry } from '@/client/store/features/view/slice';
 import { activateNode } from '../view/activate-node';
 import { HumanMessage, AIMessageChunk } from '@langchain/core/messages';
 import { createGraphThunk, generateGraphTitleThunk } from '@/client/store/features/graphs/thunks';
@@ -42,7 +42,7 @@ export const submitQuestion =
         ).unwrap();
         const questionNode = questionNodeRes.node;
 
-        dispatch(updateActiveEntry({ data: { headNodeId: questionNode.nodeId } }));
+        dispatch(updateEntry({ graphId, data: { headNodeId: questionNode.nodeId } }));
 
         // nodeTitle は毎回生成。初回質問のみ、nodeTitle 生成後にグラフタイトルも更新
         (async () => {
@@ -70,7 +70,7 @@ export const submitQuestion =
 
         const answerNode = answerNodeRes.node;
 
-        dispatch(updateActiveEntry({ data: { headNodeId: answerNode.nodeId } }));
+        dispatch(updateEntry({ graphId, data: { headNodeId: answerNode.nodeId } }));
 
         // 作成された answerNode を activate
         dispatch(activateNode(answerNode.nodeId));
