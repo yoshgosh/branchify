@@ -1,11 +1,12 @@
 'use client';
 
 import { RefObject } from 'react';
-import { Node } from '@/shared/entities/node';
+import { useAppSelector } from '@/client/store/store';
+import { nodeSelectors } from '@/client/store/features/nodes/selectors';
 import Markdown from './Markdown';
 
 interface ChatViewProps {
-    activeNodes: Node[];
+    activeNodeIds: string[];
     headNodeId: string | null;
     onSetHeadNode: (nodeId: string) => void;
     registerElementRef: (id: string) => (el: HTMLElement | null) => void;
@@ -13,10 +14,7 @@ interface ChatViewProps {
     contentRef: RefObject<HTMLDivElement | null>;
 }
 
-function Question({ node }: { node: Node }) {
-    const content = typeof node.message?.content === 'string' ? node.message.content : '';
-    if (!content) return null;
-
+function Question({ content }: { content: string }) {
     return (
         <div className="flex justify-end">
             <div className="bg-base-2 px-4 py-2 rounded-[20px] max-w-[70%] text-left wrap-break-word whitespace-pre-wrap">
@@ -27,17 +25,14 @@ function Question({ node }: { node: Node }) {
 }
 
 function Answer({
-    node,
+    content,
     isHead,
     setAsHead,
 }: {
-    node: Node;
+    content: string;
     isHead: boolean;
     setAsHead: () => void;
 }) {
-    const content = typeof node.message?.content === 'string' ? node.message.content : '';
-    if (!content) return null;
-
     return (
         <div
             className={`p-4 mb-4 rounded-[20px] w-full text-left cursor-pointer
@@ -50,26 +45,34 @@ function Answer({
 }
 
 function Message({
-    node,
+    nodeId,
     isHead,
-    setAsHead,
+    onSetHeadNode,
     registerElementRef,
 }: {
-    node: Node;
+    nodeId: string;
     isHead: boolean;
-    setAsHead: () => void;
+    onSetHeadNode: (nodeId: string) => void;
     registerElementRef: (el: HTMLElement | null) => void;
 }) {
+    const node = useAppSelector((state) => nodeSelectors.selectById(state, nodeId));
+    if (!node) return null;
+
+    const content = typeof node.message?.content === 'string' ? node.message.content : '';
+    if (!content) return null;
+
     return (
         <div className="flex flex-col px-4 gap-2 py-2" ref={registerElementRef}>
-            {node.type === 'question' && <Question node={node} />}
-            {node.type === 'answer' && <Answer node={node} isHead={isHead} setAsHead={setAsHead} />}
+            {node.type === 'question' && <Question content={content} />}
+            {node.type === 'answer' && (
+                <Answer content={content} isHead={isHead} setAsHead={() => onSetHeadNode(nodeId)} />
+            )}
         </div>
     );
 }
 
 export default function ChatView({
-    activeNodes,
+    activeNodeIds,
     headNodeId,
     onSetHeadNode,
     registerElementRef,
@@ -79,18 +82,15 @@ export default function ChatView({
     return (
         <div className="h-full overflow-auto scrollbar-none" ref={containerRef}>
             <div className="w-full" ref={contentRef}>
-                {activeNodes.map((node) => {
-                    const shouldSetHead = node.type === 'answer';
-                    return (
-                        <Message
-                            key={node.nodeId}
-                            node={node}
-                            isHead={node.nodeId === headNodeId}
-                            setAsHead={shouldSetHead ? () => onSetHeadNode(node.nodeId) : () => {}}
-                            registerElementRef={registerElementRef(node.nodeId)}
-                        />
-                    );
-                })}
+                {activeNodeIds.map((nodeId) => (
+                    <Message
+                        key={nodeId}
+                        nodeId={nodeId}
+                        isHead={nodeId === headNodeId}
+                        onSetHeadNode={onSetHeadNode}
+                        registerElementRef={registerElementRef(nodeId)}
+                    />
+                ))}
             </div>
         </div>
     );

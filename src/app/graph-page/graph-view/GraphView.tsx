@@ -37,9 +37,7 @@ export default function GraphView({ graphId }: GraphViewProps) {
     );
     const nodes = useAppSelector((state) => (graphId ? selectNodesByGraphId(graphId)(state) : []));
     const edges = useAppSelector((state) => (graphId ? selectEdgesByGraphId(graphId)(state) : []));
-    const activeNodes = useAppSelector((state) =>
-        entry.activeNodeIds.map((id) => nodeSelectors.selectById(state, id)).filter(Boolean)
-    );
+
     const headNode = useAppSelector((state) =>
         entry.headNodeId ? nodeSelectors.selectById(state, entry.headNodeId) : null
     );
@@ -108,7 +106,7 @@ export default function GraphView({ graphId }: GraphViewProps) {
                 <div className="flex-1 h-full flex flex-col items-center overflow-hidden">
                     <div className="relative flex-1 w-full max-w-4xl overflow-hidden">
                         <ChatView
-                            activeNodes={activeNodes}
+                            activeNodeIds={entry.activeNodeIds}
                             headNodeId={entry.headNodeId}
                             onSetHeadNode={handleSetHeadNode}
                             registerElementRef={registerElementRef}
