@@ -10,8 +10,8 @@ export const createDefaultViewEntry = (): ViewEntry => ({
     inputText: '',
 });
 
-export type ViewState = {
+export interface ViewState {
     activeGraphId: string | null;
     entries: Record<string, ViewEntry>;
     newEntry: ViewEntry;
-};
+}
