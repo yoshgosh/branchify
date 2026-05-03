@@ -82,11 +82,7 @@ export default function GraphView({ graphId }: GraphViewProps) {
 
     return (
         <div className="flex-1 flex flex-col w-full h-full overflow-hidden">
-            <GraphViewHeader
-                graphTitle={graph?.title ?? null}
-                model="GPT4.1"
-                provider="OpenAI"
-            />
+            <GraphViewHeader graphTitle={graph?.title ?? null} model="GPT4.1" provider="OpenAI" />
 
             <div className="flex-1 flex overflow-hidden">
                 <div className="w-64 h-full">

@@ -52,7 +52,9 @@ async function main() {
     console.log(`\n✅ OpenAI API key set for ${user.name}`);
 }
 
-main().catch((err) => {
-    console.error('❌ Error:', err);
-    process.exit(1);
-}).finally(() => process.exit(0));
+main()
+    .catch((err) => {
+        console.error('❌ Error:', err);
+        process.exit(1);
+    })
+    .finally(() => process.exit(0));

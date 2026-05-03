@@ -25,7 +25,9 @@ export const activateNode =
             prevActiveNodeIds
         );
 
-        dispatch(updateEntry({ graphId: activeGraphId, data: { activeNodeIds: newActiveNodeIds } }));
+        dispatch(
+            updateEntry({ graphId: activeGraphId, data: { activeNodeIds: newActiveNodeIds } })
+        );
     };
 
 function calculateActiveNodeIds(

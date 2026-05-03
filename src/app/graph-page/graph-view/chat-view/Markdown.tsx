@@ -7,8 +7,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneLight, oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useDarkMode } from '@/app/hooks/useDarkMode';
 import '@/app/styles/markdown.css';
-import { MdCode, MdContentCopy, MdCheck } from "react-icons/md";
-
+import { MdCode, MdContentCopy, MdCheck } from 'react-icons/md';
 
 const oneLightNoBackground = Object.fromEntries(
     Object.entries(oneLight).map(([key, value]) => {
@@ -46,11 +45,7 @@ function CodeBlock({ language, children }: { language: string; children: string 
                     onClick={handleCopy}
                     title={copied ? 'Copied!' : 'Copy code'}
                 >
-                    {copied ? (
-                        <MdCheck />
-                    ) : (
-                        <MdContentCopy />
-                    )}
+                    {copied ? <MdCheck /> : <MdContentCopy />}
                 </button>
             </div>
             <SyntaxHighlighter

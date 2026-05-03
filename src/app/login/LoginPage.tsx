@@ -2,7 +2,7 @@
 
 import { signIn } from 'next-auth/react';
 import { BranchifyIcon } from '@/app/components/BranchifyIcon';
-import { FcGoogle } from "react-icons/fc";
+import { FcGoogle } from 'react-icons/fc';
 
 export default function LoginPage() {
     return (

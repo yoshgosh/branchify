@@ -4,6 +4,7 @@ import { RefObject } from 'react';
 import { useAppSelector } from '@/client/store/store';
 import { nodeSelectors } from '@/client/store/features/nodes/selectors';
 import Markdown from './Markdown';
+import { BranchifyIcon } from '@/app/components/BranchifyIcon';
 
 interface ChatViewProps {
     activeNodeIds: string[];
@@ -26,20 +27,30 @@ function Question({ content }: { content: string }) {
 
 function Answer({
     content,
+    status,
     isHead,
     setAsHead,
 }: {
     content: string;
+    status: string;
     isHead: boolean;
     setAsHead: () => void;
 }) {
     return (
-        <div
-            className={`p-4 mb-4 rounded-[20px] w-full text-left cursor-pointer
-              ${isHead ? 'border-2 border-base-9' : 'border-2 border-transparent'}`}
-            onClick={setAsHead}
-        >
-            <Markdown content={content} />
+        <div>
+            {content ? (
+                <div
+                    className={`p-4 mb-4 rounded-[20px] w-full text-left cursor-pointer
+                    ${isHead ? 'border-2 border-base-9' : 'border-2 border-transparent'}`}
+                    onClick={setAsHead}
+                >
+                    <Markdown content={content} />
+                </div>
+            ) : status === 'in_progress' ? (
+                <div className="p-6 pr-8 animate-pulse">
+                    <BranchifyIcon size={24} color="var(--color-base-8)" />
+                </div>
+            ) : null}
         </div>
     );
 }
@@ -59,13 +70,17 @@ function Message({
     if (!node) return null;
 
     const content = typeof node.message?.content === 'string' ? node.message.content : '';
-    if (!content) return null;
 
     return (
         <div className="flex flex-col px-4 gap-2 py-2" ref={registerElementRef}>
-            {node.type === 'question' && <Question content={content} />}
+            {node.type === 'question' && content && <Question content={content} />}
             {node.type === 'answer' && (
-                <Answer content={content} isHead={isHead} setAsHead={() => onSetHeadNode(nodeId)} />
+                <Answer
+                    content={content}
+                    status={node.status}
+                    isHead={isHead}
+                    setAsHead={() => onSetHeadNode(nodeId)}
+                />
             )}
         </div>
     );

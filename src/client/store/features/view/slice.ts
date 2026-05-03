@@ -65,7 +65,13 @@ const view = createSlice({
     },
 });
 
-export const { setActiveGraphId, updateEntry, updateNewEntry, initEntry, promoteNewEntry, removeEntry } =
-    view.actions;
+export const {
+    setActiveGraphId,
+    updateEntry,
+    updateNewEntry,
+    initEntry,
+    promoteNewEntry,
+    removeEntry,
+} = view.actions;
 
 export default view.reducer;
