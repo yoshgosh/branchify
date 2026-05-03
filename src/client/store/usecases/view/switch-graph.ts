@@ -10,16 +10,14 @@ import { activateNode } from './activate-node';
 export const switchGraph =
     (graphId: string | null): AppThunk =>
     async (dispatch, getState) => {
+        if (graphId) {
+            dispatch(initEntry({ graphId }));
+        }
         dispatch(setActiveGraphId({ graphId }));
 
         if (!graphId) return;
 
-        const state = getState();
-        if (!state.view.entries[graphId]) {
-            dispatch(initEntry({ graphId }));
-        }
-
-        const isSynced = selectIsGraphSynced(graphId)(state);
+        const isSynced = selectIsGraphSynced(graphId)(getState());
         if (!isSynced) {
             await Promise.all([
                 dispatch(listNodesThunk({ graphId })),

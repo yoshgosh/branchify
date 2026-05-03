@@ -1,10 +1,10 @@
 import { RootState } from '@/client/store/store';
-import { ViewEntry, createDefaultViewEntry } from './types';
+import { ViewEntry } from './types';
 
 export const selectActiveViewEntry = (state: RootState): ViewEntry => {
     const { activeGraphId, entries, newEntry } = state.view;
     if (activeGraphId) {
-        return entries[activeGraphId] ?? createDefaultViewEntry();
+        return entries[activeGraphId]!;
     }
     return newEntry;
 };
