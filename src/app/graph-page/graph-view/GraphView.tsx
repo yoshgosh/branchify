@@ -1,30 +1,28 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from '@/client/store/store';
-import { paneSelectors } from '@/client/store/features/panes/selectors';
-import { setFocusedPaneId, updatePane } from '@/client/store/features/panes/slice';
+import { selectActiveViewEntry } from '@/client/store/features/view/selectors';
+import { updateEntry } from '@/client/store/features/view/slice';
+import { updateActiveView } from '@/client/store/usecases/view/update-active-view';
 import { selectNodesByGraphId, nodeSelectors } from '@/client/store/features/nodes/selectors';
 import { selectEdgesByGraphId } from '@/client/store/features/edges/selectors';
 import { graphSelectors } from '@/client/store/features/graphs/selectors';
 import { useScroll } from '@/app/hooks/useScroll';
-import { openPane } from '@/client/store/usecases/panes/open-pane';
-import { closePane } from '@/client/store/usecases/panes/close-pane';
-import { activateNode } from '@/client/store/usecases/panes/activate-node';
+import { activateNode } from '@/client/store/usecases/view/activate-node';
 import { submitQuestion } from '@/client/store/usecases/questions/submit-question';
-import GraphPaneHeader from './GraphPaneHeader';
+import GraphViewHeader from './GraphViewHeader';
 import TreeView from './tree-view/TreeView';
 import ChatView from './chat-view/ChatView';
 import InputBox from './InputBox';
 import { useEffect } from 'react';
 
-interface GraphPaneProps {
-    paneId: string;
-    isFocused: boolean;
+interface GraphViewProps {
+    graphId: string | null;
 }
 
-export default function GraphPane({ paneId, isFocused }: GraphPaneProps) {
+export default function GraphView({ graphId }: GraphViewProps) {
     const dispatch = useAppDispatch();
-    const pane = useAppSelector((state) => paneSelectors.selectById(state, paneId));
+    const entry = useAppSelector(selectActiveViewEntry);
 
     const {
         scrollToElement: scrollToNode,
@@ -34,64 +32,47 @@ export default function GraphPane({ paneId, isFocused }: GraphPaneProps) {
         contentRef,
     } = useScroll();
 
-    const graphId = pane.graphId;
     const graph = useAppSelector((state) =>
         graphId ? graphSelectors.selectById(state, graphId) : null
     );
     const nodes = useAppSelector((state) => (graphId ? selectNodesByGraphId(graphId)(state) : []));
     const edges = useAppSelector((state) => (graphId ? selectEdgesByGraphId(graphId)(state) : []));
     const activeNodes = useAppSelector((state) =>
-        pane.activeNodeIds.map((id) => nodeSelectors.selectById(state, id)).filter(Boolean)
+        entry.activeNodeIds.map((id) => nodeSelectors.selectById(state, id)).filter(Boolean)
     );
     const headNode = useAppSelector((state) =>
-        pane.headNodeId ? nodeSelectors.selectById(state, pane.headNodeId) : null
-    );
-    const inputText = useAppSelector(
-        (state) => paneSelectors.selectById(state, paneId)?.inputText ?? ''
+        entry.headNodeId ? nodeSelectors.selectById(state, entry.headNodeId) : null
     );
 
     useEffect(() => {
-        if (!pane.headNodeId) return;
-        scrollToNode(pane.headNodeId, {
+        if (!entry.headNodeId) return;
+        scrollToNode(entry.headNodeId, {
             behavior: 'auto',
             align: false,
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const handlePaneClick = () => {
-        dispatch(setFocusedPaneId({ paneId }));
-    };
-
     const handleSetHeadNode = (nodeId: string) => {
-        dispatch(updatePane({ paneId, data: { headNodeId: nodeId } }));
+        if (!graphId) return;
+        dispatch(updateEntry({ graphId, data: { headNodeId: nodeId } }));
     };
 
     const handleActivateNode = async (nodeId: string) => {
-        dispatch(activateNode(paneId, nodeId));
+        dispatch(activateNode(nodeId));
         scrollToNode(nodeId, {
             behavior: 'smooth',
             align: false,
         });
     };
 
-    const handleOpenPaneWithNode = (nodeId: string) => {
-        dispatch(setFocusedPaneId({ paneId }));
-        dispatch(
-            openPane(
-                { graphId, headNodeId: nodeId },
-                true // forceAdd
-            )
-        );
-    };
-
     const handleInputChange = (value: string) => {
-        dispatch(updatePane({ paneId, data: { inputText: value } }));
+        dispatch(updateActiveView({ inputText: value }));
     };
 
     const handleSubmit = async (question: string) => {
-        dispatch(updatePane({ paneId, data: { inputText: '' } }));
-        const { questionNodeId } = await dispatch(submitQuestion(paneId, question));
+        dispatch(updateActiveView({ inputText: '' }));
+        const { questionNodeId } = await dispatch(submitQuestion(question));
 
         scrollToNode(questionNodeId, {
             behavior: 'smooth',
@@ -99,24 +80,14 @@ export default function GraphPane({ paneId, isFocused }: GraphPaneProps) {
         });
     };
 
-    const handleClose = () => {
-        dispatch(closePane(paneId));
-    };
-
-    // graphがないか、headNodeがないか、headNodeのstatusがcompletedの場合に送信可能
     const canSubmit = !graphId || !headNode || headNode.status === 'completed';
 
     return (
-        <div
-            className="flex flex-col w-full h-full overflow-hidden"
-            onClick={handlePaneClick}
-        >
-            <GraphPaneHeader
+        <div className="flex-1 flex flex-col w-full h-full divide-y divide-base-3 overflow-hidden">
+            <GraphViewHeader
                 graphTitle={graph?.title ?? null}
                 model="GPT4.1"
                 provider="OpenAI"
-                isFocused={isFocused}
-                onClose={handleClose}
             />
 
             <div className="flex-1 flex overflow-hidden">
@@ -125,12 +96,11 @@ export default function GraphPane({ paneId, isFocused }: GraphPaneProps) {
                         <TreeView
                             nodes={nodes}
                             edges={edges}
-                            headNodeId={pane.headNodeId}
-                            activeNodeIds={pane.activeNodeIds}
+                            headNodeId={entry.headNodeId}
+                            activeNodeIds={entry.activeNodeIds}
                             visibleNodeIds={visibleNodeIds}
                             onSetHeadNode={handleSetHeadNode}
                             onActivateNode={handleActivateNode}
-                            onOpenPaneWithNode={handleOpenPaneWithNode}
                         />
                     )}
                 </div>
@@ -139,7 +109,7 @@ export default function GraphPane({ paneId, isFocused }: GraphPaneProps) {
                     <div className="relative flex-1 w-full max-w-4xl overflow-hidden">
                         <ChatView
                             activeNodes={activeNodes}
-                            headNodeId={pane.headNodeId}
+                            headNodeId={entry.headNodeId}
                             onSetHeadNode={handleSetHeadNode}
                             registerElementRef={registerElementRef}
                             containerRef={containerRef}
@@ -150,7 +120,7 @@ export default function GraphPane({ paneId, isFocused }: GraphPaneProps) {
 
                     <div className="w-full max-w-3xl">
                         <InputBox
-                            value={inputText}
+                            value={entry.inputText}
                             onChange={handleInputChange}
                             onSubmit={handleSubmit}
                             canSubmit={canSubmit}

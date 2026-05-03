@@ -14,7 +14,6 @@ interface TreeViewProps {
     visibleNodeIds: string[];
     onSetHeadNode: (nodeId: string) => void;
     onActivateNode: (nodeId: string) => Promise<void>;
-    onOpenPaneWithNode: (nodeId: string) => void;
 }
 
 export default function TreeView({
@@ -25,7 +24,6 @@ export default function TreeView({
     visibleNodeIds,
     onSetHeadNode,
     onActivateNode,
-    onOpenPaneWithNode,
 }: TreeViewProps) {
     const [layoutMode, setLayoutMode] = useState<LayoutMode>('optimized');
 
@@ -38,18 +36,12 @@ export default function TreeView({
     );
     const TurnGraph = turnGraphRegistry[layoutMode];
 
-    const handleTurnNodeClick = async (event: React.MouseEvent, turnNode: TurnNode) => {
-        // TurnNode内の最も古い（最初の）ノードIDを取得
+    const handleTurnNodeClick = async (_event: React.MouseEvent, turnNode: TurnNode) => {
         const mostOldNodeId = turnNode.nodes.at(0)?.nodeId ?? turnNode.turnNodeId;
-        // TurnNode内の最も新しい（最後の）ノードIDを取得
         const latestNodeId = turnNode.nodes.at(-1)?.nodeId ?? turnNode.turnNodeId;
 
-        if (event.metaKey || event.ctrlKey) {
-            onOpenPaneWithNode(mostOldNodeId);
-        } else {
-            await onActivateNode(mostOldNodeId);
-            onSetHeadNode(latestNodeId);
-        }
+        await onActivateNode(mostOldNodeId);
+        onSetHeadNode(latestNodeId);
     };
 
     return (

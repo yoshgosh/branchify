@@ -1,24 +1,22 @@
 import { AppThunk } from '@/client/store/store';
-import { paneSelectors } from '@/client/store/features/panes/selectors';
-import { updatePane } from '@/client/store/features/panes/slice';
+import { selectActiveViewEntry, selectActiveGraphId } from '@/client/store/features/view/selectors';
+import { updateEntry } from '@/client/store/features/view/slice';
 import {
     selectParentNodeIdMapByGraphId,
     selectChildNodeIdMapByGraphId,
 } from '@/client/store/features/edges/selectors';
 
 export const activateNode =
-    (paneId: string, nodeIdToActivate: string): AppThunk =>
+    (nodeIdToActivate: string): AppThunk =>
     async (dispatch, getState) => {
         const state = getState();
-        const pane = paneSelectors.selectById(state, paneId);
-        if (!pane) throw new Error('Pane not found');
+        const activeGraphId = selectActiveGraphId(state);
+        if (!activeGraphId) return;
 
-        const graphId = pane.graphId;
-        if (!graphId) return;
-
-        const prevActiveNodeIds = pane.activeNodeIds;
-        const parentNodeIdMap = selectParentNodeIdMapByGraphId(graphId)(state);
-        const childNodeIdMap = selectChildNodeIdMapByGraphId(graphId)(state);
+        const entry = selectActiveViewEntry(state);
+        const prevActiveNodeIds = entry.activeNodeIds;
+        const parentNodeIdMap = selectParentNodeIdMapByGraphId(activeGraphId)(state);
+        const childNodeIdMap = selectChildNodeIdMapByGraphId(activeGraphId)(state);
 
         const newActiveNodeIds = calculateActiveNodeIds(
             nodeIdToActivate,
@@ -27,7 +25,7 @@ export const activateNode =
             prevActiveNodeIds
         );
 
-        dispatch(updatePane({ paneId, data: { activeNodeIds: newActiveNodeIds } }));
+        dispatch(updateEntry({ graphId: activeGraphId, data: { activeNodeIds: newActiveNodeIds } }));
     };
 
 function calculateActiveNodeIds(

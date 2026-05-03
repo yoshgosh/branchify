@@ -1,7 +1,7 @@
 import { AppThunk } from '@/client/store/store';
-import { paneSelectors } from '@/client/store/features/panes/selectors';
-import { updatePane } from '@/client/store/features/panes/slice';
-import { activateNode } from '../panes/activate-node';
+import { selectActiveViewEntry, selectActiveGraphId } from '@/client/store/features/view/selectors';
+import { updateEntry, promoteNewEntry } from '@/client/store/features/view/slice';
+import { activateNode } from '../view/activate-node';
 import { HumanMessage, AIMessageChunk } from '@langchain/core/messages';
 import { createGraphThunk, generateGraphTitleThunk } from '@/client/store/features/graphs/thunks';
 import { createNodeThunk, generateNodeTitleThunk } from '@/client/store/features/nodes/thunks';
@@ -9,40 +9,26 @@ import { setNodeMessage, setNodeStatus } from '@/client/store/features/nodes/sli
 import { generateAnswerMessage } from '@/client/services/nodes/service';
 
 export const submitQuestion =
-    (
-        paneId: string,
-        question: string
-    ): AppThunk<Promise<{ questionNodeId: string; answerNodeId: string }>> =>
+    (question: string): AppThunk<Promise<{ questionNodeId: string; answerNodeId: string }>> =>
     async (dispatch, getState) => {
-        const state = getState();
-        const pane = paneSelectors.selectById(state, paneId);
-        if (!pane) throw new Error(`Pane not found: ${paneId}`);
+        const entry = selectActiveViewEntry(getState());
 
-        // graph 未設定なら作成して pane に紐づける
-        let graphId = pane.graphId;
-        let headNodeId = pane.headNodeId;
-        let activeNodeIds = pane.activeNodeIds;
+        // graph 未設定なら作成して entry に紐付ける
+        let graphId = selectActiveGraphId(getState());
+        let headNodeId = entry.headNodeId;
         let isFirstQuestion = false;
 
         if (!graphId) {
             const createGraphRes = await dispatch(createGraphThunk()).unwrap();
             const graph = createGraphRes.graph;
             graphId = graph.graphId;
-            // 防御的ガード
             headNodeId = null;
-            activeNodeIds = [];
             isFirstQuestion = true;
 
-            dispatch(
-                updatePane({
-                    paneId,
-                    data: { graphId, headNodeId, activeNodeIds },
-                })
-            );
+            dispatch(promoteNewEntry({ graphId }));
         }
 
-        // 質問 node を作成し、pane.headNodeId を更新
-        // TODO: paneData の headNodeId と graphId に矛盾がないか確認する
+        // 質問 node を作成し、headNodeId を更新
         const questionNodeRes = await dispatch(
             createNodeThunk({
                 data: {
@@ -56,12 +42,7 @@ export const submitQuestion =
         ).unwrap();
         const questionNode = questionNodeRes.node;
 
-        dispatch(
-            updatePane({
-                paneId,
-                data: { headNodeId: questionNode.nodeId },
-            })
-        );
+        dispatch(updateEntry({ graphId, data: { headNodeId: questionNode.nodeId } }));
 
         // nodeTitle は毎回生成。初回質問のみ、nodeTitle 生成後にグラフタイトルも更新
         (async () => {
@@ -75,7 +56,7 @@ export const submitQuestion =
             }
         })();
 
-        // 回答 node を作成し、pane.headNodeId を更新
+        // 回答 node を作成し、headNodeId を更新
         const answerNodeRes = await dispatch(
             createNodeThunk({
                 data: {
@@ -89,15 +70,10 @@ export const submitQuestion =
 
         const answerNode = answerNodeRes.node;
 
-        dispatch(
-            updatePane({
-                paneId,
-                data: { headNodeId: answerNode.nodeId },
-            })
-        );
+        dispatch(updateEntry({ graphId, data: { headNodeId: answerNode.nodeId } }));
 
         // 作成された answerNode を activate
-        dispatch(activateNode(paneId, answerNode.nodeId));
+        dispatch(activateNode(answerNode.nodeId));
 
         // 回答ストリームを受け取りながら、node.status / node.message を FE で更新
         dispatch(

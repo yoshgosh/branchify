@@ -1,15 +1,14 @@
 'use client';
 
 import { useAppDispatch } from '@/client/store/store';
-import { openPane } from '@/client/store/usecases/panes/open-pane';
+import { switchGraph } from '@/client/store/usecases/view/switch-graph';
 import { BranchifyIcon } from '@/app/components/BranchifyIcon';
 
 export default function SidebarHeader() {
     const dispatch = useAppDispatch();
 
-    const handleClick = (e: React.MouseEvent) => {
-        const forceAdd = e.ctrlKey || e.metaKey;
-        dispatch(openPane(undefined, forceAdd));
+    const handleClick = () => {
+        dispatch(switchGraph(null));
     };
 
     return (
