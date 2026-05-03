@@ -81,7 +81,7 @@ export default function GraphView({ graphId }: GraphViewProps) {
     const canSubmit = !graphId || !headNode || headNode.status === 'completed';
 
     return (
-        <div className="flex-1 flex flex-col w-full h-full divide-y divide-base-3 overflow-hidden">
+        <div className="flex-1 flex flex-col w-full h-full overflow-hidden">
             <GraphViewHeader
                 graphTitle={graph?.title ?? null}
                 model="GPT4.1"
