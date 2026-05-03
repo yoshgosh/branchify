@@ -1,8 +1,8 @@
-export interface ViewEntry {
+export type ViewEntry = {
     headNodeId: string | null;
     activeNodeIds: string[];
     inputText: string;
-}
+};
 
 export const createDefaultViewEntry = (): ViewEntry => ({
     headNodeId: null,
@@ -10,8 +10,8 @@ export const createDefaultViewEntry = (): ViewEntry => ({
     inputText: '',
 });
 
-export interface ViewState {
+export type ViewState = {
     activeGraphId: string | null;
     entries: Record<string, ViewEntry>;
     newEntry: ViewEntry;
-}
+};
