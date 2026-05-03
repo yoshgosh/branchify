@@ -36,21 +36,21 @@ function Answer({
     isHead: boolean;
     setAsHead: () => void;
 }) {
+    if (!content && status !== 'in_progress') return null;
+
     return (
-        <div>
-            {content ? (
-                <div
-                    className={`p-4 mb-4 rounded-[20px] w-full text-left cursor-pointer
-                    ${isHead ? 'border-2 border-base-9' : 'border-2 border-transparent'}`}
-                    onClick={setAsHead}
-                >
-                    <Markdown content={content} />
-                </div>
-            ) : status === 'in_progress' ? (
-                <div className="p-6 pr-8 animate-pulse">
+        <div
+            className={`p-4 mb-4 rounded-[20px] w-full text-left cursor-pointer
+            ${isHead ? 'border-2 border-base-9' : 'border-2 border-transparent'}`}
+            onClick={setAsHead}
+        >
+            {!content && status === 'in_progress' ? (
+                <div className="animate-pulse">
                     <BranchifyIcon size={24} color="var(--color-base-8)" />
                 </div>
-            ) : null}
+            ) : (
+                <Markdown content={content} />
+            )}
         </div>
     );
 }
