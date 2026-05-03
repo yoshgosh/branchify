@@ -1,7 +1,7 @@
 import { AppThunk } from '@/client/store/store';
 import { setActiveGraphId, initEntry, updateEntry } from '@/client/store/features/view/slice';
-import { selectIsGraphSynced } from '@/client/store/features/graphs/selectors';
-import { addSyncedGraphId } from '@/client/store/features/graphs/slice';
+import { selectIsGraphLoaded } from '@/client/store/features/graphs/selectors';
+import { addLoadedGraphId } from '@/client/store/features/graphs/slice';
 import { listNodesThunk } from '@/client/store/features/nodes/thunks';
 import { listEdgesThunk } from '@/client/store/features/edges/thunks';
 import { selectNodeIdsByGraphId } from '@/client/store/features/nodes/selectors';
@@ -17,13 +17,13 @@ export const switchGraph =
 
         if (!graphId) return;
 
-        const isSynced = selectIsGraphSynced(graphId)(getState());
-        if (!isSynced) {
+        const isLoaded = selectIsGraphLoaded(graphId)(getState());
+        if (!isLoaded) {
             await Promise.all([
                 dispatch(listNodesThunk({ graphId })),
                 dispatch(listEdgesThunk({ graphId })),
             ]);
-            dispatch(addSyncedGraphId({ graphId }));
+            dispatch(addLoadedGraphId({ graphId }));
         }
 
         const entry = getState().view.entries[graphId];

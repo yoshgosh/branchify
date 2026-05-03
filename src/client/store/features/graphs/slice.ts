@@ -8,28 +8,28 @@ import {
     generateGraphTitleThunk,
 } from './thunks';
 
-// syncedGraphIds の各要素が一意であり、かつ entities に含まれていることを slice で保証する
+// loadedGraphIds の各要素が一意であり、かつ entities に含まれていることを slice で保証する
 interface GraphState extends ReturnType<typeof graphAdapter.getInitialState> {
-    syncedGraphIds: string[];
+    loadedGraphIds: string[];
 }
 
 const initialGraphState: GraphState = graphAdapter.getInitialState({
-    syncedGraphIds: [],
+    loadedGraphIds: [],
 });
 
 const graph = createSlice({
     name: 'graph',
     initialState: initialGraphState,
     reducers: {
-        addSyncedGraphId: (state, action: PayloadAction<{ graphId: string }>) => {
+        addLoadedGraphId: (state, action: PayloadAction<{ graphId: string }>) => {
             const { graphId } = action.payload;
-            if (!state.entities[graphId] || state.syncedGraphIds.includes(graphId)) return;
-            state.syncedGraphIds.push(graphId);
+            if (!state.entities[graphId] || state.loadedGraphIds.includes(graphId)) return;
+            state.loadedGraphIds.push(graphId);
         },
 
-        removeSyncedGraphId: (state, action: PayloadAction<{ graphId: string }>) => {
+        removeLoadedGraphId: (state, action: PayloadAction<{ graphId: string }>) => {
             const { graphId } = action.payload;
-            state.syncedGraphIds = state.syncedGraphIds.filter((id) => id !== graphId);
+            state.loadedGraphIds = state.loadedGraphIds.filter((id) => id !== graphId);
         },
     },
     extraReducers: (builder) => {
@@ -50,7 +50,7 @@ const graph = createSlice({
                 const graph = action.payload.graph;
                 if (graph) {
                     graphAdapter.removeOne(state, graph.graphId);
-                    state.syncedGraphIds = state.syncedGraphIds.filter(
+                    state.loadedGraphIds = state.loadedGraphIds.filter(
                         (id) => id !== graph.graphId
                     );
                 }
@@ -62,6 +62,6 @@ const graph = createSlice({
     },
 });
 
-export const { addSyncedGraphId, removeSyncedGraphId } = graph.actions;
+export const { addLoadedGraphId, removeLoadedGraphId } = graph.actions;
 
 export default graph.reducer;
