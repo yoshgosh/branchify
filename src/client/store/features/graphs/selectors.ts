@@ -3,12 +3,12 @@ import { graphAdapter } from './adapter';
 
 export const graphSelectors = graphAdapter.getSelectors((state: RootState) => state.graph);
 
-export const selectSyncedGraphIds = (state: RootState): string[] => {
-    return state.graph.syncedGraphIds;
+export const selectLoadedGraphIds = (state: RootState): string[] => {
+    return state.graph.loadedGraphIds;
 };
 
-export const selectIsGraphSynced =
+export const selectIsGraphLoaded =
     (graphId: string) =>
     (state: RootState): boolean => {
-        return state.graph.syncedGraphIds.includes(graphId);
+        return state.graph.loadedGraphIds.includes(graphId);
     };
