@@ -13,6 +13,7 @@ export const submitQuestion =
     async (dispatch, getState) => {
         const entry = selectActiveViewEntry(getState());
 
+        // graph 未設定なら作成して entry に紐付ける
         let graphId = selectActiveGraphId(getState());
         let headNodeId = entry.headNodeId;
         let isFirstQuestion = false;
