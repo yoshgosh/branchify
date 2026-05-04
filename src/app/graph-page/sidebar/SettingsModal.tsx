@@ -52,8 +52,8 @@ export default function SettingsModal({ open, onClose }: Props) {
 
                 <div className="space-y-2">
                     <label className="block text-sm font-medium text-base-7">OpenAI API Key</label>
-                    {me?.openaiApiKeyMasked && (
-                        <p className="text-xs text-base-5">現在のキー: {me.openaiApiKeyMasked}</p>
+                    {me?.openaiApiKey && (
+                        <p className="text-xs text-base-5">現在のキー: {me.openaiApiKey}</p>
                     )}
                     <input
                         type="password"

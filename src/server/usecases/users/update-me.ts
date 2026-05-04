@@ -8,16 +8,14 @@ export type UpdateMeInput = {
 };
 export type UpdateMeOutput = { user: User };
 
+function maskApiKey(key: string | null): string | null {
+    return key ? `sk-...${key.slice(-4)}` : null;
+}
+
 export async function updateMe(ctx: Ctx, input: UpdateMeInput): Promise<UpdateMeOutput> {
-    const { openaiApiKey } = input.data;
-
-    if (openaiApiKey && !openaiApiKey.startsWith('sk-')) {
-        throw new Error('VALIDATION: APIキーは sk- で始まる必要があります');
-    }
-
     return withTransaction(async (tx) => {
         const user = await UserRepo.update(tx, ctx.userId, input.data);
         if (!user) throw new Error('NOT_FOUND: user');
-        return { user };
+        return { user: { ...user, openaiApiKey: maskApiKey(user.openaiApiKey) } };
     });
 }

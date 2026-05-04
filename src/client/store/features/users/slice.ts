@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getMeThunk, updateMeThunk } from './thunks';
-import type { UserDto } from '@/shared/api/models';
+import type { User } from '@/shared/entities/user';
 
 interface UserState {
-    me: UserDto | null;
+    me: User | null;
 }
 
 const initialState: UserState = { me: null };
