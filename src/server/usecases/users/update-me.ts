@@ -11,7 +11,7 @@ export type UpdateMeOutput = { user: User };
 export async function updateMe(ctx: Ctx, input: UpdateMeInput): Promise<UpdateMeOutput> {
     const { openaiApiKey } = input.data;
 
-    if (openaiApiKey !== undefined && !openaiApiKey.startsWith('sk-')) {
+    if (openaiApiKey && !openaiApiKey.startsWith('sk-')) {
         throw new Error('VALIDATION: APIキーは sk- で始まる必要があります');
     }
 
