@@ -4,9 +4,10 @@ import graph from './features/graphs/slice';
 import node from './features/nodes/slice';
 import edge from './features/edges/slice';
 import view from './features/view/slice';
+import user from './features/users/slice';
 
 export const store = configureStore({
-    reducer: { graph, node, edge, view },
+    reducer: { graph, node, edge, view, user },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             // TODO: シリアライズ可能な型と変換処理を導入して serializableCheck を有効化

@@ -12,7 +12,6 @@ export type UserInsertInput = z.input<typeof UserInsertSchema>;
 
 export const UserUpdateSchema = UserSchema.omit({
     userId: true,
-    openaiApiKey: true,
     createdAt: true,
     updatedAt: true,
 })
