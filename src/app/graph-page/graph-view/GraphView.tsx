@@ -14,7 +14,7 @@ import GraphViewHeader from './GraphViewHeader';
 import TreeView from './tree-view/TreeView';
 import ChatView from './chat-view/ChatView';
 import InputBox from './InputBox';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 interface GraphViewProps {
     graphId: string | null;
@@ -23,6 +23,7 @@ interface GraphViewProps {
 export default function GraphView({ graphId }: GraphViewProps) {
     const dispatch = useAppDispatch();
     const entry = useAppSelector(selectActiveViewEntry);
+    const [treeScrollToNodeId, setTreeScrollToNodeId] = useState<string | null>(null);
 
     const {
         scrollToElement: scrollToNode,
@@ -48,6 +49,7 @@ export default function GraphView({ graphId }: GraphViewProps) {
             behavior: 'auto',
             align: false,
         });
+        setTreeScrollToNodeId(entry.headNodeId);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -62,6 +64,7 @@ export default function GraphView({ graphId }: GraphViewProps) {
             behavior: 'smooth',
             align: false,
         });
+        setTreeScrollToNodeId(nodeId);
     };
 
     const handleInputChange = (value: string) => {
@@ -76,6 +79,7 @@ export default function GraphView({ graphId }: GraphViewProps) {
             behavior: 'smooth',
             align: true,
         });
+        setTreeScrollToNodeId(questionNodeId);
     };
 
     const canSubmit = !graphId || !headNode || headNode.status === 'completed';
@@ -85,7 +89,7 @@ export default function GraphView({ graphId }: GraphViewProps) {
             <GraphViewHeader graphTitle={graph?.title ?? null} model="GPT4.1" provider="OpenAI" />
 
             <div className="flex-1 flex overflow-hidden">
-                <div className="w-64 h-full">
+                <div className="min-w-64 h-full">
                     {graphId && (
                         <TreeView
                             nodes={nodes}
@@ -93,6 +97,7 @@ export default function GraphView({ graphId }: GraphViewProps) {
                             headNodeId={entry.headNodeId}
                             activeNodeIds={entry.activeNodeIds}
                             visibleNodeIds={visibleNodeIds}
+                            scrollToNodeId={treeScrollToNodeId}
                             onSetHeadNode={handleSetHeadNode}
                             onActivateNode={handleActivateNode}
                         />

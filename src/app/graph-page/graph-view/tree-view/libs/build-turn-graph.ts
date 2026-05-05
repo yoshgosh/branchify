@@ -84,7 +84,7 @@ export const buildTurnGraph = (
     headNodeId: string | null,
     activeNodeIds: string[],
     visibleNodeIds: string[]
-): { turnNodes: TurnNode[]; turnEdges: TurnEdge[] } => {
+): { turnNodes: TurnNode[]; turnEdges: TurnEdge[]; nodeIdToTurnId: Map<string, string> } => {
     // nodes, edges による graph から、turnNodes, turnEdges による turnGraph を作成する
     // turnNode は 隣接する複数の node とそれらを接続する edge をまとめたもの
     // node.type === "question" の node （question node）を起点に、その node から連なる node 列をたどって turnNode を作成する
@@ -143,5 +143,5 @@ export const buildTurnGraph = (
         });
     }
 
-    return { turnNodes, turnEdges };
+    return { turnNodes, turnEdges, nodeIdToTurnId };
 };

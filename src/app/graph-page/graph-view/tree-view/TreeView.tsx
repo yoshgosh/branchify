@@ -12,6 +12,7 @@ interface TreeViewProps {
     headNodeId: string | null;
     activeNodeIds: string[];
     visibleNodeIds: string[];
+    scrollToNodeId: string | null;
     onSetHeadNode: (nodeId: string) => void;
     onActivateNode: (nodeId: string) => Promise<void>;
 }
@@ -22,12 +23,13 @@ export default function TreeView({
     headNodeId,
     activeNodeIds,
     visibleNodeIds,
+    scrollToNodeId,
     onSetHeadNode,
     onActivateNode,
 }: TreeViewProps) {
     const [layoutMode, setLayoutMode] = useState<LayoutMode>('optimized');
 
-    const { turnNodes, turnEdges } = buildTurnGraph(
+    const { turnNodes, turnEdges, nodeIdToTurnId } = buildTurnGraph(
         nodes,
         edges,
         headNodeId,
@@ -35,6 +37,10 @@ export default function TreeView({
         visibleNodeIds
     );
     const TurnGraph = turnGraphRegistry[layoutMode];
+
+    const scrollToTurnNodeId = scrollToNodeId
+        ? (nodeIdToTurnId.get(scrollToNodeId) ?? null)
+        : null;
 
     const handleTurnNodeClick = async (_event: React.MouseEvent, turnNode: TurnNode) => {
         const mostOldNodeId = turnNode.nodes.at(0)?.nodeId ?? turnNode.turnNodeId;
@@ -60,6 +66,7 @@ export default function TreeView({
                 turnNodes={turnNodes}
                 turnEdges={turnEdges}
                 onTurnNodeClick={handleTurnNodeClick}
+                scrollToTurnNodeId={scrollToTurnNodeId}
             />
         </div>
     );
