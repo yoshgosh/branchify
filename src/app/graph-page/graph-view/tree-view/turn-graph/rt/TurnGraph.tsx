@@ -1,47 +1,60 @@
 import React from 'react';
-import ReactFlow, { ReactFlowProvider, Node as ReactFlowNode } from 'reactflow';
-import 'reactflow/dist/style.css';
-import { TurnNode } from '../../models';
 import { TurnGraphProps } from '../type';
 import { positionTurnGraph } from './libs/position-turn-graph';
-import { createReactFlowElements } from './libs/create-react-flow-elements';
-import { TurnNode as TurnNodeComponent } from './TurnNode';
-import { TurnEdge as TurnEdgeComponent } from './TurnEdge';
-
-const nodeTypes = { turnNode: TurnNodeComponent };
-const edgeTypes = { turnEdge: TurnEdgeComponent };
+import { computeLayout } from './libs/compute-layout';
+import { TurnNodeElement } from './TurnNodeElement';
+import { TurnEdgePath } from './TurnEdgePath';
 
 export default function TurnGraph(props: TurnGraphProps) {
-    const { turnNodes, turnEdges, onTurnNodeClick } = props;
-    const positionedGraph = positionTurnGraph(turnNodes, turnEdges);
-    const { nodes: reactFlowNodes, edges: reactFlowEdges } = createReactFlowElements(
-        positionedGraph.turnNodes,
-        positionedGraph.turnEdges
-    );
+    const { turnNodes, turnEdges, onTurnNodeClick, registerTreeNodeRef, scrollContainerRef } =
+        props;
 
-    const onNodeClick = (event: React.MouseEvent, node: ReactFlowNode<TurnNode>) => {
-        const turnNode: TurnNode = node.data;
-        onTurnNodeClick(event, turnNode);
-    };
+    const positionedGraph = positionTurnGraph(turnNodes, turnEdges);
+    const layout = computeLayout(positionedGraph.turnNodes, positionedGraph.turnEdges);
+
+    const sortedEdges = [...layout.edges].sort((a, b) => {
+        const priority = (e: (typeof layout.edges)[number]) =>
+            e.turnEdge.isVisible ? 2 : e.turnEdge.isActive ? 1 : 0;
+        return priority(a) - priority(b);
+    });
 
     return (
-        <ReactFlowProvider>
-            <ReactFlow
-                nodes={reactFlowNodes}
-                edges={reactFlowEdges}
-                nodeTypes={nodeTypes}
-                edgeTypes={edgeTypes}
-                onNodeClick={onNodeClick}
-                fitView={true}
-                nodesDraggable={false}
-                nodesConnectable={false}
-                panOnDrag={false}
-                zoomOnScroll={false}
-                zoomOnPinch={false}
-                minZoom={1}
-                maxZoom={1}
-                selectNodesOnDrag={false}
-            />
-        </ReactFlowProvider>
+        <div ref={scrollContainerRef} style={{ width: '100%', height: '100%', overflow: 'auto' }}>
+            <div
+                style={{
+                    position: 'relative',
+                    width: layout.graphWidth,
+                    height: layout.graphHeight,
+                }}
+            >
+                <svg
+                    style={{ position: 'absolute', top: 0, left: 0 }}
+                    width={layout.graphWidth}
+                    height={layout.graphHeight}
+                >
+                    {sortedEdges.map((edge) => (
+                        <TurnEdgePath
+                            key={edge.turnEdge.turnEdgeId}
+                            turnEdge={edge.turnEdge}
+                            sourceX={edge.sourceX}
+                            sourceY={edge.sourceY}
+                            targetX={edge.targetX}
+                            targetY={edge.targetY}
+                        />
+                    ))}
+                </svg>
+
+                {layout.nodes.map((node) => (
+                    <TurnNodeElement
+                        key={node.turnNode.turnNodeId}
+                        turnNode={node.turnNode}
+                        x={node.x}
+                        y={node.y}
+                        onClick={(event) => onTurnNodeClick(event, node.turnNode)}
+                        registerRef={registerTreeNodeRef}
+                    />
+                ))}
+            </div>
+        </div>
     );
 }

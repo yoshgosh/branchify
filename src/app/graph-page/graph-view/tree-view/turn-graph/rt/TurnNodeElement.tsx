@@ -1,10 +1,17 @@
-import React from 'react';
-import { Handle, NodeProps, Position } from 'reactflow';
+import React, { RefCallback } from 'react';
 import { BranchifyIcon } from '@/app/components/BranchifyIcon';
-import { TurnNode as TurnNodeType } from '../../models';
+import { TurnNode } from '../../models';
 
-export function TurnNode({ data }: NodeProps<TurnNodeType>) {
-    const { isHead, isActive, isVisible } = data;
+type TurnNodeElementProps = {
+    turnNode: TurnNode;
+    x: number;
+    y: number;
+    onClick: (event: React.MouseEvent) => void;
+    registerRef: (id: string) => RefCallback<HTMLElement>;
+};
+
+export function TurnNodeElement({ turnNode, x, y, onClick, registerRef }: TurnNodeElementProps) {
+    const { isHead, isActive, isVisible } = turnNode;
 
     const borderColor = isVisible
         ? 'var(--color-base-9)'
@@ -14,19 +21,33 @@ export function TurnNode({ data }: NodeProps<TurnNodeType>) {
 
     const size = 20;
     const iconSize = Math.round((size * 5) / 3);
+    const domSize = isHead ? iconSize : size;
+    const offset = isHead ? (iconSize - size) / 2 : 0;
+
+    const refCallback = (el: HTMLElement | null) => {
+        for (const node of turnNode.nodes) {
+            registerRef(node.nodeId)(el);
+        }
+    };
 
     return (
         <div
+            ref={refCallback}
+            onClick={onClick}
             style={{
-                width: size,
-                height: size,
-                position: 'relative',
+                position: 'absolute',
+                left: x - offset,
+                top: y - offset,
+                width: domSize,
+                height: domSize,
+                cursor: 'pointer',
                 borderRadius: isHead ? '0%' : '50%',
                 backgroundColor: 'transparent',
                 border: isHead ? 'none' : `6px solid ${borderColor}`,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                scrollMargin: 8,
             }}
         >
             <div
@@ -39,7 +60,6 @@ export function TurnNode({ data }: NodeProps<TurnNodeType>) {
                     zIndex: -1,
                 }}
             />
-
             {isHead && (
                 <div
                     style={{
@@ -65,29 +85,6 @@ export function TurnNode({ data }: NodeProps<TurnNodeType>) {
                     <BranchifyIcon size={iconSize} color={borderColor} />
                 </div>
             )}
-
-            <Handle
-                type="target"
-                position={Position.Top}
-                style={{
-                    visibility: 'hidden',
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                }}
-            />
-            <Handle
-                type="source"
-                position={Position.Bottom}
-                style={{
-                    visibility: 'hidden',
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                }}
-            />
         </div>
     );
 }
