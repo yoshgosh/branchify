@@ -3,6 +3,7 @@ import { TurnNode, TurnEdge } from '../../../models';
 
 export const UNIT_X = 20;
 export const UNIT_Y = 40;
+export const PADDING = 20;
 
 export const createReactFlowElements = (
     turnNodes: TurnNode[],
@@ -10,23 +11,25 @@ export const createReactFlowElements = (
     options: {
         unitX: number;
         unitY: number;
+        padding: number;
     } = {
         unitX: UNIT_X,
         unitY: UNIT_Y,
+        padding: PADDING,
     }
 ): {
     nodes: ReactFlowNode<TurnNode>[];
     edges: ReactFlowEdge<TurnEdge>[];
 } => {
-    const { unitX, unitY } = options;
+    const { unitX, unitY, padding } = options;
 
     const nodes: ReactFlowNode<TurnNode>[] = turnNodes.map((turnNode) => ({
         id: turnNode.turnNodeId,
         type: 'turnNode',
         data: turnNode,
         position: {
-            x: (turnNode.x ?? 0) * unitX,
-            y: (turnNode.y ?? 0) * unitY,
+            x: (turnNode.x ?? 0) * unitX + padding,
+            y: (turnNode.y ?? 0) * unitY + padding,
         },
         zIndex: turnNode.isHead ? 3 : turnNode.isVisible ? 2 : turnNode.isActive ? 1 : 0,
     }));
