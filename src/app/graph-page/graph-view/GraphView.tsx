@@ -8,6 +8,7 @@ import { selectNodesByGraphId, nodeSelectors } from '@/client/store/features/nod
 import { selectEdgesByGraphId } from '@/client/store/features/edges/selectors';
 import { graphSelectors } from '@/client/store/features/graphs/selectors';
 import { useChatScroll } from '@/app/hooks/useChatScroll';
+import { useTreeScroll } from '@/app/hooks/useTreeScroll';
 import { activateNode } from '@/client/store/usecases/view/activate-node';
 import { submitQuestion } from '@/client/store/usecases/questions/submit-question';
 import GraphViewHeader from './GraphViewHeader';
@@ -32,6 +33,8 @@ export default function GraphView({ graphId }: GraphViewProps) {
         contentRef,
     } = useChatScroll();
 
+    const treeScroll = useTreeScroll();
+
     const graph = useAppSelector((state) =>
         graphId ? graphSelectors.selectById(state, graphId) : null
     );
@@ -48,6 +51,7 @@ export default function GraphView({ graphId }: GraphViewProps) {
             behavior: 'auto',
             align: false,
         });
+        treeScroll.scrollToElement(entry.headNodeId, { behavior: 'auto' });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -62,6 +66,7 @@ export default function GraphView({ graphId }: GraphViewProps) {
             behavior: 'smooth',
             align: false,
         });
+        treeScroll.scrollToElement(nodeId, { behavior: 'smooth' });
     };
 
     const handleInputChange = (value: string) => {
@@ -76,6 +81,7 @@ export default function GraphView({ graphId }: GraphViewProps) {
             behavior: 'smooth',
             align: true,
         });
+        treeScroll.scrollToElement(questionNodeId, { behavior: 'smooth' });
     };
 
     const canSubmit = !graphId || !headNode || headNode.status === 'completed';
@@ -85,7 +91,7 @@ export default function GraphView({ graphId }: GraphViewProps) {
             <GraphViewHeader graphTitle={graph?.title ?? null} model="GPT4.1" provider="OpenAI" />
 
             <div className="flex-1 flex overflow-hidden">
-                <div className="w-64 h-full">
+                <div className="min-w-64 h-full">
                     {graphId && (
                         <TreeView
                             nodes={nodes}
@@ -95,6 +101,8 @@ export default function GraphView({ graphId }: GraphViewProps) {
                             visibleNodeIds={visibleNodeIds}
                             onSetHeadNode={handleSetHeadNode}
                             onActivateNode={handleActivateNode}
+                            registerTreeNodeRef={treeScroll.registerElementRef}
+                            scrollContainerRef={treeScroll.scrollContainerRef}
                         />
                     )}
                 </div>

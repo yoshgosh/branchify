@@ -4,7 +4,7 @@ import { TurnNode, LayoutMode } from './models';
 import { buildTurnGraph } from './libs/build-turn-graph';
 import { turnGraphRegistry } from './turn-graph/registry';
 import SegmentControl from './SegmentControl';
-import React, { useState } from 'react';
+import React, { RefCallback, RefObject, useState } from 'react';
 
 interface TreeViewProps {
     nodes: Node[];
@@ -14,6 +14,8 @@ interface TreeViewProps {
     visibleNodeIds: string[];
     onSetHeadNode: (nodeId: string) => void;
     onActivateNode: (nodeId: string) => Promise<void>;
+    registerTreeNodeRef: (id: string) => RefCallback<HTMLElement>;
+    scrollContainerRef: RefObject<HTMLDivElement | null>;
 }
 
 export default function TreeView({
@@ -24,6 +26,8 @@ export default function TreeView({
     visibleNodeIds,
     onSetHeadNode,
     onActivateNode,
+    registerTreeNodeRef,
+    scrollContainerRef,
 }: TreeViewProps) {
     const [layoutMode, setLayoutMode] = useState<LayoutMode>('optimized');
 
@@ -45,22 +49,19 @@ export default function TreeView({
     };
 
     return (
-        <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-            <div
-                style={{
-                    position: 'absolute',
-                    top: 8,
-                    left: 8,
-                    zIndex: 10,
-                }}
-            >
+        <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-start', padding: '8px 8px 0' }}>
                 <SegmentControl value={layoutMode} onChange={setLayoutMode} />
             </div>
-            <TurnGraph
-                turnNodes={turnNodes}
-                turnEdges={turnEdges}
-                onTurnNodeClick={handleTurnNodeClick}
-            />
+            <div style={{ flex: 1, minHeight: 0 }}>
+                <TurnGraph
+                    turnNodes={turnNodes}
+                    turnEdges={turnEdges}
+                    onTurnNodeClick={handleTurnNodeClick}
+                    registerTreeNodeRef={registerTreeNodeRef}
+                    scrollContainerRef={scrollContainerRef}
+                />
+            </div>
         </div>
     );
 }
