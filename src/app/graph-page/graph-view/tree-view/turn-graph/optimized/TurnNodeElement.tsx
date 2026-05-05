@@ -21,6 +21,8 @@ export function TurnNodeElement({ turnNode, x, y, onClick, registerRef }: TurnNo
 
     const size = 20;
     const iconSize = Math.round((size * 5) / 3);
+    const domSize = isHead ? iconSize : size;
+    const offset = isHead ? (iconSize - size) / 2 : 0;
 
     const refCallback = (el: HTMLElement | null) => {
         for (const node of turnNode.nodes) {
@@ -34,10 +36,10 @@ export function TurnNodeElement({ turnNode, x, y, onClick, registerRef }: TurnNo
             onClick={onClick}
             style={{
                 position: 'absolute',
-                left: x,
-                top: y,
-                width: size,
-                height: size,
+                left: x - offset,
+                top: y - offset,
+                width: domSize,
+                height: domSize,
                 cursor: 'pointer',
                 borderRadius: isHead ? '0%' : '50%',
                 backgroundColor: 'transparent',
@@ -45,6 +47,7 @@ export function TurnNodeElement({ turnNode, x, y, onClick, registerRef }: TurnNo
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                scrollMargin: 8,
             }}
         >
             {isHead && (
