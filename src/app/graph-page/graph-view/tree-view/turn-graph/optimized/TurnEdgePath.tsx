@@ -1,5 +1,5 @@
 import React from 'react';
-import { TurnEdge } from '../models';
+import { TurnEdge } from '../../models';
 
 const RADIUS = 10;
 

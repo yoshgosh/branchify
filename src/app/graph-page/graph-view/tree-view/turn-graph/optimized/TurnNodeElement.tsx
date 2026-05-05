@@ -1,6 +1,6 @@
 import React, { RefCallback } from 'react';
 import { BranchifyIcon } from '@/app/components/BranchifyIcon';
-import { TurnNode } from '../models';
+import { TurnNode } from '../../models';
 
 type TurnNodeElementProps = {
     turnNode: TurnNode;
