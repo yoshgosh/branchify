@@ -12,6 +12,12 @@ export default function TurnGraph(props: TurnGraphProps) {
     const positionedGraph = positionTurnGraph(turnNodes, turnEdges);
     const layout = computeLayout(positionedGraph.turnNodes, positionedGraph.turnEdges);
 
+    const sortedEdges = [...layout.edges].sort((a, b) => {
+        const priority = (e: (typeof layout.edges)[number]) =>
+            e.turnEdge.isVisible ? 2 : e.turnEdge.isActive ? 1 : 0;
+        return priority(a) - priority(b);
+    });
+
     return (
         <div ref={scrollContainerRef} style={{ width: '100%', height: '100%', overflow: 'auto' }}>
             <div
@@ -26,7 +32,7 @@ export default function TurnGraph(props: TurnGraphProps) {
                     width={layout.graphWidth}
                     height={layout.graphHeight}
                 >
-                    {layout.edges.map((edge) => (
+                    {sortedEdges.map((edge) => (
                         <TurnEdgePath
                             key={edge.turnEdge.turnEdgeId}
                             turnEdge={edge.turnEdge}
