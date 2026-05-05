@@ -23,9 +23,7 @@ function TurnGraphInner(props: TurnGraphProps) {
 
     useEffect(() => {
         if (!scrollToTurnNodeId) return;
-        const turnNode = positionedGraph.turnNodes.find(
-            (n) => n.turnNodeId === scrollToTurnNodeId
-        );
+        const turnNode = positionedGraph.turnNodes.find((n) => n.turnNodeId === scrollToTurnNodeId);
         if (!turnNode) return;
 
         const x = (turnNode.x ?? 0) * UNIT_X;

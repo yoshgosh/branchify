@@ -38,9 +38,7 @@ export default function TreeView({
     );
     const TurnGraph = turnGraphRegistry[layoutMode];
 
-    const scrollToTurnNodeId = scrollToNodeId
-        ? (nodeIdToTurnId.get(scrollToNodeId) ?? null)
-        : null;
+    const scrollToTurnNodeId = scrollToNodeId ? (nodeIdToTurnId.get(scrollToNodeId) ?? null) : null;
 
     const handleTurnNodeClick = async (_event: React.MouseEvent, turnNode: TurnNode) => {
         const mostOldNodeId = turnNode.nodes.at(0)?.nodeId ?? turnNode.turnNodeId;
