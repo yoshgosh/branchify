@@ -49,24 +49,19 @@ export default function TreeView({
     };
 
     return (
-        <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-            <div
-                style={{
-                    position: 'absolute',
-                    top: 8,
-                    right: 8,
-                    zIndex: 10,
-                }}
-            >
+        <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-start', padding: '8px 8px 0' }}>
                 <SegmentControl value={layoutMode} onChange={setLayoutMode} />
             </div>
-            <TurnGraph
-                turnNodes={turnNodes}
-                turnEdges={turnEdges}
-                onTurnNodeClick={handleTurnNodeClick}
-                registerTreeNodeRef={registerTreeNodeRef}
-                scrollContainerRef={scrollContainerRef}
-            />
+            <div style={{ flex: 1, minHeight: 0 }}>
+                <TurnGraph
+                    turnNodes={turnNodes}
+                    turnEdges={turnEdges}
+                    onTurnNodeClick={handleTurnNodeClick}
+                    registerTreeNodeRef={registerTreeNodeRef}
+                    scrollContainerRef={scrollContainerRef}
+                />
+            </div>
         </div>
     );
 }
