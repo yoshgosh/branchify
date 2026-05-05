@@ -1,6 +1,10 @@
 import { RefCallback, useRef } from 'react';
 import { useCachedCallback } from './useCachedCallback';
 
+type ScrollToOptions = {
+    behavior?: 'auto' | 'smooth';
+};
+
 export function useTreeScroll() {
     const elements = useRef<Map<string, HTMLElement>>(new Map());
     const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -15,7 +19,9 @@ export function useTreeScroll() {
         };
     });
 
-    const scrollToElement = (id: string, behavior: ScrollBehavior = 'smooth') => {
+    const scrollToElement = (id: string, options: ScrollToOptions = {}) => {
+        const { behavior = 'smooth' } = options;
+
         const el = elements.current.get(id);
         if (!el) return;
 
