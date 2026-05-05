@@ -6,16 +6,14 @@ import { TurnNodeElement } from './TurnNodeElement';
 import { TurnEdgePath } from './TurnEdgePath';
 
 export default function TurnGraph(props: TurnGraphProps) {
-    const { turnNodes, turnEdges, onTurnNodeClick, registerTreeNodeRef, scrollContainerRef } = props;
+    const { turnNodes, turnEdges, onTurnNodeClick, registerTreeNodeRef, scrollContainerRef } =
+        props;
 
     const positionedGraph = positionTurnGraph(turnNodes, turnEdges);
     const layout = computeLayout(positionedGraph.turnNodes, positionedGraph.turnEdges);
 
     return (
-        <div
-            ref={scrollContainerRef}
-            style={{ width: '100%', height: '100%', overflow: 'auto' }}
-        >
+        <div ref={scrollContainerRef} style={{ width: '100%', height: '100%', overflow: 'auto' }}>
             <div
                 style={{
                     position: 'relative',
