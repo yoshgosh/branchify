@@ -1,6 +1,9 @@
 import { Node as ReactFlowNode, Edge as ReactFlowEdge } from 'reactflow';
 import { TurnNode, TurnEdge } from '../../../models';
 
+export const UNIT_X = 30;
+export const UNIT_Y = 40;
+
 export const createReactFlowElements = (
     turnNodes: TurnNode[],
     turnEdges: TurnEdge[],
@@ -8,8 +11,8 @@ export const createReactFlowElements = (
         unitX: number;
         unitY: number;
     } = {
-        unitX: 30,
-        unitY: 40,
+        unitX: UNIT_X,
+        unitY: UNIT_Y,
     }
 ): {
     nodes: ReactFlowNode<TurnNode>[];
