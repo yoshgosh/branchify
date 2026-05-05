@@ -8,6 +8,7 @@ export type TurnNode = {
     isHead?: boolean;
     isActive?: boolean;
     isVisible?: boolean;
+    showTitle?: boolean;
 };
 
 export type HandleType = 'top' | 'bottom' | 'left' | 'right';

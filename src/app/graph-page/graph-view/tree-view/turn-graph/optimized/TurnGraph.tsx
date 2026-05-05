@@ -12,12 +12,16 @@ const nodeTypes = { turnNode: TurnNodeComponent };
 const edgeTypes = { turnEdge: TurnEdgeComponent };
 
 function TurnGraphInner(props: TurnGraphProps) {
-    const { turnNodes, turnEdges, onTurnNodeClick, scrollToTurnNodeId } = props;
+    const { turnNodes, turnEdges, onTurnNodeClick, scrollToTurnNodeId, showTitle } = props;
     const { setViewport } = useReactFlow();
 
     const positionedGraph = positionTurnGraph(turnNodes, turnEdges);
+    const turnNodesWithTitle = positionedGraph.turnNodes.map((n) => ({
+        ...n,
+        showTitle: showTitle ?? false,
+    }));
     const { nodes: reactFlowNodes, edges: reactFlowEdges } = createReactFlowElements(
-        positionedGraph.turnNodes,
+        turnNodesWithTitle,
         positionedGraph.turnEdges
     );
 

@@ -4,6 +4,7 @@ import { TurnNode, LayoutMode } from './models';
 import { buildTurnGraph } from './libs/build-turn-graph';
 import { turnGraphRegistry } from './turn-graph/registry';
 import SegmentControl from './SegmentControl';
+import TitleToggle from './TitleToggle';
 import React, { useState } from 'react';
 
 interface TreeViewProps {
@@ -28,6 +29,7 @@ export default function TreeView({
     onActivateNode,
 }: TreeViewProps) {
     const [layoutMode, setLayoutMode] = useState<LayoutMode>('optimized');
+    const [showTitle, setShowTitle] = useState(false);
 
     const { turnNodes, turnEdges, nodeIdToTurnId } = buildTurnGraph(
         nodes,
@@ -56,15 +58,22 @@ export default function TreeView({
                     top: 8,
                     left: 8,
                     zIndex: 10,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 8,
                 }}
             >
                 <SegmentControl value={layoutMode} onChange={setLayoutMode} />
+                {layoutMode === 'optimized' && (
+                    <TitleToggle value={showTitle} onChange={setShowTitle} />
+                )}
             </div>
             <TurnGraph
                 turnNodes={turnNodes}
                 turnEdges={turnEdges}
                 onTurnNodeClick={handleTurnNodeClick}
                 scrollToTurnNodeId={scrollToTurnNodeId}
+                showTitle={showTitle}
             />
         </div>
     );

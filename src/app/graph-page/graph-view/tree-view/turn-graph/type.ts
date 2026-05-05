@@ -5,6 +5,7 @@ export type TurnGraphProps = {
     turnEdges: TurnEdge[];
     onTurnNodeClick: (event: React.MouseEvent, turnNode: TurnNode) => void;
     scrollToTurnNodeId?: string | null;
+    showTitle?: boolean;
 };
 
 export type TurnGraphComponent = React.ComponentType<TurnGraphProps>;
