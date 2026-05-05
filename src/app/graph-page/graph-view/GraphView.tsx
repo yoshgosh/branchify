@@ -7,7 +7,7 @@ import { updateActiveView } from '@/client/store/usecases/view/update-active-vie
 import { selectNodesByGraphId, nodeSelectors } from '@/client/store/features/nodes/selectors';
 import { selectEdgesByGraphId } from '@/client/store/features/edges/selectors';
 import { graphSelectors } from '@/client/store/features/graphs/selectors';
-import { useScroll } from '@/app/hooks/useScroll';
+import { useChatScroll } from '@/app/hooks/useChatScroll';
 import { activateNode } from '@/client/store/usecases/view/activate-node';
 import { submitQuestion } from '@/client/store/usecases/questions/submit-question';
 import GraphViewHeader from './GraphViewHeader';
@@ -30,7 +30,7 @@ export default function GraphView({ graphId }: GraphViewProps) {
         registerElementRef,
         containerRef,
         contentRef,
-    } = useScroll();
+    } = useChatScroll();
 
     const graph = useAppSelector((state) =>
         graphId ? graphSelectors.selectById(state, graphId) : null

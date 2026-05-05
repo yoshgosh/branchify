@@ -1,9 +1,9 @@
-import { useScrollRegistry } from './useScrollRegistry';
+import { useChatScrollRegistry } from './useChatScrollRegistry';
 import { useScrollObserver } from './useScrollObserver';
 import { useCachedCallback } from './useCachedCallback';
 
-export function useScroll() {
-    const registry = useScrollRegistry();
+export function useChatScroll() {
+    const registry = useChatScrollRegistry();
     const observer = useScrollObserver();
 
     const registerElementRef = useCachedCallback((id: string) => {

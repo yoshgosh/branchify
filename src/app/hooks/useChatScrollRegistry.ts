@@ -7,7 +7,7 @@ type ScrollToOptions = {
     margin?: number;
 };
 
-export function useScrollRegistry() {
+export function useChatScrollRegistry() {
     const elements = useRef<Map<string, HTMLElement>>(new Map());
     const waiters = useRef<Map<string, Set<() => void>>>(new Map());
     const containerRef = useRef<HTMLDivElement>(null);
