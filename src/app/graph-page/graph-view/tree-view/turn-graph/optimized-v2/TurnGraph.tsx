@@ -32,7 +32,7 @@ export default function TurnGraph(props: TurnGraphProps) {
                         gap: '2px',
                     }}
                 >
-                    {([false, true] as const).map((value) => (
+                    {([true, false] as const).map((value) => (
                         <button
                             key={String(value)}
                             onClick={() => setShowTitle(value)}
@@ -54,7 +54,7 @@ export default function TurnGraph(props: TurnGraphProps) {
                                     showTitle === value ? '0 1px 2px rgba(0,0,0,0.1)' : 'none',
                             }}
                         >
-                            {value ? 'Title' : 'No Title'}
+                            {value ? 'Title' : 'None'}
                         </button>
                     ))}
                 </div>
