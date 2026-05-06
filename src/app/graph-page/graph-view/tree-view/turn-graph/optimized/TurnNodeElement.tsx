@@ -81,7 +81,7 @@ export function TurnNodeElement({
                         transform: 'translateY(-50%)',
                         whiteSpace: 'nowrap',
                         fontSize: '12px',
-                        color: 'var(--color-base-7)',
+                        color: borderColor,
                         pointerEvents: 'none',
                         userSelect: 'none',
                     }}
