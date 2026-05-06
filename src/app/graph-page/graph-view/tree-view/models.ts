@@ -16,4 +16,4 @@ export type TurnEdge = {
     isVisible?: boolean;
 };
 
-export type LayoutMode = 'optimized' | 'rt';
+export type LayoutMode = 'optimized' | 'optimized-v2' | 'rt';

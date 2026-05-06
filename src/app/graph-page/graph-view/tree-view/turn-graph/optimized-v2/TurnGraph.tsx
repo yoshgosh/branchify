@@ -8,7 +8,7 @@ export default function TurnGraph(props: TurnGraphProps) {
     const { turnNodes, turnEdges, onTurnNodeClick, registerTreeNodeRef, scrollContainerRef } =
         props;
 
-    const [showTitle, setShowTitle] = useState(true);
+    const [showTitle, setShowTitle] = useState(false);
 
     const layout = computeLayout(turnNodes, turnEdges);
 

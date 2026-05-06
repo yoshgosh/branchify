@@ -29,7 +29,7 @@ export default function TreeView({
     registerTreeNodeRef,
     scrollContainerRef,
 }: TreeViewProps) {
-    const [layoutMode, setLayoutMode] = useState<LayoutMode>('optimized');
+    const [layoutMode, setLayoutMode] = useState<LayoutMode>('optimized-v2');
 
     const { turnNodes, turnEdges } = buildTurnGraph(
         nodes,
