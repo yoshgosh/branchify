@@ -25,7 +25,7 @@ export default function Sidebar() {
 
     return (
         <div
-            className={`h-full shrink-0 bg-base-1 flex flex-col transition-[width] duration-200 ${
+            className={`relative z-10 h-full shrink-0 bg-base-1 flex flex-col transition-[width] duration-200 ${
                 collapsed ? 'w-14' : 'w-64'
             }`}
         >
