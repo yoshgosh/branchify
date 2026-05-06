@@ -11,6 +11,7 @@ type PositionedNode = {
     turnNode: TurnNode;
     x: number;
     y: number;
+    titleX: number;
 };
 
 type PositionedEdge = {
@@ -48,9 +49,10 @@ const computeHandlePosition = (
 const assignLanes = (
     turnNodes: TurnNode[],
     parentMap: Map<string, string[]>
-): Map<string, number> => {
+): { colMap: Map<string, number>; maxLaneMap: Map<string, number> } => {
     const lanes: (string | null)[] = [];
     const colMap = new Map<string, number>();
+    const maxLaneMap = new Map<string, number>();
 
     const getLaneIdx = (id: string) => lanes.findIndex((v) => v === id);
     const getNewLaneIdx = () => {
@@ -75,6 +77,11 @@ const assignLanes = (
         if (laneIdx === -1) laneIdx = getFreeLaneIdx();
         colMap.set(turnNodeId, laneIdx);
 
+        let maxOccupiedBefore = laneIdx;
+        for (let k = 0; k < lanes.length; k++) {
+            if (lanes[k] !== null) maxOccupiedBefore = Math.max(maxOccupiedBefore, k);
+        }
+
         clearLanes(turnNodeId);
 
         const parentIds = parentMap.get(turnNodeId) ?? [];
@@ -85,9 +92,16 @@ const assignLanes = (
             if (parentLaneIdx === -1) parentLaneIdx = getFreeLaneIdx();
             reserveLane(parentId, parentLaneIdx);
         }
+
+        let maxOccupiedAfter = laneIdx;
+        for (let k = 0; k < lanes.length; k++) {
+            if (lanes[k] !== null) maxOccupiedAfter = Math.max(maxOccupiedAfter, k);
+        }
+
+        maxLaneMap.set(turnNodeId, Math.max(maxOccupiedBefore, maxOccupiedAfter));
     }
 
-    return colMap;
+    return { colMap, maxLaneMap };
 };
 
 export const computeLayout = (turnNodes: TurnNode[], turnEdges: TurnEdge[]): GraphLayout => {
@@ -97,14 +111,16 @@ export const computeLayout = (turnNodes: TurnNode[], turnEdges: TurnEdge[]): Gra
         parentMap.get(edge.childId)!.push(edge.parentId);
     }
 
-    const colMap = assignLanes(turnNodes, parentMap);
+    const { colMap, maxLaneMap } = assignLanes(turnNodes, parentMap);
 
     const nodePositionMap = new Map<string, { x: number; y: number }>();
     const nodes: PositionedNode[] = turnNodes.map((turnNode, i) => {
         const x = (colMap.get(turnNode.turnNodeId) ?? 0) * UNIT_X + PADDING;
+        const maxLane = maxLaneMap.get(turnNode.turnNodeId) ?? 0;
+        const titleX = maxLane * UNIT_X + PADDING;
         const y = i * UNIT_Y + PADDING;
         nodePositionMap.set(turnNode.turnNodeId, { x, y });
-        return { turnNode, x, y };
+        return { turnNode, x, y, titleX };
     });
 
     const edges: PositionedEdge[] = turnEdges.map((turnEdge) => {

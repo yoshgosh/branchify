@@ -90,6 +90,7 @@ export default function TurnGraph(props: TurnGraphProps) {
                             turnNode={node.turnNode}
                             x={node.x}
                             y={node.y}
+                            titleX={node.titleX}
                             onClick={(event) => onTurnNodeClick(event, node.turnNode)}
                             registerRef={registerTreeNodeRef}
                             showTitle={showTitle}

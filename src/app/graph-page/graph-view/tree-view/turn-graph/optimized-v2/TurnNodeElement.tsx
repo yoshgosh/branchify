@@ -2,13 +2,14 @@ import React, { RefCallback } from 'react';
 import { BranchifyIcon } from '@/app/components/BranchifyIcon';
 import { TurnNode } from '../../models';
 
-export const TITLE_COLUMN_WIDTH = 120;
+export const TITLE_COLUMN_WIDTH = 175;
 const TITLE_LEFT_GAP = 8;
 
 type TurnNodeElementProps = {
     turnNode: TurnNode;
     x: number;
     y: number;
+    titleX: number;
     onClick: (event: React.MouseEvent) => void;
     registerRef: (id: string) => RefCallback<HTMLElement>;
     showTitle?: boolean;
@@ -19,6 +20,7 @@ export function TurnNodeElement({
     turnNode,
     x,
     y,
+    titleX,
     onClick,
     registerRef,
     showTitle,
@@ -29,8 +31,8 @@ export function TurnNodeElement({
     const borderColor = isVisible
         ? 'var(--color-base-9)'
         : isActive
-          ? 'var(--color-base-5)'
-          : 'var(--color-base-3)';
+            ? 'var(--color-base-5)'
+            : 'var(--color-base-3)';
 
     const size = 20;
     const iconSize = Math.round((size * 5) / 3);
@@ -79,7 +81,7 @@ export function TurnNodeElement({
                 <span
                     style={{
                         position: 'absolute',
-                        left: domSize + TITLE_LEFT_GAP,
+                        left: (titleX - x) + domSize + TITLE_LEFT_GAP,
                         top: '50%',
                         transform: 'translateY(-50%)',
                         width: TITLE_COLUMN_WIDTH - TITLE_LEFT_GAP,
