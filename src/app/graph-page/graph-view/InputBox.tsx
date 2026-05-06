@@ -2,6 +2,8 @@
 
 import { useState, useRef, useEffect } from 'react';
 
+const MAX_TEXTAREA_HEIGHT = 300;
+
 interface InputBoxProps {
     value: string;
     onChange: (value: string) => void;
@@ -38,7 +40,9 @@ export default function InputBox({
         const el = textareaRef.current;
         if (el) {
             el.style.height = 'auto';
-            el.style.height = `${el.scrollHeight}px`;
+            const nextHeight = Math.min(el.scrollHeight, MAX_TEXTAREA_HEIGHT);
+            el.style.height = `${nextHeight}px`;
+            el.style.overflowY = el.scrollHeight > MAX_TEXTAREA_HEIGHT ? 'auto' : 'hidden';
         }
     };
 
@@ -51,7 +55,7 @@ export default function InputBox({
             <div className="border border-base-3 rounded-[20px] w-full bg-base-1 gap-1">
                 <textarea
                     ref={textareaRef}
-                    className="w-full px-4 pt-3 bg-transparent resize-none outline-none overflow-hidden"
+                    className="w-full px-4 pt-3 bg-transparent resize-none outline-none"
                     rows={1}
                     value={value}
                     onChange={(e) => onChange(e.target.value)}
