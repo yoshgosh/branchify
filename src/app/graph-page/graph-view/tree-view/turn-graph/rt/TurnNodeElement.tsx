@@ -57,7 +57,6 @@ export function TurnNodeElement({ turnNode, x, y, onClick, registerRef }: TurnNo
                     height: isHead ? size : size - 4,
                     borderRadius: '50%',
                     backgroundColor: 'var(--color-base-0)',
-                    zIndex: -1,
                 }}
             />
             {isHead && (
@@ -79,7 +78,6 @@ export function TurnNodeElement({ turnNode, x, y, onClick, registerRef }: TurnNo
                             height: size,
                             borderRadius: '50%',
                             backgroundColor: 'var(--color-base-0)',
-                            zIndex: -1,
                         }}
                     />
                     <BranchifyIcon size={iconSize} color={borderColor} />
