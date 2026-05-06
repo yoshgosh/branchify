@@ -14,7 +14,7 @@ function GraphItem({ graphId, onSelect }: GraphItemProps) {
 
     return (
         <li
-            className="px-3 py-2 rounded hover:bg-base-3 cursor-pointer text-sm truncate"
+            className="px-3 py-2 rounded-lg hover:bg-base-3 cursor-pointer text-sm truncate"
             onClick={() => onSelect(graphId)}
             title={graph?.title ?? 'New Graph'}
         >
@@ -32,7 +32,7 @@ export default function GraphMenu() {
     };
 
     return (
-        <ul className="p-2 space-y-2">
+        <ul className="p-2">
             {graphIds
                 .slice()
                 .reverse()

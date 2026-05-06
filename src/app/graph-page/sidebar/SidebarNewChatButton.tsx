@@ -1,10 +1,14 @@
 'use client';
 
-import { FaCirclePlus } from 'react-icons/fa6';
+import { GoPlusCircle } from "react-icons/go";
 import { useAppDispatch } from '@/client/store/store';
 import { switchGraph } from '@/client/store/usecases/view/switch-graph';
 
-export default function SidebarNewChatButton() {
+interface SidebarNewChatButtonProps {
+    collapsed: boolean;
+}
+
+export default function SidebarNewChatButton({ collapsed }: SidebarNewChatButtonProps) {
     const dispatch = useAppDispatch();
 
     const handleClick = () => {
@@ -12,13 +16,19 @@ export default function SidebarNewChatButton() {
     };
 
     return (
-        <div className="px-2 pb-2">
+        <div className="overflow-hidden px-2 pb-2">
             <button
-                className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm cursor-pointer hover:bg-base-3"
+                className={`flex h-10 items-center overflow-hidden rounded-lg text-sm cursor-pointer hover:bg-base-3 ${
+                    collapsed ? 'w-10' : 'w-60 pr-3 text-left'
+                }`}
                 onClick={handleClick}
+                aria-label="New Chat"
+                title="New Chat"
             >
-                <FaCirclePlus className="shrink-0" size={16} />
-                <span>New Chat</span>
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center">
+                    <GoPlusCircle className="shrink-0" size={20} />
+                </span>
+                {!collapsed && <span className="min-w-0 whitespace-nowrap">New Chat</span>}
             </button>
         </div>
     );
