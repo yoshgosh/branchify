@@ -1,6 +1,5 @@
 import React from 'react';
 import { TurnGraphProps } from '../type';
-import { positionTurnGraph } from './libs/position-turn-graph';
 import { computeLayout } from './libs/compute-layout';
 import { TurnNodeElement } from './TurnNodeElement';
 import { TurnEdgePath } from './TurnEdgePath';
@@ -9,8 +8,7 @@ export default function TurnGraph(props: TurnGraphProps) {
     const { turnNodes, turnEdges, onTurnNodeClick, registerTreeNodeRef, scrollContainerRef } =
         props;
 
-    const positionedGraph = positionTurnGraph(turnNodes, turnEdges);
-    const layout = computeLayout(positionedGraph.turnNodes, positionedGraph.turnEdges);
+    const layout = computeLayout(turnNodes, turnEdges);
 
     const sortedEdges = [...layout.edges].sort((a, b) => {
         const priority = (e: (typeof layout.edges)[number]) =>
