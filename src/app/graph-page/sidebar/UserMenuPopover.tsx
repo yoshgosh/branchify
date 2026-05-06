@@ -9,7 +9,7 @@ type UserMenuPopoverProps = {
 
 export default function UserMenuPopover({ onOpenSettings, onSignOut }: UserMenuPopoverProps) {
     return (
-        <div className="absolute bottom-full left-2 z-20 mb-2 w-60 rounded-2xl border border-base-4 bg-base-2 p-2 shadow-xl">
+        <div className="absolute bottom-full left-2 z-20 mb-2 w-60 rounded-2xl border border-base-4 bg-base-2 p-2 shadow-lg">
             <button
                 type="button"
                 onClick={onOpenSettings}

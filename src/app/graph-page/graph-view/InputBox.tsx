@@ -51,8 +51,8 @@ export default function InputBox({
     }, [value]);
 
     return (
-        <div className="w-full px-4 pb-4">
-            <div className="border border-base-3 rounded-[20px] w-full bg-base-1 gap-1">
+        <div className="w-full px-4 pb-8">
+            <div className="border border-base-3 rounded-[20px] w-full bg-base-1 gap-1 shadow-lg">
                 <textarea
                     ref={textareaRef}
                     className="w-full px-4 pt-3 bg-transparent resize-none outline-none"
