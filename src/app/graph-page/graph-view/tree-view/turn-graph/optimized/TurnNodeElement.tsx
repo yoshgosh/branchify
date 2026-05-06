@@ -8,9 +8,19 @@ type TurnNodeElementProps = {
     y: number;
     onClick: (event: React.MouseEvent) => void;
     registerRef: (id: string) => RefCallback<HTMLElement>;
+    showTitle?: boolean;
+    title?: string | null;
 };
 
-export function TurnNodeElement({ turnNode, x, y, onClick, registerRef }: TurnNodeElementProps) {
+export function TurnNodeElement({
+    turnNode,
+    x,
+    y,
+    onClick,
+    registerRef,
+    showTitle,
+    title,
+}: TurnNodeElementProps) {
     const { isHead, isActive, isVisible } = turnNode;
 
     const borderColor = isVisible
@@ -61,6 +71,23 @@ export function TurnNodeElement({ turnNode, x, y, onClick, registerRef }: TurnNo
                 >
                     <BranchifyIcon size={iconSize} color={borderColor} />
                 </div>
+            )}
+            {showTitle && title && (
+                <span
+                    style={{
+                        position: 'absolute',
+                        left: domSize + 8,
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        whiteSpace: 'nowrap',
+                        fontSize: '12px',
+                        color: 'var(--color-base-7)',
+                        pointerEvents: 'none',
+                        userSelect: 'none',
+                    }}
+                >
+                    {title}
+                </span>
             )}
         </div>
     );
