@@ -1,4 +1,6 @@
-import { TurnNode, TurnEdge, HandleType } from '../../../models';
+import { TurnNode, TurnEdge } from '../../../models';
+
+type HandleType = 'top' | 'bottom' | 'left' | 'right';
 
 const UNIT_X = 20;
 const UNIT_Y = 40;
