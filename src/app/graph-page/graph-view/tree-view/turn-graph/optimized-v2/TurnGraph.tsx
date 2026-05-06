@@ -22,7 +22,7 @@ export default function TurnGraph(props: TurnGraphProps) {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%' }}>
-            <div style={{ padding: '4px 8px' }}>
+            <div style={{ padding: '0 8px 8px' }}>
                 <div
                     style={{
                         display: 'inline-flex',
