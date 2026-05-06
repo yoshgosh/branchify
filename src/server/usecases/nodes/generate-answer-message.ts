@@ -42,73 +42,82 @@ export async function generateAnswerMessage(
         });
     });
 
-    // --- コンテキスト構築 ---
-    const contextNodes = await withTransaction(async (tx) => {
-        return await collectContextNodes(tx, input.nodeId, { maxDepth: 10 });
-    });
+    try {
+        // --- コンテキスト構築 ---
+        const contextNodes = await withTransaction(async (tx) => {
+            return await collectContextNodes(tx, input.nodeId, { maxDepth: 10 });
+        });
 
-    const contextMessages: BaseMessage[] = contextNodes
-        .map((n) => n.message)
-        .filter((m): m is BaseMessage => !!m);
+        const contextMessages: BaseMessage[] = contextNodes
+            .map((n) => n.message)
+            .filter((m): m is BaseMessage => !!m);
 
-    if (contextMessages.length === 0) {
-        throw new Error('INVALID_STATE: no context messages available for generating answer');
-    }
+        if (contextMessages.length === 0) {
+            throw new Error('INVALID_STATE: no context messages available for generating answer');
+        }
 
-    // --- LLMストリーム生成 ---
-    const user = await withTransaction(async (tx) => UserRepo.findById(tx, ctx.userId));
-    if (!user?.openaiApiKey) throw new Error('APIキーが未登録です');
+        // --- LLMストリーム生成 ---
+        const user = await withTransaction(async (tx) => UserRepo.findById(tx, ctx.userId));
+        if (!user?.openaiApiKey) throw new Error('APIキーが未登録です');
 
-    const llm = new ChatOpenAI({
-        model: OPENAI_CHAT_MODEL,
-        streaming: true,
-        apiKey: user.openaiApiKey,
-    });
-    const llmStream = await llm.stream(contextMessages);
+        const llm = new ChatOpenAI({
+            model: OPENAI_CHAT_MODEL,
+            streaming: true,
+            apiKey: user.openaiApiKey,
+        });
+        const llmStream = await llm.stream(contextMessages);
 
-    const stream = new ReadableStream({
-        async start(controller) {
-            let merged: AIMessageChunk | undefined;
+        const stream = new ReadableStream({
+            async start(controller) {
+                let merged: AIMessageChunk | undefined;
 
-            try {
-                for await (const chunk of llmStream) {
-                    // クライアントに即時送信
-                    controller.enqueue(chunk);
-                    // 最終形に集約
-                    merged = merged ? merged.concat(chunk) : chunk;
-                }
-
-                // ストリーム完了後の永続化
-                const aiMessage = new AIMessage({
-                    content: merged?.content ?? '',
-                    tool_calls: merged?.tool_calls ?? [],
-                    additional_kwargs: merged?.additional_kwargs ?? {},
-                });
-
-                await withTransaction(async (tx) => {
-                    const prev = await NodeRepo.findById(tx, input.nodeId);
-                    if (!prev) throw new Error('NOT_FOUND: node');
-                    await NodeRepo.update(tx, input.nodeId, {
-                        status: 'completed',
-                        message: aiMessage,
-                    });
-                });
-
-                controller.close();
-            } catch (err) {
-                console.error(`stream error at node ${input.nodeId}:`, err);
                 try {
+                    for await (const chunk of llmStream) {
+                        // クライアントに即時送信
+                        controller.enqueue(chunk);
+                        // 最終形に集約
+                        merged = merged ? merged.concat(chunk) : chunk;
+                    }
+
+                    // ストリーム完了後の永続化
+                    const aiMessage = new AIMessage({
+                        content: merged?.content ?? '',
+                        tool_calls: merged?.tool_calls ?? [],
+                        additional_kwargs: merged?.additional_kwargs ?? {},
+                    });
+
                     await withTransaction(async (tx) => {
+                        const prev = await NodeRepo.findById(tx, input.nodeId);
+                        if (!prev) throw new Error('NOT_FOUND: node');
                         await NodeRepo.update(tx, input.nodeId, {
-                            status: 'failed',
+                            status: 'completed',
+                            message: aiMessage,
                         });
                     });
-                } finally {
-                    controller.error(err);
-                }
-            }
-        },
-    });
 
-    return { stream };
+                    controller.close();
+                } catch (err) {
+                    console.error(`stream error at node ${input.nodeId}:`, err);
+                    try {
+                        await withTransaction(async (tx) => {
+                            await NodeRepo.update(tx, input.nodeId, {
+                                status: 'failed',
+                            });
+                        });
+                    } finally {
+                        controller.error(err);
+                    }
+                }
+            },
+        });
+
+        return { stream };
+    } catch (err) {
+        await withTransaction(async (tx) => {
+            await NodeRepo.update(tx, input.nodeId, {
+                status: 'failed',
+            });
+        });
+        throw err;
+    }
 }
