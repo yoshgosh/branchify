@@ -6,7 +6,7 @@ interface SegmentControlProps {
 }
 
 const LAYOUT_MODE_OPTIONS: { value: LayoutMode; label: string }[] = [
-    { value: 'optimized', label: 'Optimized' },
+    { value: 'optimized-v2', label: 'Optimized' },
     { value: 'rt', label: 'RT' },
 ];
 
