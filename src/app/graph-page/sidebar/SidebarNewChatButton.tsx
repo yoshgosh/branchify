@@ -1,6 +1,6 @@
 'use client';
 
-import { GoPlusCircle } from "react-icons/go";
+import { FiPlusCircle } from "react-icons/fi";
 import { useAppDispatch } from '@/client/store/store';
 import { switchGraph } from '@/client/store/usecases/view/switch-graph';
 
@@ -26,7 +26,7 @@ export default function SidebarNewChatButton({ collapsed }: SidebarNewChatButton
                 title="New Chat"
             >
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center">
-                    <GoPlusCircle className="shrink-0" size={20} />
+                    <FiPlusCircle className="shrink-0" size={18} />
                 </span>
                 {!collapsed && <span className="min-w-0 whitespace-nowrap">New Chat</span>}
             </button>

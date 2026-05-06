@@ -88,7 +88,7 @@ export default function UserMenu({ collapsed }: UserMenuProps) {
                         </span>
                         <FiChevronRight
                             size={16}
-                            className={`shrink-0 text-base-6 transition-transform ${menuOpen ? 'rotate-[-90deg]' : ''}`}
+                            className={`shrink-0 text-base-6 transition-transform ${menuOpen ? '-rotate-90' : ''}`}
                         />
                     </>
                 )}

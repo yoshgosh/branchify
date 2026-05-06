@@ -15,7 +15,7 @@ export default function UserMenuPopover({ onOpenSettings, onSignOut }: UserMenuP
                 onClick={onOpenSettings}
                 className="flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2 text-left text-sm text-base-9 transition-colors hover:bg-base-3"
             >
-                <FiSettings size={16} className="shrink-0" />
+                <FiSettings size={18} className="shrink-0" />
                 <span>Settings</span>
             </button>
             <button
@@ -23,7 +23,7 @@ export default function UserMenuPopover({ onOpenSettings, onSignOut }: UserMenuP
                 onClick={onSignOut}
                 className="flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2 text-left text-sm text-base-9 transition-colors hover:bg-base-3"
             >
-                <FiLogOut size={16} className="shrink-0" />
+                <FiLogOut size={18} className="shrink-0" />
                 <span>Sign out</span>
             </button>
         </div>

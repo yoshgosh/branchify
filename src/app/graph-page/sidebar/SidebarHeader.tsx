@@ -3,7 +3,7 @@
 import { useAppDispatch } from '@/client/store/store';
 import { switchGraph } from '@/client/store/usecases/view/switch-graph';
 import { BranchifyIcon } from '@/app/components/BranchifyIcon';
-import { GoSidebarCollapse, GoSidebarExpand } from 'react-icons/go';
+import { FiSidebar } from "react-icons/fi";
 
 interface SidebarHeaderProps {
     collapsed: boolean;
@@ -27,7 +27,7 @@ export default function SidebarHeader({ collapsed, onToggleCollapsed }: SidebarH
                         aria-label="Expand sidebar"
                         title="Expand sidebar"
                     >
-                        <GoSidebarExpand size={20} />
+                        <FiSidebar size={18} />
                     </button>
                 </div>
             </div>
@@ -51,7 +51,7 @@ export default function SidebarHeader({ collapsed, onToggleCollapsed }: SidebarH
                     aria-label="Collapse sidebar"
                     title="Collapse sidebar"
                 >
-                    <GoSidebarCollapse size={20} />
+                    <FiSidebar size={18} />
                 </button>
             </div>
         </div>
