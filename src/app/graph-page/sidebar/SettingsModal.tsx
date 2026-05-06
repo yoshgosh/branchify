@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { FiCheckCircle, FiRefreshCw, FiSettings, FiX, FiXCircle } from 'react-icons/fi';
 import { useAppDispatch, useAppSelector } from '@/client/store/store';
 import { getMeThunk, updateMeThunk } from '@/client/store/features/users/thunks';
 
@@ -45,40 +46,67 @@ export default function SettingsModal({ open, onClose }: Props) {
             onClick={onClose}
         >
             <div
-                className="w-full max-w-md rounded-[20px] bg-base-2 p-6 shadow-xl"
+                className="relative w-full max-w-md rounded-[20px] border border-base-4 bg-base-2 p-6 shadow-xl"
                 onClick={(e) => e.stopPropagation()}
             >
-                <h2 className="mb-4 text-lg font-semibold text-base-9">Settings</h2>
+                <button
+                    type="button"
+                    onClick={onClose}
+                    className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full text-base-6 transition-colors hover:bg-base-3 hover:text-base-9"
+                    aria-label="Close settings"
+                >
+                    <FiX size={18} />
+                </button>
 
-                <div className="space-y-2">
-                    <label className="block text-sm font-medium text-base-7">OpenAI API Key</label>
-                    {me?.openaiApiKey && (
-                        <p className="text-xs text-base-5">Current value: {me.openaiApiKey}</p>
-                    )}
-                    <input
-                        type="password"
-                        value={apiKey}
-                        onChange={(e) => setApiKey(e.target.value)}
-                        placeholder="sk-..."
-                        className="w-full rounded-lg border border-base-4 bg-base-1 px-3 py-2 text-sm text-base-9 placeholder:text-base-5 focus:border-base-6 focus:outline-none"
-                    />
-                    {error && <p className="text-xs text-red-500">{error}</p>}
+                <div className="mb-6 flex items-center">
+                    <div className="flex h-10 w-10 items-center justify-center text-base-8">
+                        <FiSettings size={20} />
+                    </div>
+                    <div>
+                        <h2 className="text-lg font-semibold text-base-9">Settings</h2>
+                    </div>
                 </div>
 
-                <div className="mt-6 flex justify-end gap-2">
-                    <button
-                        onClick={onClose}
-                        className="cursor-pointer rounded-lg px-4 py-2 text-sm text-base-6 hover:bg-base-3"
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        onClick={handleSave}
-                        disabled={loading || !apiKey}
-                        className="cursor-pointer rounded-lg bg-base-8 px-4 py-2 text-sm text-base-1 hover:bg-base-7 disabled:opacity-50"
-                    >
-                        {loading ? 'Saving...' : 'Save'}
-                    </button>
+                <div className="space-y-3">
+                    <div className="flex items-center justify-between gap-3">
+                        <label className="text-sm font-medium text-base-7">OpenAI API Key</label>
+                        <span
+                            className={`flex items-center gap-2 text-xs font-medium ${
+                                me?.openaiApiKey ? 'text-emerald-600' : 'text-base-5'
+                            }`}
+                        >
+                            {me?.openaiApiKey ? (
+                                <FiCheckCircle size={15} className="shrink-0" />
+                            ) : (
+                                <FiXCircle size={15} className="shrink-0" />
+                            )}
+                            {me?.openaiApiKey ? 'Registered' : 'Not registered'}
+                        </span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        <input
+                            type="password"
+                            value={apiKey}
+                            onChange={(e) => setApiKey(e.target.value)}
+                            placeholder="sk-..."
+                            className="min-w-0 flex-1 rounded-xl border border-base-4 bg-base-1 px-3 py-2.5 text-sm text-base-9 placeholder:text-base-5 focus:border-base-6 focus:outline-none"
+                        />
+                        <button
+                            type="button"
+                            onClick={handleSave}
+                            disabled={loading || !apiKey}
+                            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-base-8 text-base-1 transition-colors hover:bg-base-7 disabled:cursor-not-allowed disabled:opacity-50"
+                            aria-label="Update API key"
+                            title="Update API key"
+                        >
+                            <FiRefreshCw size={16} className={loading ? 'animate-spin' : ''} />
+                        </button>
+                    </div>
+
+                    <div className="min-h-5">
+                        {error && <p className="text-xs text-red-500">{error}</p>}
+                    </div>
                 </div>
             </div>
         </div>
