@@ -91,7 +91,7 @@ export default function GraphView({ graphId }: GraphViewProps) {
             <GraphViewHeader graphTitle={graph?.title ?? null} model="GPT4.1" provider="OpenAI" />
 
             <div className="flex-1 flex overflow-hidden">
-                <div className="min-w-64 h-full">
+                <div className="max-w-64 h-full">
                     {graphId && (
                         <TreeView
                             nodes={nodes}
