@@ -16,7 +16,7 @@ function GraphItem({ graphId, isActive, onSelect }: GraphItemProps) {
 
     return (
         <li
-            className={`px-3 py-2 rounded-lg cursor-pointer text-sm truncate hover:bg-base-3 ${
+            className={`px-3 py-1.5 rounded-lg cursor-pointer text-sm truncate hover:bg-base-3 ${
                 isActive ? 'bg-base-3' : ''
             }`}
             onClick={() => onSelect(graphId)}
@@ -37,7 +37,7 @@ export default function GraphMenu() {
     };
 
     return (
-        <ul className="p-2">
+        <ul className="p-2 space-y-0.5">
             {graphIds
                 .slice()
                 .reverse()
