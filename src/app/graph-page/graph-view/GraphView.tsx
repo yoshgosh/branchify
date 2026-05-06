@@ -79,25 +79,41 @@ export default function GraphView({ graphId }: GraphViewProps) {
 
     const canSubmit = !graphId || !headNode || headNode.status === 'completed';
 
+    if (!graphId) {
+        return (
+            <div className="flex-1 flex flex-col w-full h-full overflow-hidden">
+                <GraphViewHeader graphTitle={null} model="GPT4.1" provider="OpenAI" />
+                <div className="flex-1 flex items-center justify-center w-full overflow-hidden px-6">
+                    <div className="w-full max-w-3xl">
+                        <InputBox
+                            value={entry.inputText}
+                            onChange={handleInputChange}
+                            onSubmit={handleSubmit}
+                            canSubmit={canSubmit}
+                        />
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="flex-1 flex flex-col w-full h-full overflow-hidden">
             <GraphViewHeader graphTitle={graph?.title ?? null} model="GPT4.1" provider="OpenAI" />
 
             <div className="flex-1 flex overflow-hidden">
                 <div className="max-w-64 h-full">
-                    {graphId && (
-                        <TreeView
-                            nodes={nodes}
-                            edges={edges}
-                            headNodeId={entry.headNodeId}
-                            activeNodeIds={entry.activeNodeIds}
-                            visibleNodeIds={chatScroll.visibleElementIds}
-                            onSetHeadNode={handleSetHeadNode}
-                            onActivateNode={handleActivateNode}
-                            registerElementRef={treeScroll.registerElementRef}
-                            containerRef={treeScroll.scrollContainerRef}
-                        />
-                    )}
+                    <TreeView
+                        nodes={nodes}
+                        edges={edges}
+                        headNodeId={entry.headNodeId}
+                        activeNodeIds={entry.activeNodeIds}
+                        visibleNodeIds={chatScroll.visibleElementIds}
+                        onSetHeadNode={handleSetHeadNode}
+                        onActivateNode={handleActivateNode}
+                        registerElementRef={treeScroll.registerElementRef}
+                        containerRef={treeScroll.scrollContainerRef}
+                    />
                 </div>
 
                 <div className="flex-1 h-full flex flex-col items-center overflow-hidden">
