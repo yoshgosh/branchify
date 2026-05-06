@@ -25,14 +25,7 @@ export default function GraphView({ graphId }: GraphViewProps) {
     const dispatch = useAppDispatch();
     const entry = useAppSelector(selectActiveViewEntry);
 
-    const {
-        scrollToElement: scrollToNode,
-        visibleElementIds: visibleNodeIds,
-        registerElementRef,
-        containerRef,
-        contentRef,
-    } = useChatScroll();
-
+    const chatScroll = useChatScroll();
     const treeScroll = useTreeScroll();
 
     const graph = useAppSelector((state) =>
@@ -47,7 +40,7 @@ export default function GraphView({ graphId }: GraphViewProps) {
 
     useEffect(() => {
         if (!entry.headNodeId) return;
-        scrollToNode(entry.headNodeId, {
+        chatScroll.scrollToElement(entry.headNodeId, {
             behavior: 'auto',
             align: false,
         });
@@ -62,7 +55,7 @@ export default function GraphView({ graphId }: GraphViewProps) {
 
     const handleActivateNode = async (nodeId: string) => {
         dispatch(activateNode(nodeId));
-        scrollToNode(nodeId, {
+        chatScroll.scrollToElement(nodeId, {
             behavior: 'smooth',
             align: false,
         });
@@ -77,7 +70,7 @@ export default function GraphView({ graphId }: GraphViewProps) {
         dispatch(updateActiveView({ inputText: '' }));
         const { questionNodeId } = await dispatch(submitQuestion(question));
 
-        scrollToNode(questionNodeId, {
+        chatScroll.scrollToElement(questionNodeId, {
             behavior: 'smooth',
             align: true,
         });
@@ -98,11 +91,11 @@ export default function GraphView({ graphId }: GraphViewProps) {
                             edges={edges}
                             headNodeId={entry.headNodeId}
                             activeNodeIds={entry.activeNodeIds}
-                            visibleNodeIds={visibleNodeIds}
+                            visibleNodeIds={chatScroll.visibleElementIds}
                             onSetHeadNode={handleSetHeadNode}
                             onActivateNode={handleActivateNode}
-                            registerTreeNodeRef={treeScroll.registerElementRef}
-                            scrollContainerRef={treeScroll.scrollContainerRef}
+                            registerElementRef={treeScroll.registerElementRef}
+                            containerRef={treeScroll.scrollContainerRef}
                         />
                     )}
                 </div>
@@ -113,9 +106,9 @@ export default function GraphView({ graphId }: GraphViewProps) {
                             activeNodeIds={entry.activeNodeIds}
                             headNodeId={entry.headNodeId}
                             onSetHeadNode={handleSetHeadNode}
-                            registerElementRef={registerElementRef}
-                            containerRef={containerRef}
-                            contentRef={contentRef}
+                            registerElementRef={chatScroll.registerElementRef}
+                            containerRef={chatScroll.containerRef}
+                            contentRef={chatScroll.contentRef}
                         />
                         <div className="pointer-events-none absolute bottom-0 left-0 w-full h-8 bg-linear-to-b from-transparent to-base-0" />
                     </div>

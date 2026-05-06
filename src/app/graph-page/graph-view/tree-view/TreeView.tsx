@@ -14,8 +14,8 @@ interface TreeViewProps {
     visibleNodeIds: string[];
     onSetHeadNode: (nodeId: string) => void;
     onActivateNode: (nodeId: string) => Promise<void>;
-    registerTreeNodeRef: (id: string) => RefCallback<HTMLElement>;
-    scrollContainerRef: RefObject<HTMLDivElement | null>;
+    registerElementRef: (id: string) => RefCallback<HTMLElement>;
+    containerRef: RefObject<HTMLDivElement | null>;
 }
 
 export default function TreeView({
@@ -26,8 +26,8 @@ export default function TreeView({
     visibleNodeIds,
     onSetHeadNode,
     onActivateNode,
-    registerTreeNodeRef,
-    scrollContainerRef,
+    registerElementRef,
+    containerRef,
 }: TreeViewProps) {
     const [layoutMode, setLayoutMode] = useState<LayoutMode>('optimized-v2');
 
@@ -58,8 +58,8 @@ export default function TreeView({
                     turnNodes={turnNodes}
                     turnEdges={turnEdges}
                     onTurnNodeClick={handleTurnNodeClick}
-                    registerTreeNodeRef={registerTreeNodeRef}
-                    scrollContainerRef={scrollContainerRef}
+                    registerElementRef={registerElementRef}
+                    containerRef={containerRef}
                 />
             </div>
         </div>

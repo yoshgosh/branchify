@@ -5,8 +5,7 @@ import { TurnNodeElement, TITLE_COLUMN_WIDTH } from './TurnNodeElement';
 import { TurnEdgePath } from './TurnEdgePath';
 
 export default function TurnGraph(props: TurnGraphProps) {
-    const { turnNodes, turnEdges, onTurnNodeClick, registerTreeNodeRef, scrollContainerRef } =
-        props;
+    const { turnNodes, turnEdges, onTurnNodeClick, registerElementRef, containerRef } = props;
 
     const [showTitle, setShowTitle] = useState(false);
 
@@ -59,7 +58,7 @@ export default function TurnGraph(props: TurnGraphProps) {
                     ))}
                 </div>
             </div>
-            <div ref={scrollContainerRef} style={{ flex: 1, minHeight: 0, overflow: 'auto' }}>
+            <div ref={containerRef} style={{ flex: 1, minHeight: 0, overflow: 'auto' }}>
                 <div
                     style={{
                         position: 'relative',
@@ -92,7 +91,7 @@ export default function TurnGraph(props: TurnGraphProps) {
                             y={node.y}
                             titleX={node.titleX}
                             onClick={(event) => onTurnNodeClick(event, node.turnNode)}
-                            registerRef={registerTreeNodeRef}
+                            registerRef={registerElementRef}
                             showTitle={showTitle}
                             title={node.turnNode.nodes[0]?.title ?? null}
                         />
