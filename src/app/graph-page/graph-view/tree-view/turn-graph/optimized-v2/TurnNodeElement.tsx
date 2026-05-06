@@ -3,7 +3,6 @@ import { BranchifyIcon } from '@/app/components/BranchifyIcon';
 import { TurnNode } from '../../models';
 
 export const TITLE_COLUMN_WIDTH = 175;
-const TITLE_LEFT_GAP = 8;
 
 type TurnNodeElementProps = {
     turnNode: TurnNode;
@@ -31,8 +30,8 @@ export function TurnNodeElement({
     const borderColor = isVisible
         ? 'var(--color-base-9)'
         : isActive
-            ? 'var(--color-base-5)'
-            : 'var(--color-base-3)';
+          ? 'var(--color-base-5)'
+          : 'var(--color-base-3)';
 
     const size = 20;
     const iconSize = Math.round((size * 5) / 3);
@@ -81,16 +80,19 @@ export function TurnNodeElement({
                 <span
                     style={{
                         position: 'absolute',
-                        left: (titleX - x) + domSize + TITLE_LEFT_GAP,
+                        left: titleX - x + domSize,
                         top: '50%',
                         transform: 'translateY(-50%)',
-                        width: TITLE_COLUMN_WIDTH - TITLE_LEFT_GAP,
+                        width: TITLE_COLUMN_WIDTH,
+                        padding: '4px 8px',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
                         fontSize: '12px',
                         color: borderColor,
                         userSelect: 'none',
+                        cursor: 'pointer',
+                        boxSizing: 'border-box',
                     }}
                 >
                     {title}
