@@ -7,10 +7,12 @@ import { FiSidebar } from "react-icons/fi";
 
 interface SidebarHeaderProps {
     collapsed: boolean;
-    onToggleCollapsed: () => void;
+    showBranchifyIcon: boolean;
+    onCollapse: () => void;
+    onExpand: () => void;
 }
 
-export default function SidebarHeader({ collapsed, onToggleCollapsed }: SidebarHeaderProps) {
+export default function SidebarHeader({ collapsed, showBranchifyIcon, onCollapse, onExpand }: SidebarHeaderProps) {
     const dispatch = useAppDispatch();
 
     const handleClick = () => {
@@ -21,14 +23,20 @@ export default function SidebarHeader({ collapsed, onToggleCollapsed }: SidebarH
         return (
             <div className="overflow-hidden p-2">
                 <div className="flex w-10 items-start justify-start">
-                    <button
-                        className="flex h-10 w-10 items-center justify-center rounded-lg cursor-pointer hover:bg-base-3"
-                        onClick={onToggleCollapsed}
-                        aria-label="Expand sidebar"
-                        title="Expand sidebar"
-                    >
-                        <FiSidebar size={18} />
-                    </button>
+                    {showBranchifyIcon ? (
+                        <div className="flex h-10 w-10 items-center justify-center rounded-lg">
+                            <BranchifyIcon size={25} color="var(--color-base-9)" />
+                        </div>
+                    ) : (
+                        <button
+                            className="flex h-10 w-10 items-center justify-center rounded-lg cursor-pointer hover:bg-base-3"
+                            onClick={onExpand}
+                            aria-label="Expand sidebar"
+                            title="Expand sidebar"
+                        >
+                            <FiSidebar size={18} />
+                        </button>
+                    )}
                 </div>
             </div>
         );
@@ -47,7 +55,7 @@ export default function SidebarHeader({ collapsed, onToggleCollapsed }: SidebarH
                 </button>
                 <button
                     className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg cursor-pointer hover:bg-base-3"
-                    onClick={onToggleCollapsed}
+                    onClick={onCollapse}
                     aria-label="Collapse sidebar"
                     title="Collapse sidebar"
                 >
