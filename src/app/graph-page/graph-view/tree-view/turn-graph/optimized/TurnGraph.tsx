@@ -1,14 +1,8 @@
 import React, { useState } from 'react';
 import { TurnGraphProps } from '../type';
 import { computeLayout } from './libs/compute-layout';
-import { TurnNodeElement } from './TurnNodeElement';
+import { TurnNodeElement, TITLE_COLUMN_WIDTH } from './TurnNodeElement';
 import { TurnEdgePath } from './TurnEdgePath';
-
-const NODE_SIZE = 20;
-const ICON_SIZE = Math.round((NODE_SIZE * 5) / 3);
-const TITLE_CHAR_WIDTH = 7;
-const TITLE_LEFT_OFFSET = 8;
-const TITLE_RIGHT_PADDING = 20;
 
 export default function TurnGraph(props: TurnGraphProps) {
     const { turnNodes, turnEdges, onTurnNodeClick, registerTreeNodeRef, scrollContainerRef } =
@@ -18,23 +12,7 @@ export default function TurnGraph(props: TurnGraphProps) {
 
     const layout = computeLayout(turnNodes, turnEdges);
 
-    const effectiveWidth = showTitle
-        ? Math.max(
-              layout.graphWidth,
-              ...layout.nodes.map((node) => {
-                  const title = node.turnNode.nodes[0]?.title ?? '';
-                  if (!title) return 0;
-                  const domSize = node.turnNode.isHead ? ICON_SIZE : NODE_SIZE;
-                  return (
-                      node.x +
-                      domSize +
-                      TITLE_LEFT_OFFSET +
-                      title.length * TITLE_CHAR_WIDTH +
-                      TITLE_RIGHT_PADDING
-                  );
-              })
-          )
-        : layout.graphWidth;
+    const effectiveWidth = showTitle ? layout.graphWidth + TITLE_COLUMN_WIDTH : layout.graphWidth;
 
     const sortedEdges = [...layout.edges].sort((a, b) => {
         const priority = (e: (typeof layout.edges)[number]) =>

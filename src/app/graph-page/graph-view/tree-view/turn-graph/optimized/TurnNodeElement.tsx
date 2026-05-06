@@ -2,6 +2,9 @@ import React, { RefCallback } from 'react';
 import { BranchifyIcon } from '@/app/components/BranchifyIcon';
 import { TurnNode } from '../../models';
 
+export const TITLE_COLUMN_WIDTH = 120;
+const TITLE_LEFT_GAP = 8;
+
 type TurnNodeElementProps = {
     turnNode: TurnNode;
     x: number;
@@ -76,13 +79,15 @@ export function TurnNodeElement({
                 <span
                     style={{
                         position: 'absolute',
-                        left: domSize + 8,
+                        left: domSize + TITLE_LEFT_GAP,
                         top: '50%',
                         transform: 'translateY(-50%)',
+                        width: TITLE_COLUMN_WIDTH - TITLE_LEFT_GAP,
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
                         fontSize: '12px',
                         color: borderColor,
-                        pointerEvents: 'none',
                         userSelect: 'none',
                     }}
                 >
