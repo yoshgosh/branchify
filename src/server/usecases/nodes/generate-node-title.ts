@@ -11,7 +11,7 @@ const OPENAI_CHAT_MODEL = 'gpt-4.1-nano';
 
 // 構造化アウトプット用のスキーマ
 const TitleSchema = z.object({
-    title: z.string().min(5).max(16),
+    title: z.string().min(5),
 });
 
 export type GenerateNodeTitleInput = { nodeId: string };
@@ -62,7 +62,7 @@ export async function generateNodeTitle(
         ],
         [
             'user',
-            '以下のテキストから適切なタイトルを生成してください。\nタイトルは抽象的で簡潔な表現にしてください。\n\n{content}',
+            '以下のテキストから適切なタイトルを生成してください。\nタイトルは抽象的で簡潔な表現にしてください。\nタイトルは5文字以上16文字未満程度で生成してください。\n\n{content}',
         ],
     ]);
 
