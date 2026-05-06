@@ -78,9 +78,9 @@ export const computeLayout = (turnNodes: TurnNode[], turnEdges: TurnEdge[]): Gra
         return {
             turnEdge,
             sourceX: childPos.x + NODE_SIZE / 2,
-            sourceY: childPos.y,
+            sourceY: childPos.y + NODE_SIZE / 2,
             targetX: parentPos.x + NODE_SIZE / 2,
-            targetY: parentPos.y + NODE_SIZE,
+            targetY: parentPos.y + NODE_SIZE / 2,
         };
     });
 
