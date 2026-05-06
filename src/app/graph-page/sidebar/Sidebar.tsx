@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useAppDispatch } from '@/client/store/store';
 import { listGraphsThunk } from '@/client/store/features/graphs/thunks';
 import SidebarHeader from './SidebarHeader';
+import SidebarNewChatButton from './SidebarNewChatButton';
 import GraphMenu from './GraphMenu';
 import UserMenu from './UserMenu';
 
@@ -17,6 +18,7 @@ export default function Sidebar() {
     return (
         <div className="w-64 shrink-0 h-full bg-base-1 flex flex-col">
             <SidebarHeader />
+            <SidebarNewChatButton />
             <div className="flex-1 overflow-y-auto">
                 <GraphMenu />
             </div>
