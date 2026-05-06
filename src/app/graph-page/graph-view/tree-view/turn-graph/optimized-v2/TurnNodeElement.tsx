@@ -2,7 +2,7 @@ import React, { RefCallback } from 'react';
 import { BranchifyIcon } from '@/app/components/BranchifyIcon';
 import { TurnNode } from '../../models';
 
-export const TITLE_COLUMN_WIDTH = 175;
+export const TITLE_COLUMN_WIDTH = 170;
 
 type TurnNodeElementProps = {
     turnNode: TurnNode;

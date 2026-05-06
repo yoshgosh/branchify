@@ -101,7 +101,7 @@ export default function GraphView({ graphId }: GraphViewProps) {
                 </div>
 
                 <div className="flex-1 h-full flex flex-col items-center overflow-hidden">
-                    <div className="relative flex-1 w-full max-w-4xl overflow-hidden">
+                    <div className="relative flex-1 w-full max-w-3xl overflow-hidden">
                         <ChatView
                             activeNodeIds={entry.activeNodeIds}
                             headNodeId={entry.headNodeId}
