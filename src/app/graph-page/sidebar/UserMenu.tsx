@@ -33,13 +33,13 @@ export default function UserMenu() {
                 onClick={() => setSettingsOpen(true)}
                 className="w-full cursor-pointer rounded px-2 py-1 text-left text-xs text-base-6 transition-colors hover:bg-base-3 hover:text-base-8"
             >
-                設定
+                Settings
             </button>
             <button
                 onClick={() => signOut()}
                 className="w-full cursor-pointer rounded px-2 py-1 text-left text-xs text-base-6 transition-colors hover:bg-base-3 hover:text-base-8"
             >
-                ログアウト
+                Sign Out
             </button>
             <SettingsModal open={settingsOpen} onClose={() => setSettingsOpen(false)} />
         </div>
