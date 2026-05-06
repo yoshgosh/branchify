@@ -32,15 +32,13 @@ export default function GraphMenu() {
     };
 
     return (
-        <div className="flex-1 overflow-y-auto">
-            <ul className="p-2 space-y-2">
-                {graphIds
-                    .slice()
-                    .reverse()
-                    .map((graphId) => (
-                        <GraphItem key={graphId} graphId={graphId} onSelect={handleSelect} />
-                    ))}
-            </ul>
-        </div>
+        <ul className="p-2 space-y-2">
+            {graphIds
+                .slice()
+                .reverse()
+                .map((graphId) => (
+                    <GraphItem key={graphId} graphId={graphId} onSelect={handleSelect} />
+                ))}
+        </ul>
     );
 }
